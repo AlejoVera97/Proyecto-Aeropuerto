@@ -1,0 +1,63 @@
+﻿@model  EntidadesCompartidas.Ciudad
+@{
+    ViewBag.Title = "LISTAR CIUDADES";
+}
+
+<h2>Listado Ciudades</h2>
+
+@ViewBag.Mensaje
+
+
+<p>
+    @Html.ActionLink("Nuevo ", "Alta Ciudad")
+    @Html.ActionLink(" Volver", "Principal", "Home")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <div>
+            @Html.TextBox("DatoFiltro")
+            <input type="submit" value="Filtrar" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDCiudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCiudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombrePais)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (EntidadesCompartidas.Ciudad ciudad in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => ciudad.IDCiudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => ciudad.NombreCiudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => ciudad.NombrePais)
+            </td>
+            <td>
+                @Html.ActionLink("Modificar", "Formulario Modificar", new { ciudad.IDCiudad }) @**@
+                @Html.ActionLink("Consultar", "FormArticuloConsultar", new { ciudad.IDCiudad })
+                @Html.ActionLink("Borrar", "Formulario Eliminar", new { ciudad.IDCiudad })
+            </td>
+        </tr>
+    }
+
+
+</table>

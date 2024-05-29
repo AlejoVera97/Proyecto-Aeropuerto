@@ -1,0 +1,62 @@
+﻿
+@model IEnumerable<EntidadesCompartidas.Pasaje>
+
+@{
+    ViewBag.Title = "FormListarPasaje";
+}
+
+<h2>Listado Pasaje</h2>
+
+@ViewBag.Mensaje
+
+
+<p>
+    @Html.ActionLink("Nuevo ", "FormAltaPasaje")
+    @Html.ActionLink(" Volver", "Principal", "Home")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <div>
+            @Html.TextBox("DatoFiltro")
+            <input type="submit" value="Filtrar" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDPasaporte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NAsiento)
+        </th>
+        
+        <th></th>
+    </tr>
+
+    @foreach (EntidadesCompartidas.Pasaje  unPasaje in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => unPasaje.IDPasaporte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => unPasaje.NAsiento)
+            </td>
+            
+            <td>
+                @Html.ActionLink("Modificar", "FormArticuloModificar", new { unPasaje.IDPasaporte}) @**@
+                @Html.ActionLink("Consultar", "FormArticuloConsultar", new { unPasaje.IDPasaporte})
+                @Html.ActionLink("Borrar", "FormArticuloEliminar", new { unPasaje.IDPasaporte })
+            </td>
+        </tr>
+    }
+}
+
+
+

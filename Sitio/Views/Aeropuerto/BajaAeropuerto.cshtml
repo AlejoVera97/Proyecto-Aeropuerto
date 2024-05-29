@@ -1,0 +1,50 @@
+﻿@model Logica.FabricaLogica.GetLogicaAeropuerto
+
+@{
+    ViewBag.Title = "BAJA AEROPUERTO";
+}
+
+@ViewBag.Mensaje
+
+
+<h3>Esta Seguro que desea eliminar el siguiente Articulo?</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor( => )
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDAeropuerto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpuestoLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpuestoPartida)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver a listado", "Forulario de listado")
+        </div>
+    }
+</div>
+

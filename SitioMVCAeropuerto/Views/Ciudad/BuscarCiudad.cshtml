@@ -1,0 +1,32 @@
+﻿@model  EntidadesCompartidas.Ciudad
+
+@{
+    ViewBag.Title = "BUSCAR CIUDAD ";
+}
+
+<h2> BUSCAR UNA CIUDAD </h2>
+
+@ViewBag.Mensaje
+
+<div>
+
+    @Html.ActionLink("Volver a listado", "ciudad")
+
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDCiudad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreCiudad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombrePais)
+        </dt>
+
+    </dl>
+
+</div>

@@ -1,0 +1,63 @@
+﻿@model Logica.FabricaLogica.GetLogicaAeropuerto
+@{
+    ViewBag.Title = "LISTAR CIUDADES";
+}
+
+<h2>Listado Ciudades</h2>
+
+@ViewBag.Mensaje
+
+
+<p>
+    @Html.ActionLink("Nuevo ", "Alta Ciudad")
+    @Html.ActionLink(" Volver", "Principal", "Home")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <div>
+            @Html.TextBox("DatoFiltro")
+            <input type="submit" value="Filtrar" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDCiudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCiudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombrePais)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (Sitio.Models.Articulo unArt in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => unArt.IDCiudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => unArt.NombreCiudad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => unArt.PrecioPais)
+            </td>
+            <td>
+                @Html.ActionLink("Modificar", "Formulario Modificar", new { unArt.IDCiudad }) @**@
+                @Html.ActionLink("Consultar", "FormArticuloConsultar", new { unArt.IDCiudad })
+                @Html.ActionLink("Borrar", "Formulario Eliminar", new { unArt.IDCiudad })
+            </td>
+        </tr>
+    }
+
+
+</table>

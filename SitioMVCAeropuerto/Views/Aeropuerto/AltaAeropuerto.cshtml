@@ -1,0 +1,44 @@
+﻿@model EntidadesCompartidas.Aeropuertos
+
+@{
+    ViewBag.Title = "FORMULARIO ALTA AEROPUERTO";
+}
+
+<h2> Agregar un Aeropuerto </h2>
+
+@ViewBag.Mensaje
+
+<div>
+
+    @Html.ActionLink("Volver ", "FormAltaAeropuerto")
+
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.IDaeropuerto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoParitda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.IDCiudad)
+        </dd>
+
+    </dl>
+
+</div>

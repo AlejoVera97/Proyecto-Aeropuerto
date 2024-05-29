@@ -1,0 +1,43 @@
+﻿@model  EntidadesCompartidas.Clientes
+
+@{
+    ViewBag.Title = "ELIMINAR CLIENTE";
+}
+
+@ViewBag.Mensaje
+
+
+<h3>Esta Seguro que desea eliminar el siguiente Articulo?</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDPasaporte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NTarjeta)
+        </dd>
+
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("HOME")
+        </div>
+    }
+</div>

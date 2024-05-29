@@ -1,0 +1,39 @@
+﻿@model Logica.FabricaLogica.GetLogicaAeropuerto
+
+@{
+    ViewBag.Title = "BUSCAR EMPLEADO";
+}
+
+<h2> BUSCAR EMPLEADO </h2>
+
+@ViewBag.Mensaje
+
+<div>
+
+    @Html.ActionLink("Volver a listado", "HOME")
+
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuLog)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contrasena)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.labor)
+        </dd>
+
+        
+
+    </dl>
+
+</div>
+

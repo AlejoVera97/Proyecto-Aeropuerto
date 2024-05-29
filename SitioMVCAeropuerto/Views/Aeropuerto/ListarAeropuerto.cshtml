@@ -1,0 +1,65 @@
+﻿@model  EntidadesCompartidas.Aeropuertos
+
+@{
+    ViewBag.Title = "LISTAR AEROPUERTOS";
+}
+
+<h2>LISTADO DE AEROPUERTOS</h2>
+
+@ViewBag.Mensaje
+
+
+<p>
+
+    @Html.ActionLink(" Volver", "Principal", "Home")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <div>
+            @Html.TextBox("DatoFiltro")
+            <input type="submit" value="Filtrar" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDaeropuerto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th></th>
+    </tr>
+
+</table>
+ @foreach (EntidadesCompartidas.Aeropuertos aeropuertos in .............. )
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => aeropuertos.IDaeropuerto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => aeropuertos.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => aeropuertos.Direccion)
+            </td>
+            <td>
+                @Html.ActionLink("Modificar", "FormArticuloModificar", new { aeropuertos.IDaeropuerto}) @**@
+@Html.ActionLink("Consultar", "FormArticuloConsultar", new { aeropuertos.Nombre})
+@Html.ActionLink("Borrar", "FormArticuloEliminar", new { aeropuertos.Direccion})
+            </td>
+        </tr>
+    } *@
+
+
+

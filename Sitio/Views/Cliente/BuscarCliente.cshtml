@@ -1,0 +1,35 @@
+﻿@model Logica.FabricaLogica.GetLogicaAeropuerto
+@{
+    ViewBag.Title = "BUSCAR CLIENTE ";
+}
+
+<h2> BUSCAR CLIENTE </h2>
+
+@ViewBag.Mensaje
+
+<div>
+
+    @Html.ActionLink("HOME")
+
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDPasaporte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contresena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NTarjeta)
+        
+
+    </dl>
+
+</div>

@@ -34,16 +34,17 @@ namespace Persistencia
 
         public void AltaVenta(Venta pVenta, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn);
-
+            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             SqlCommand _comando = new SqlCommand("Venta", _cnn);
-            _comando.CommandType = System.Data.CommandType.StoredProcedure;
+            _comando.CommandType = CommandType.StoredProcedure;
+
+
             _comando.Parameters.AddWithValue("@IDventa", pVenta.IDventa);
             _comando.Parameters.AddWithValue("@Precio", pVenta.Precio);
             _comando.Parameters.AddWithValue("@Fehca", pVenta.Fecha);
 
-            SqlParameter _retorno = new SqlParameter("@Retorno", System.Data.SqlDbType.Int);
-            _retorno.Direction = System.Data.ParameterDirection.ReturnValue;
+            SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _retorno.Direction = ParameterDirection.ReturnValue;
             _comando.Parameters.Add(_retorno);
 
             try
@@ -65,47 +66,51 @@ namespace Persistencia
             }
 
         }
+
+
+        
         public List<Venta> ListarVentas(Vuelo V, Empleado E)
         {
+            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
+            Venta _unaV = null;
+            List<Venta> _lista = new List<Venta>();
+
+            SqlCommand _comando = new SqlCommand("ListarVentas", _cnn);
+            _comando.CommandType = CommandType.StoredProcedure;
+            _comando.Parameters.AddWithValue("Vuelo",V);
+
+
+            try
             {
-                List<Venta> _ListaVenta = new List<ListarVentas>(V, E);
+                _cnn.Open();
+                SqlDataReader _lector = _comando.ExecuteReader();
 
-                SqlConnection _Conexion = new SqlConnection(Conexion.Cnn);
-                SqlCommand _Comando = new SqlCommand("ListarVentas", _Conexion);
-                _Comando.CommandType = CommandType.StoredProcedure;
-
-                _Comando.Parameters.AddWithValue("@IDVuelo", V);
-                _Comando.Parameters.AddWithValue("@UsuLog", E);
-
-                SqlDataReader _Reader;
-                try
+                if (_lector.HasRows)
                 {
-                    _Conexion.Open();
-                    _Reader = _Comando.ExecuteReader();
-
-                    while (_Reader.Read())
+                    while (_lector.Read())
                     {
-                        string _IDVuelo = (string)_Reader["IDVuelo"];
-                        string _UsuLog = (string)_Reader["UsuLog"];
-                        Venta v = new Venta().ValidarVenta(V);
-                        Empleado e = new Empleado().ValidarEmpleado(E);
-                        _ListaVenta.Add(v);
+                        _unaV = new Venta();
+
                     }
 
-                    _Reader.Close();
+                    _lector.Close();
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-                finally
-                {
-                    _Conexion.Close();
-                }
-
-                return _ListaVenta;
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                _cnn.Close();
+            }
+
+            return _lista;
 
         }
     }
+
 }
+
+    
+    

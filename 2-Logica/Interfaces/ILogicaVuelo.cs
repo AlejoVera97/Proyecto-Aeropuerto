@@ -14,7 +14,7 @@ namespace Logica
 {
     public interface ILogicaVuelo
     {
-        void AltaVuelo(Vuelo vuelo, Empleado E);
+        void AltaVuelo(Vuelo V, Empleado E);
         List<Vuelo> ListarVuelo(Empleado E);
     }
 }

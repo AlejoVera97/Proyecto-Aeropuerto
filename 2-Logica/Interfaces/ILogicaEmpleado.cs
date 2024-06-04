@@ -13,13 +13,10 @@ namespace Logica
 {
     public interface ILogicaEmpleado
     {
-      Empleado LogueoEmpleado(Empleado E);
+        Empleado LogueoEmpleado(string UsuLog, string Contrasena);
 
-        public Empleado BuscarEmpleado(string UsuLog, Empleado E)
-        {
-            return FabricaPersistencia.GetPersistenciaEmpleado().BuscarEmpleado(UsuLog, E   );
-        }
-
+        Empleado BuscarEmpleado(string UsuLog, Empleado E);
+       
     }
 
 }

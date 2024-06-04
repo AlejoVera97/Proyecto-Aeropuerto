@@ -5,13 +5,15 @@ using System.Text;
 
 namespace Persistencia
 {
+
     internal class Conexion
     {
-        private static string _cnn = "Data Source=GWNR71517\\SQLEXPRESS; Initial Catalog = Banco; Integrated Security = true";
-
-        public static string Cnn
+        internal static string Cnn(EntidadesCompartidas.Empleado pUsuLog = null)
         {
-            get { return _cnn; }
+            if (pUsuLog == null)
+                return "Data Source =.; Initial Catalog = EjemploBD; Integrated Security = true";
+            else
+                return "Data Source =.; Initial Catalog = EjemploBD; User=" + pUsuLog + "; Password='" + pUsuLog.Contrasena + "'";
         }
     }
 }

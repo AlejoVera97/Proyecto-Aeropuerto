@@ -8,8 +8,8 @@ namespace Persistencia
 {
    public interface IPeristenciaEmpleado
     {
-        Empleado LogueoEmpleado(Empleado E);
+        Empleado LogueoEmpleado(string pUsuLog, string pContrasena);
 
-        Empleado BuscarEmpleado(string pUsuLog,Empleado E);
+        Empleado BuscarEmpleado(string pUsuLog, Empleado E);
     }
 }

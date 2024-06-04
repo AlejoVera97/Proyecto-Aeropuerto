@@ -9,10 +9,13 @@ namespace Persistencia
     public interface IPersistenciaAeropuerto
     {
         void AltaAeropuerto(Aeropuertos A, Empleado E);
-        void BajaAeropuerto(Aeropuertos A);
+
+        void BajaAeropuerto(Aeropuertos A, Empleado E);
+
         void ModificarAeropuerto(Aeropuertos A, Empleado E);
+
         Aeropuertos BuscarAeropuerto(string pIDAeropuerto, Empleado E);
-        Aeropuertos BuscarTodosAeropuertos(string pIDAeropuerto, Aeropuertos A);
-        List<Aeropuertos> ListarAeropuerto();
+
+        List<Aeropuertos> ListarAeropuerto(Empleado E);
     }
 }

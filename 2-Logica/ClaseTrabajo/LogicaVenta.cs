@@ -23,16 +23,15 @@ namespace Logica
 
         //operaciones
 
-        public void AltaVenta(Venta unVenta, Empleado E)
+        public void AltaVenta(Venta unaV, Empleado E)
         {
-            FabricaPersistencia.GetPersistenciaVenta().AltaVenta(unVenta, E );
+            FabricaPersistencia.GetPersistenciaVenta().AltaVenta(unaV, E );
         }
 
-        public List<Venta> ListarVentas(Vuelo unVuelo, Empleado E ) 
+        public List<Venta> ListarVentas(Vuelo V, Empleado E ) 
         {
-            return (FabricaPersistencia.GetPersistenciaVenta().ListarVentas(unVuelo,E));
+            return (FabricaPersistencia.GetPersistenciaVenta().ListarVentas(V,E));
         }
-
 
     }
 }

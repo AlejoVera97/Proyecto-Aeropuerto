@@ -21,10 +21,12 @@ namespace Logica
                 _instancia = new LogicaVuelo();
             return _instancia;
         }
-        public void AltaVuelo(Vuelo unVuelo,Empleado E)
+
+
+        public void AltaVuelo(Vuelo V,Empleado E)
         {
             //falta validar que la fecha de salida del vuelo sea a futuro
-            FabricaPersistencia.GetPersistenciaVuelo().AltaVuelo(unVuelo, E);
+            FabricaPersistencia.GetPersistenciaVuelo().AltaVuelo(V, E);
         }
         public List<Vuelo> ListarVuelo(Empleado E)
         {

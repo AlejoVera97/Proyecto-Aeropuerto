@@ -14,9 +14,12 @@ namespace Logica
     {
         void AltaCliente(Clientes unCliente,Empleado E);
 
-        void BajaCliente(Clientes unCliente);
+        void BajaCliente(Clientes unCliente, Empleado E);
+
         void ModificarCliente(Clientes unCliente,Empleado E);
+
         Clientes BuscarCliente(string IDPasaporte, Empleado E);
+
         List<Clientes> ListarCliente(Empleado E);
       
   }

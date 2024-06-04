@@ -30,21 +30,23 @@ namespace Persistencia
         }
 
         // operaciones 
-        public void AltaVuelo(Vuelo pVuelo,Empleado E)
+        public void AltaVuelo(Vuelo V,Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn);
+            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
+                        SqlCommand _comando = new SqlCommand("AltaVuelo", _cnn);
+            _comando.CommandType = CommandType.StoredProcedure;
 
-            SqlCommand _comando = new SqlCommand("AltaVuelo", _cnn);
-            _comando.CommandType = System.Data.CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@IDVuelo", pVuelo.IDvuelo);
-            _comando.Parameters.AddWithValue("@CantidadAsiento", pVuelo.CantidadAsientos);
-            _comando.Parameters.AddWithValue("@PrecioVuelo", pVuelo.PrecioVuelo);
-            _comando.Parameters.AddWithValue("@FechaHoraSalida", pVuelo.FechaHoraSalida);
-            _comando.Parameters.AddWithValue("@FechaHoraLlegada", pVuelo.FechaHoraLlegada);
+            _comando.Parameters.AddWithValue("@IDVuelo", V.IDvuelo);
+            _comando.Parameters.AddWithValue("@CantidadAsiento", V.CantidadAsientos);
+            _comando.Parameters.AddWithValue("@PrecioVuelo", V.PrecioVuelo);
+            _comando.Parameters.AddWithValue("@FechaHoraSalida", V.FechaHoraSalida);
+            _comando.Parameters.AddWithValue("@FechaHoraLlegada", V.FechaHoraLlegada);
 
-            SqlParameter _retorno = new SqlParameter("@Retorno", System.Data.SqlDbType.Int);
-            _retorno.Direction = System.Data.ParameterDirection.ReturnValue;
+
+            SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _retorno.Direction = ParameterDirection.ReturnValue;
             _comando.Parameters.Add(_retorno);
+
 
             try
             {
@@ -68,12 +70,12 @@ namespace Persistencia
 
         public List<Vuelo> ListarVuelo(Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn);
-            Vuelo unVuelo = null;
+            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
+            Vuelo _unVuelo = null;
             List<Vuelo> listaVuelo = new List<Vuelo>();
 
             SqlCommand _comando = new SqlCommand("ListadoVuelo", _cnn);
-            _comando.CommandType = System.Data.CommandType.StoredProcedure;
+            _comando.CommandType = CommandType.StoredProcedure;
 
             try
             {
@@ -83,12 +85,12 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        unVuelo = new Vuelo((string)_lector["IDvuelo"], (DateTime)_lector["FechaHorasalida"], (DateTime)_lector["FechaHoraLlegada"],
-                            (byte)_lector["CantidadAsientos"], (double)_lector["PrecioVuelo"], (Vuelo)_lector["IDAeropuertoSalida"], (Vuelo)_lector["IDAeropuertoLLegada"]);
+                        _unVuelo = new Vuelo((string)_lector["IDvuelo"], (DateTime)_lector["FechaHoraSalida"], (DateTime)_lector["FechaHoraLlegada"], 
+                            (byte)_lector["CantidadAsientos"], (double)_lector["PrecioVueo"],(Aeropuertos)_lector["IDAeropuertoLlegada"], (Aeropuertos)_lector["IDAeropuertoSalida"]);
                         
                         
-                        listaVuelo.Add(unVuelo);
-                    }
+                        listaVuelo.Add(_unVuelo);
+                    } 
                 }
                 _lector.Close();
             }

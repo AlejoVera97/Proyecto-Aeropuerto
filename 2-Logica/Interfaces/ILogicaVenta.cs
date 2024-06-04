@@ -13,7 +13,7 @@ namespace Logica
 {
    public interface ILogicaVenta
     {
-        void AltaVenta(Venta venta, Empleado E  );
+        void AltaVenta(Venta unaV, Empleado E  );
 
         List<Venta> ListarVentas  (Vuelo V, Empleado E);
 

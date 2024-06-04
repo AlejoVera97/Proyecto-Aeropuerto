@@ -26,7 +26,7 @@ namespace Logica
 
             FabricaPersistencia.GetPersistenciaCiudad().AltaCiudad(unaCiudad, E);
         }
-        public void BajaCiudad(Ciudad unaCiudad)
+        public void BajaCiudad(Ciudad unaCiudad, Empleado E)
         {
             FabricaPersistencia.GetPersistenciaCiudad().BajaCiudad(unaCiudad, E );
 
@@ -41,7 +41,7 @@ namespace Logica
         }
         public List<Ciudad> ListarCiudad(Empleado E)
         {
-            return (FabricaPersistencia.GetPersistenciaCiudad().ListarCiudad());
+            return (FabricaPersistencia.GetPersistenciaCiudad().ListarCiudad(E));
         }
 
     }

@@ -25,9 +25,9 @@ namespace Logica
         {
             FabricaPersistencia.GetPersistenciaCliente().AltaCliente(unCliente, E   );
         }
-        public void BajaCliente(Clientes unCliente)
+        public void BajaCliente(Clientes unCliente, Empleado E)
         {
-            FabricaPersistencia.GetPersistenciaCliente().BajaCliente(unCliente);
+            FabricaPersistencia.GetPersistenciaCliente().BajaCliente(unCliente, E);
         }
         public void ModificarCliente(Clientes unCliente,Empleado E)
         {
@@ -39,7 +39,7 @@ namespace Logica
         }
         public List<Clientes> ListarCliente(Empleado E)
         {
-            return FabricaPersistencia.GetPersistenciaCliente().ListarCliente();
+            return FabricaPersistencia.GetPersistenciaCliente().ListarCliente(E);
         }
 
     }

@@ -13,13 +13,14 @@ namespace Logica
 {
    public interface ILogicaCiudad
     {
-       void AltaCiudad(Ciudad ciudad, Empleado E);
+       void AltaCiudad(Ciudad unaCiudad, Empleado E);
 
-        void BajaCiudad(Ciudad ciudad);
+        void BajaCiudad(Ciudad unaCiudad, Empleado E );
 
-        void ModificarCiudad(Ciudad ciudad, Empleado E);
+        void ModificarCiudad(Ciudad unaCiudad, Empleado E);
 
         Ciudad BuscarCiudad(string IDCiudad , Empleado E);
+
         List<Ciudad> ListarCiudad(Empleado E);
      
     }

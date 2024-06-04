@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using EntidadesCompartidas;
 using System.Data.SqlClient;
-
-
-//-------agregar usuings-----//
-using System.Data.SqlClient;
 using System.Data;
-using System.Reflection.Emit;
-//---------------------------//
+
 
 
 namespace Persistencia
@@ -54,11 +48,11 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("La ciudad no existe ");
+                    throw new Exception("Error - La ciudad no existe ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error en Alta Ciudad");
+                    throw new Exception("Error - En alta Ciudad");
                 else if ((int)_retorno.Value == -3)
-                    throw new Exception("El nombre de la ciudad ya existe");
+                    throw new Exception("Error - El nombre de la ciudad ya existe");
             }
             catch (Exception ex)
             {
@@ -157,9 +151,9 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("La ciudad no existe");
+                    throw new Exception("Error - La ciudad no existe");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error en Modificacion de ciudad");
+                    throw new Exception("Error - En Modificacion de ciudad");
                 
             }
             catch (Exception ex)
@@ -204,8 +198,7 @@ namespace Persistencia
             return _unaC;
         }
     
-       
-        public List<Ciudad> ListarCiudad(Empleado E )
+       public List<Ciudad> ListarCiudad(Empleado E )
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Ciudad unaCiudad = null;

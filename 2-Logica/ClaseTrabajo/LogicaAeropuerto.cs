@@ -23,7 +23,7 @@ namespace Logica
             return _instancia;
         }
 
-        // PARAMETRO DE SEGURIDAD CASO 4D PRIMER DISENO 1
+        
         //operaciones
         public void AltaAeropuerto(Aeropuertos A,Empleado E)
         {

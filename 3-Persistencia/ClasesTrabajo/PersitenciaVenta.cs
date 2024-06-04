@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-
-
 using EntidadesCompartidas;
-using System.Collections;
-
-//-------agregar usuings-----//
 using System.Data.SqlClient;
 using System.Data;
-//---------------------------//
+
 
 
 namespace Persistencia
@@ -52,9 +46,10 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("La venta no existe ");
+                    throw new Exception("Error - La venta no existe ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error en Alta venta");
+                    throw new Exception("Error -  En Alta venta");
+               
             }
             catch (Exception ex)
             {
@@ -66,9 +61,7 @@ namespace Persistencia
             }
 
         }
-
-
-        
+                      
         public List<Venta> ListarVentas(Vuelo V, Empleado E)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
@@ -89,7 +82,8 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        _unaV = new Venta();
+                        Vuelo V = new Vuelo(); // me tranque aca...
+                        _lista.Add(V);
 
                     }
 

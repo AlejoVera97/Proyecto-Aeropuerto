@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-
-
 using EntidadesCompartidas;
-
-//-------agregar usuings-----//
 using System.Data.SqlClient;
 using System.Data;
-//---------------------------//
+
 
 
 
@@ -53,9 +48,10 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("El vuelo no existe");
+                    throw new Exception("Error - El vuelo no existe");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error en vuelo");
+                    throw new Exception("Error - Verifique su vuelo");
+               
             }
             catch (Exception ex)
             {

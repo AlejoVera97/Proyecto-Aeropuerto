@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using EntidadesCompartidas;
 using System.Data.SqlClient;
@@ -58,7 +55,10 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error - El Aeropuerto no existe ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - No se puede dar de alto el Aeropuerto");
+                    throw new Exception("Error - No se puede dar de alta el Aeropuerto");
+                else if ((int)_retorno.Value == -3)
+                    throw new Exception("Error - El nombre del aeropuerto ya existe");
+
             }
             catch (Exception ex)
             {
@@ -89,7 +89,7 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("El Aeropuerto que intenta eliminar no existe");
+                    throw new Exception("Error - El Aeropuerto que intenta eliminar no existe");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("ERROR - El aeropuerto que desea eliminar tiene viajes asociados y no es posible su eliminación.");
                 else if ((int)_retorno.Value == -3)
@@ -128,9 +128,9 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El Aeropuerto no existe");
+                    throw new Exception("Error - El Aeropuerto que intenta modificar no existe");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - Modificacion de Aeropuerto");
+                    throw new Exception("Error - En la modificacion de Aeropuerto");
             }
             catch (Exception ex)
             {

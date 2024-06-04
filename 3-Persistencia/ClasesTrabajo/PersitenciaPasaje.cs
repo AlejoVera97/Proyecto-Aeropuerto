@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using EntidadesCompartidas;
-
-//-------agregar usuings-----//
 using System.Data.SqlClient;
 using System.Data;
-using System.Reflection.Emit;
-//---------------------------//
+
 
 
 
@@ -52,9 +48,10 @@ namespace Persistencia
 
                 int retorno = Convert.ToInt32(_Retorno.Value);
                 if (retorno == -1)
-                    throw new Exception("Pasaje Invalido");
-                else if (retorno == 0)
-                    throw new Exception("Error No Especificado");
+                    throw new Exception("Error - El Pasaje no existe");
+                else if (retorno == -2)
+                    throw new Exception("Error-  Verifique su pasaje");
+
 
             }
             catch (Exception ex)
@@ -64,7 +61,6 @@ namespace Persistencia
         }
 
 
-        
         internal List<Venta> ListarPasajes(int NVenta)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn());
@@ -77,7 +73,7 @@ namespace Persistencia
 
             try
             {
-                
+
                 _cnn.Open();
                 SqlDataReader _lector = _comando.ExecuteReader();
 
@@ -86,13 +82,12 @@ namespace Persistencia
                     while (_lector.Read())
                     {
                         Pasaje _unPasaje = null;
-                        _unPasaje = (PersitenciaPasaje.GetInstancia().ListarPasajes(int)_lector["NVenta"]);
 
                         if (_unPasaje == null)
-                            _unPasaje = PersitenciaPasaje.GetInstancia().ListarPasajes(int)_lector["NVenta"]);
+                            _unPasaje = PersitenciaPasaje.GetInstancia().ListarPasajes(Convert.ToInt32(_lector["NVenta"]);
 
-                        Pasaje = new Venta ((int)_lector["NVenta"], (DateTime)_lector["Fecha"], (double)_lector["Precio"],
-                            (Clientes)_lector["IDCliente"], (Empleado)_lector["UsuLog"], (Vuelo)_lector["IDVuelo"],_ListaPasaje);
+                        Pasaje = new Venta((int)_lector["NVenta"], (DateTime)_lector["Fecha"], (double)_lector["Precio"],
+                            (Clientes)_lector["IDCliente"], (Empleado)_lector["UsuLog"], (Vuelo)_lector["IDVuelo"],_unPasaje);
                         _ListaPasaje.Add(Pasaje);
                     }
                 }
@@ -110,9 +105,9 @@ namespace Persistencia
             return _ListaPasaje;
         }
     }
-    }
-    
 }
+    
+
 
 
 

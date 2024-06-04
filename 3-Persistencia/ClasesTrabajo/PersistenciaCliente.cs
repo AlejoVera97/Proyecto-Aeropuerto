@@ -1,15 +1,12 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using EntidadesCompartidas;
-
-//-------agregar usuings-----//
 using System.Data.SqlClient;
 using System.Data;
-using System.Reflection.Emit;
-//---------------------------//
+
+
 
 
 namespace Persistencia
@@ -54,6 +51,9 @@ namespace Persistencia
                     throw new Exception("ERROR - El nombre del cliente ya existe.");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("ERROR - No fue posible dar el alta el cliente");
+                else if ((int)_retorno.Value == -3)
+                    throw new Exception("ERROR -  En alta cliente ");
+            
             }
             catch (Exception ex)
             {
@@ -92,7 +92,7 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error - El cliente no existe");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error -  en Modificacion del cliente");
+                    throw new Exception("Error -  En Modificacion del cliente");
             }
             catch (Exception ex)
             {
@@ -125,7 +125,7 @@ namespace Persistencia
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error - El Cliente tiene pasajes asociados");
                 else if ((int)_retorno.Value == -3)
-                    throw new Exception("Error -  en Borrar Cliente");
+                    throw new Exception("Error -  En Borrar Cliente");
 
             }
             catch (Exception ex)

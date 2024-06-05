@@ -48,11 +48,11 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("ERROR - El nombre del cliente ya existe.");
+                    throw new Exception("ERROR -  Pasaporte invalido .");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - No fue posible dar el alta el cliente");
+                    throw new Exception("ERROR - N de tarjeta invalido ");
                 else if ((int)_retorno.Value == -3)
-                    throw new Exception("ERROR -  En alta cliente ");
+                    throw new Exception("ERROR -  En alta cliente: recibe los campos ");
             
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error - El cliente no existe");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error -  En Modificacion del cliente");
+                    throw new Exception("Error -  En Modificacion del cliente, verifique ");
             }
             catch (Exception ex)
             {

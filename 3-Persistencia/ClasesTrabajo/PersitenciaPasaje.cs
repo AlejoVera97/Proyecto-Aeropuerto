@@ -35,7 +35,7 @@ namespace Persistencia
 
             _comando.Parameters.AddWithValue("@NVenta", NVenta);
             _comando.Parameters.AddWithValue("@NAsiento", NAsiento);
-            _comando.Parameters.AddWithValue("@Clientes", clientes);
+            _comando.Parameters.AddWithValue("@Clientes", clientes.IDPasaporte);
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
             _comando.Parameters.Add(_Retorno);
@@ -48,10 +48,11 @@ namespace Persistencia
 
                 int retorno = Convert.ToInt32(_Retorno.Value);
                 if (retorno == -1)
-                    throw new Exception("Error - El Pasaje no existe");
+                    throw new Exception("Error - El Pasaje ya  existe");
                 else if (retorno == -2)
-                    throw new Exception("Error-  Verifique su pasaje");
-
+                    throw new Exception("Error-  El asiento ya esta ocupado");
+                else if (retorno == -3)
+                    throw new Exception("Error-  En el ID del pasaporte");
 
             }
             catch (Exception ex)

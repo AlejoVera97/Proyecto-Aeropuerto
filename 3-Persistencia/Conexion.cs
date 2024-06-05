@@ -8,12 +8,12 @@ namespace Persistencia
 
     internal class Conexion
     {
-        internal static string Cnn(EntidadesCompartidas.Empleado pUsuLog = null)
+        internal static string Cnn(EntidadesCompartidas.Empleado UsuLog = null)
         {
-            if (pUsuLog == null)
-                return "Data Source =.; Initial Catalog = EjemploBD; Integrated Security = true";
+            if (UsuLog == null)
+                return "Data Source =.; Initial Catalog = AeropuertosAmericanos; Integrated Security = true";
             else
-                return "Data Source =.; Initial Catalog = EjemploBD; User=" + pUsuLog + "; Password='" + pUsuLog.Contrasena + "'";
+                return "Data Source =.; Initial Catalog = AeropuertosAmericanos; Empleado =" + UsuLog.UsuLog + "; Password='" + UsuLog.Contrasena + "'";
         }
     }
 }

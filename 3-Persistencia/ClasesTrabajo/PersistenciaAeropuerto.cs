@@ -40,7 +40,7 @@ namespace Persistencia
             _comando.Parameters.AddWithValue("@Direccion", A.Direccion);
             _comando.Parameters.AddWithValue("@ImpuestoLlegada", A.ImpuestoLlegada);
             _comando.Parameters.AddWithValue("@ImpuestoPartida", A.ImpuestoParitda);
-            _comando.Parameters.AddWithValue("@IDCiudad", A.IDCiudad);
+            _comando.Parameters.AddWithValue("@Ciudad", A._Ciudad.IDCiudad);
 
 
 
@@ -53,11 +53,10 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El Aeropuerto no existe ");
+                    throw new Exception("Error - El nombre del aeropuerto ya existe  ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - No se puede dar de alta el Aeropuerto");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("Error - El nombre del aeropuerto ya existe");
+                    throw new Exception("Error - El ID del aeropuerto ya existe ");
+               
 
             }
             catch (Exception ex)
@@ -73,35 +72,39 @@ namespace Persistencia
 
         public void BajaAeropuerto(Aeropuertos A,Empleado E )
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _comando = new SqlCommand("EliminarAeropuerto", _cnn);
-            _comando.CommandType = CommandType.StoredProcedure;
-                       
-            _comando.Parameters.AddWithValue("@IDAeropuerto", A.IDAeropuerto);
-            SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
-            _retorno.Direction = ParameterDirection.ReturnValue;
-            _comando.Parameters.Add(_retorno);
-
-
-            try
             {
-                _cnn.Open();
-                _comando.ExecuteNonQuery();
+                SqlConnection oConexion = new SqlConnection(Conexion.Cnn(E));
+                SqlCommand oComando = new SqlCommand("BajaAeropuerto", oConexion);
+                oComando.CommandType = CommandType.StoredProcedure;
 
-                if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El Aeropuerto que intenta eliminar no existe");
-                else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - El aeropuerto que desea eliminar tiene viajes asociados y no es posible su eliminación.");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("ERROR - En eliminación del aeropuerto");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                _cnn.Close();
+                SqlParameter _IDAeropuerto = new SqlParameter("@IDAeropuerto", A.IDAeropuerto);
+
+                SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+                _Retorno.Direction = ParameterDirection.ReturnValue;
+
+                oComando.Parameters.Add(_IDAeropuerto);
+                oComando.Parameters.Add(_Retorno);
+
+                int oAfectados = -1;
+
+                try
+                {
+                    oConexion.Open();
+                    oComando.ExecuteNonQuery();
+                    oAfectados = (int)oComando.Parameters["@Retorno"].Value;
+                    if (oAfectados == -1)
+                        throw new Exception("El Aeropuerto no existe - No se elimina");
+                    if (oAfectados == -2)
+                        throw new Exception("El Aeropuerto tiene vuelos asignados - No se elimina");
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    oConexion.Close();
+                }
             }
         }
         
@@ -116,7 +119,7 @@ namespace Persistencia
             _comando.Parameters.AddWithValue("@Direccion", A.Direccion);
             _comando.Parameters.AddWithValue("@ImpuestoLlegada", A.ImpuestoLlegada);
             _comando.Parameters.AddWithValue("@ImpuestoPartida", A.ImpuestoParitda);
-            _comando.Parameters.AddWithValue("@ImpuestoPartida", A.IDCiudad);
+            _comando.Parameters.AddWithValue("@ImpuestoPartida", A._Ciudad.IDCiudad);
 
             SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _retorno.Direction = ParameterDirection.ReturnValue;
@@ -130,7 +133,7 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error - El Aeropuerto que intenta modificar no existe");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - En la modificacion de Aeropuerto");
+                    throw new Exception("Error - En la modificacion de Aeropuerto, verificar ");
             }
             catch (Exception ex)
             {
@@ -143,7 +146,7 @@ namespace Persistencia
             }
         }
 
-        public  Aeropuertos BuscarAeropuerto(string pIDaeropuerto, Empleado E)
+        public  Aeropuertos BuscarAeropuerto(string pIDAeropuerto, Empleado E)
 
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
@@ -151,7 +154,7 @@ namespace Persistencia
 
             SqlCommand _comando = new SqlCommand("BuscarAeropuerto", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@unA", pIDaeropuerto);
+            _comando.Parameters.AddWithValue("@IDAeropuerto", pIDAeropuerto);
 
             try
             {
@@ -160,8 +163,8 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     if (_lector.Read())
-                        _unA = new Aeropuertos (pIDaeropuerto, (string)_lector["Nombre"], (string)_lector["Direccion"], (int)_lector["ImpuestoPartida"],
-                            (int )_lector["ImpuestoLlegada"] , (Ciudad)_lector["IDCiudad"]);
+                        _unA = new Aeropuertos(pIDAeropuerto, (string)_lector["Nombre"], (string)_lector["Direccion"], (int)_lector["ImpuestoPartida"],
+                            (int)_lector["ImpuestoLlegada"], (PersistenciaCiudad.GetInstancia().BuscarCiudad( pIDAeropuerto,E)));                          
                 }
                 _lector.Close();
             }
@@ -176,14 +179,14 @@ namespace Persistencia
             return _unA;
         }
 
-        internal  Aeropuertos BuscarTodosAeropuertos( string pIDaeropuerto)
+        internal  Aeropuertos BuscarTodosAeropuertos( string pIDAeropuerto)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn());
             Aeropuertos _A= null;
 
             SqlCommand _comando = new SqlCommand("BuscarTodosAeropuertos", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@IDaeropuerto", pIDaeropuerto);
+            _comando.Parameters.AddWithValue("@IDAeropuerto", pIDAeropuerto);
 
             try
             {
@@ -192,8 +195,8 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     _lector.Read();
-                    _A = new Aeropuertos ((string)_lector["IDaeropuerto"], (string)_lector["Nombre"], (string)_lector["Direccion"],
-                        (int)_lector["ImpuestoLlegada"], (int)_lector["ImpuestoPartida"], (Ciudad)_lector["IDCiuad"]);
+                    _A = new Aeropuertos(pIDAeropuerto, (string)_lector["Nombre"], (string)_lector["Direccion"],
+                        (int)_lector["ImpuestoLlegada"], (int)_lector["ImpuestoPartida"], (PersistenciaCiudad.GetInstancia().BuscarCiudad(pIDAeropuerto);
                 }
             }
             catch (Exception ex)

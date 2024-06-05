@@ -48,11 +48,10 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - La ciudad no existe ");
+                    throw new Exception("Error -  El ID de la ciudad ya existe  ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - En alta Ciudad");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("Error - El nombre de la ciudad ya existe");
+                    throw new Exception("Error - El nombre  de la ciudad ya existe ");
+                
             }
             catch (Exception ex)
             {
@@ -153,7 +152,7 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error - La ciudad no existe");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - En Modificacion de ciudad");
+                    throw new Exception("Error - En Modificacion de ciudad, verifique ");
                 
             }
             catch (Exception ex)

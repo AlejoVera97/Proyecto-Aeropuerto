@@ -15,8 +15,8 @@ namespace EntidadesCompartidas
         private DateTime _FechaHoraLlegada;
         private int _CantidadAsientos;
         private double _PrecioVuelo;
-        private Aeropuertos _IDAeropuertoSalida;
-        private Aeropuertos _IDAeropuertoLLegada;
+        private Aeropuertos _AeropuertoSalida;
+        private Aeropuertos _AeropuertoLLegada;
 
 
 
@@ -53,22 +53,22 @@ namespace EntidadesCompartidas
 
         }
 
-        public Aeropuertos IDAeropuertoSalida
+        public Aeropuertos AeropuertoSalida
         {
-            get { return _IDAeropuertoSalida; }
-            set { _IDAeropuertoSalida = value; }
+            get { return _AeropuertoSalida; }
+            set { _AeropuertoSalida = value; }
         }
 
-        public Aeropuertos IDAeropuertoLlegada
+        public Aeropuertos AeropuertoLlegada
         {
-            get { return _IDAeropuertoLLegada; }
-            set { _IDAeropuertoLLegada = value; }
+            get { return _AeropuertoLLegada; }
+            set { _AeropuertoLLegada = value; }
         }
 
 
 
         public Vuelo(string pIDvuelo, DateTime pFechaHoraSalida, DateTime pFechaHoraLlegada, byte pCantidadAsientos, double pPrecio,
-                Aeropuertos pIDAeropuertoLlegada, Aeropuertos pIDAeropuertoSalida)
+                Aeropuertos pAeropuertoLlegada, Aeropuertos pAeropuertoSalida)
 
         {
             IDvuelo = pIDvuelo;
@@ -76,8 +76,8 @@ namespace EntidadesCompartidas
             FechaHoraSalida = pFechaHoraSalida;
             CantidadAsientos = pCantidadAsientos;
             PrecioVuelo = pPrecio;
-            IDAeropuertoLlegada = pIDAeropuertoLlegada;
-            IDAeropuertoSalida = pIDAeropuertoSalida;
+            AeropuertoLlegada = pAeropuertoLlegada;
+            AeropuertoSalida = pAeropuertoSalida;
 
         }
 
@@ -96,10 +96,10 @@ namespace EntidadesCompartidas
             if (this.PrecioVuelo <= 1)
                 throw new Exception(" El precio del vuelo debe ser positivo");
 
-            if (this.IDAeropuertoLlegada == null)
+            if (this.AeropuertoLlegada == null)
                 throw new Exception("El ID del aeropuerto de llegada  no es valido");
 
-            if (this.IDAeropuertoSalida == null)
+            if (this.AeropuertoSalida == null)
                 throw new Exception("El ID del aeropuerto  de partida no es valido");
         }
     }

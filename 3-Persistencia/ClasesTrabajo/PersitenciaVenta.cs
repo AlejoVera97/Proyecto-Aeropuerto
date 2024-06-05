@@ -36,6 +36,11 @@ namespace Persistencia
             _comando.Parameters.AddWithValue("@IDventa", pVenta.IDventa);
             _comando.Parameters.AddWithValue("@Precio", pVenta.Precio);
             _comando.Parameters.AddWithValue("@Fehca", pVenta.Fecha);
+            _comando.Parameters.AddWithValue("@Cliente", pVenta.Clientes.IDPasaporte);
+            _comando.Parameters.AddWithValue("@Empleado", pVenta.Empleado.UsuLog);
+            _comando.Parameters.AddWithValue("@Vuelo", pVenta.Vuelo.IDvuelo);
+            _comando.Parameters.AddWithValue("@Lista", pVenta.VentaLista);
+            
 
             SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _retorno.Direction = ParameterDirection.ReturnValue;
@@ -46,9 +51,9 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - La venta no existe ");
+                    throw new Exception("Error - La venta ya existe ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error -  En Alta venta");
+                    throw new Exception("Error -  En Alta venta, verifique los campos");
                
             }
             catch (Exception ex)

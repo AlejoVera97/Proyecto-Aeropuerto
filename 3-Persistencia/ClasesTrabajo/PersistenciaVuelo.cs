@@ -36,6 +36,8 @@ namespace Persistencia
             _comando.Parameters.AddWithValue("@PrecioVuelo", V.PrecioVuelo);
             _comando.Parameters.AddWithValue("@FechaHoraSalida", V.FechaHoraSalida);
             _comando.Parameters.AddWithValue("@FechaHoraLlegada", V.FechaHoraLlegada);
+            _comando.Parameters.AddWithValue("@AeropuertoLlegada", V.AeropuertoLlegada.ImpuestoLlegada);
+            _comando.Parameters.AddWithValue("@AeropuertoSalida", V.AeropuertoSalida.ImpuestoParitda);
 
 
             SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
@@ -48,7 +50,7 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El vuelo no existe");
+                    throw new Exception("Error - El ID del vuelo ya existe ");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error - Verifique su vuelo");
                

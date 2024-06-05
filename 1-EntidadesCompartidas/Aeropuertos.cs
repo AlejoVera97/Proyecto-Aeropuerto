@@ -15,7 +15,7 @@ namespace EntidadesCompartidas
         private string _Direccion;
         private int _ImpuestoPartida;
         private int _ImpuestoLlegada;
-        private Ciudad _IDCiudad;
+        private Ciudad _ciudad;
 
 
 
@@ -54,16 +54,16 @@ namespace EntidadesCompartidas
             
         }
 
-        public Ciudad IDCiudad
+        public Ciudad _Ciudad
         {
-            get { return _IDCiudad; }
-            set { _IDCiudad = value; }
+            get { return _ciudad; }
+            set { _ciudad = value; }
         }
 
 
 
         public Aeropuertos(string pIDAeropuerto, string pNombre, string pDireccion, int pImpuestoPartida,
-            int pImpuestoLlegada, Ciudad _IDCiudad)
+            int pImpuestoLlegada, Ciudad pCiudad)
 
         {
             IDAeropuerto = pIDAeropuerto;
@@ -71,7 +71,7 @@ namespace EntidadesCompartidas
             Direccion = pDireccion;
             ImpuestoParitda = pImpuestoPartida;
             ImpuestoLlegada = pImpuestoLlegada;
-            IDCiudad = _IDCiudad;
+            _Ciudad = pCiudad;
 
 
 
@@ -97,7 +97,7 @@ namespace EntidadesCompartidas
             if (this.ImpuestoLlegada <= 0)
                 throw new Exception("El impuesto  de llegada debe ser positivo");
 
-            if (this.IDCiudad == null)
+            if (this._Ciudad == null)
                 throw new Exception("Error el IDCiudad no es valido");
         }
 

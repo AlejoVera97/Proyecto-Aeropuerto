@@ -196,7 +196,8 @@ namespace Persistencia
                 {
                     _lector.Read();
                     _A = new Aeropuertos(pIDAeropuerto, (string)_lector["Nombre"], (string)_lector["Direccion"],
-                        (int)_lector["ImpuestoLlegada"], (int)_lector["ImpuestoPartida"], (PersistenciaCiudad.GetInstancia().BuscarCiudad(pIDAeropuerto);
+                        (int)_lector["ImpuestoLlegada"], (int)_lector["ImpuestoPartida"],
+                        (PersistenciaCiudad.GetInstancia().BuscarTodasCiudades((string)_lector["IDCiudad"])));
                 }
             }
             catch (Exception ex)
@@ -230,7 +231,11 @@ namespace Persistencia
                     while (_lector.Read())
                     {
                         _unA = new Aeropuertos((string)_lector["IDAeropuerto"], (string)_lector["Nombre"], (string)_lector["Direccion"],
-                            (int)_lector["ImpuestoPartida"], (int)_lector["ImpuestoLlegada"], (Ciudad)_lector["IDCiuad"]);
+                            (int)_lector["ImpuestoPartida"], (int)_lector["ImpuestoLlegada"], (PersistenciaCiudad.GetInstancia().
+                            BuscarCiudad((string)_lector["IDCiudad"], E)));
+                          
+                              
+
                         _lista.Add(_unA);
                     }
                 }

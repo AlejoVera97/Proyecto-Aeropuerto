@@ -66,35 +66,38 @@ namespace Persistencia
 
         public void BajaCiudad(Ciudad C, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _comando = new SqlCommand("Ciudad", _cnn);
-            _comando.CommandType = CommandType.StoredProcedure;
 
+            SqlConnection oConexion = new SqlConnection(Conexion.Cnn(E));
+            SqlCommand oComando = new SqlCommand("BajaCiudad", oConexion);
+            oComando.CommandType = CommandType.StoredProcedure;
 
+            SqlParameter _IDCiudad = new SqlParameter("@IDAeropuerto", C.IDCiudad);
 
-            _comando.Parameters.AddWithValue("@IDciudad", C.IDCiudad);
-            SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
-            _retorno.Direction = ParameterDirection.ReturnValue;
-            _comando.Parameters.Add(_retorno);
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+
+            oComando.Parameters.Add(_IDCiudad);
+            oComando.Parameters.Add(_Retorno);
+
+            int oAfectados = -1;
 
             try
             {
-                _cnn.Open();
-                _comando.ExecuteNonQuery();
-                if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - La ciudad que intenta eliminar no existe");
-                else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - En borrar la ciudad");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("Error - La ciudad que intenta eliminar tiene aeropuertos asociadios");
+                oConexion.Open();
+                oComando.ExecuteNonQuery();
+                oAfectados = (int)oComando.Parameters["@Retorno"].Value;
+                if (oAfectados == -1)
+                    throw new Exception("El Ciudad no existe - No se elimina");
+                if (oAfectados == -2)
+                    throw new Exception("El Ciudad  tiene aeropuertos asignados - No se puede eliminar");
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
             finally
             {
-                _cnn.Close();
+                oConexion.Close();
             }
         }
 

@@ -26,17 +26,17 @@ namespace Persistencia
 
 
         //operaciones
-        public void AltaCliente(Clientes pCliente, Empleado E)
+        public void AltaCliente(Clientes C, Empleado E)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             SqlCommand _comando = new SqlCommand("ClienteAlta", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
 
-            _comando.Parameters.AddWithValue("@IDpasaporte", pCliente.IDPasaporte);
-            _comando.Parameters.AddWithValue("@Nombre", pCliente.Nombre);
-            _comando.Parameters.AddWithValue("@Contrasena", pCliente.Contrasena);
-            _comando.Parameters.AddWithValue("@Ntarjeta", pCliente.NTarjeta);
+            _comando.Parameters.AddWithValue("@IDpasaporte", C.IDPasaporte);
+            _comando.Parameters.AddWithValue("@Nombre", C.Nombre);
+            _comando.Parameters.AddWithValue("@Contrasena", C.Contrasena);
+            _comando.Parameters.AddWithValue("@Ntarjeta", C.NTarjeta);
 
             SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _retorno.Direction = ParameterDirection.ReturnValue;
@@ -66,17 +66,17 @@ namespace Persistencia
 
         }
 
-        public void ModificarCliente(Clientes pCliente, Empleado E)
+        public void ModificarCliente(Clientes C, Empleado E)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             SqlCommand _comando = new SqlCommand("ClienteModificar", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
 
-            _comando.Parameters.AddWithValue("@IDPasaporte", pCliente.IDPasaporte);
-            _comando.Parameters.AddWithValue("@Nombre", pCliente.Nombre);
-            _comando.Parameters.AddWithValue("@Contrasena", pCliente.Contrasena);
-            _comando.Parameters.AddWithValue("@Ntarjeta", pCliente.NTarjeta);
+            _comando.Parameters.AddWithValue("@IDPasaporte", C.IDPasaporte);
+            _comando.Parameters.AddWithValue("@Nombre", C.Nombre);
+            _comando.Parameters.AddWithValue("@Contrasena", C.Contrasena);
+            _comando.Parameters.AddWithValue("@Ntarjeta", C.NTarjeta);
 
 
             SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
@@ -104,37 +104,39 @@ namespace Persistencia
             }
         }
 
-        public void BajaCliente(Clientes pClientes, Empleado E)
+        public void BajaCliente(Clientes C, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _comando = new SqlCommand("Clientes", _cnn);
-            _comando.CommandType = CommandType.StoredProcedure;
 
+            SqlConnection oConexion = new SqlConnection(Conexion.Cnn(E));
+            SqlCommand oComando = new SqlCommand("BajaCliente", oConexion);
+            oComando.CommandType = CommandType.StoredProcedure;
 
-            _comando.Parameters.AddWithValue("@IDPasaporte", pClientes.IDPasaporte);
-            SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
-            _retorno.Direction = ParameterDirection.ReturnValue;
-            _comando.Parameters.Add(_retorno);
+            SqlParameter _IDPasaporte = new SqlParameter("@IDPasaporte", C.IDPasaporte) ;
+
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+
+            oComando.Parameters.Add(_IDPasaporte);
+            oComando.Parameters.Add(_Retorno);
+
+            int oAfectados = -1;
 
             try
             {
-                _cnn.Open();
-                _comando.ExecuteNonQuery();
-                if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El cliente tiene vuelos asociados");
-                else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - El Cliente tiene pasajes asociados");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("Error -  En Borrar Cliente");
-
+                oConexion.Open();
+                oComando.ExecuteNonQuery();
+                oAfectados = (int)oComando.Parameters["@Retorno"].Value;
+                if (oAfectados == -1)
+                    throw new Exception("El Cliente no existe - No se eliminar");
+              
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
             finally
             {
-                _cnn.Close();
+                oConexion.Close();
             }
         }
 
@@ -154,7 +156,8 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     _lector.Read();
-                    _unCliente = new Clientes((string)_lector["IDPasaporte"], (string)_lector["Nombre"], (string)_lector["Contrasena"], (int)_lector["NTarjeta"]);
+                    _unCliente = new Clientes((string)_lector["IDPasaporte"], (string)_lector["Nombre"], (string)_lector["Contrasena"],
+                        (int)_lector["NTarjeta"]);
 
                 }
             }

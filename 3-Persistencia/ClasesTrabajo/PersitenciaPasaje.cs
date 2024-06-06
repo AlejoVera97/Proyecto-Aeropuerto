@@ -26,7 +26,7 @@ namespace Persistencia
 
 
         //operaciones
-        internal void AltaPasaje(int NVenta, Pasaje NAsiento, SqlTransaction trn, Clientes clientes)
+        internal void AltaPasaje(int NVenta, Pasaje NAsiento, SqlTransaction trn, Clientes C)
 
         {
             SqlCommand _comando = new SqlCommand("AltaPasaje", trn.Connection);
@@ -35,7 +35,7 @@ namespace Persistencia
 
             _comando.Parameters.AddWithValue("@NVenta", NVenta);
             _comando.Parameters.AddWithValue("@NAsiento", NAsiento);
-            _comando.Parameters.AddWithValue("@Clientes", clientes.IDPasaporte);
+            _comando.Parameters.AddWithValue("@Clientes", C.IDPasaporte);
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
             _comando.Parameters.Add(_Retorno);
@@ -65,12 +65,15 @@ namespace Persistencia
         internal List<Venta> ListarPasajes(int NVenta)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn());
+            Venta Pasaje = null;
+            List<Venta> _ListaPasaje = new List<Venta>();
+
 
             SqlCommand _comando = new SqlCommand("ListarPasajes", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@NVenta", NVenta);
-            Venta Pasaje = null;
-            List<Venta> _ListaPasaje = new List<Venta>();
+            _comando.Parameters.AddWithValue("@NVenta",  NVenta);
+            _comando.Parameters.AddWithValue("@IDPasaporte", Clientes.IDPasaporte);
+           
 
             try
             {
@@ -82,17 +85,10 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        Pasaje _unPasaje = null;
-
-                        if (_unPasaje == null)
-                            _unPasaje = PersitenciaPasaje.GetInstancia().ListarPasajes(Convert.ToInt32(_lector["NVenta"]);
-
-                        Pasaje = new Venta((int)_lector["NVenta"], (DateTime)_lector["Fecha"], (double)_lector["Precio"],
-                            (Clientes)_lector["IDCliente"], (Empleado)_lector["UsuLog"], (Vuelo)_lector["IDVuelo"],_unPasaje);
-                        _ListaPasaje.Add(Pasaje);
-                    }
+                        Pasaje = new Venta(IDventa, (string)_lector["Fehca"], (double)_lector["Precio"],(PersistenciaCliente.GetInstancia().
+                            BuscarCliente((string)_lector["IDPasaporte"],Empleado)),(PersistenciaEmpleado.GetInstancia().BuscarEmpleado((string)_lector
+                            ["UsuLog"], Empleado)), (PersitenciaVuelo.GetInstancia(). //  ME TRANQUE ACA...
                 }
-
                 _lector.Close();
             }
             catch (Exception ex)

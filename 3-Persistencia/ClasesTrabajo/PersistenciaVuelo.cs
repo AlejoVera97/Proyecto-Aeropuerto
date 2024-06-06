@@ -83,10 +83,13 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        _unVuelo = new Vuelo((string)_lector["IDvuelo"], (DateTime)_lector["FechaHoraSalida"], (DateTime)_lector["FechaHoraLlegada"], 
-                            (byte)_lector["CantidadAsientos"], (double)_lector["PrecioVueo"],(Aeropuertos)_lector["IDAeropuertoLlegada"], (Aeropuertos)_lector["IDAeropuertoSalida"]);
-                        
-                        
+                        _unVuelo = new Vuelo((string)_lector["IDvuelo"], (DateTime)_lector["FechaHoraSalida"], (DateTime)_lector["FechaHoraLlegada"],
+                            (byte)_lector["CantidadAsientos"], (double)_lector["PrecioVueo"], (PersistenciaAeropuerto.GetInstancia().
+                            BuscarAeropuerto((string)_lector["AeropuertoLlegada"], E)), (PersistenciaAeropuerto.GetInstancia().
+                            BuscarAeropuerto((string)_lector["AeropuertoSalida"], E)));
+
+
+
                         listaVuelo.Add(_unVuelo);
                     } 
                 }

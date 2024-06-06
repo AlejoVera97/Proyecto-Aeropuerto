@@ -26,20 +26,20 @@ namespace Persistencia
 
         // operaciones 
 
-        public void AltaVenta(Venta pVenta, Empleado E)
+        public void AltaVenta(Venta V , Empleado E)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             SqlCommand _comando = new SqlCommand("Venta", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
 
-            _comando.Parameters.AddWithValue("@IDventa", pVenta.IDventa);
-            _comando.Parameters.AddWithValue("@Precio", pVenta.Precio);
-            _comando.Parameters.AddWithValue("@Fehca", pVenta.Fecha);
-            _comando.Parameters.AddWithValue("@Cliente", pVenta.Clientes.IDPasaporte);
-            _comando.Parameters.AddWithValue("@Empleado", pVenta.Empleado.UsuLog);
-            _comando.Parameters.AddWithValue("@Vuelo", pVenta.Vuelo.IDvuelo);
-            _comando.Parameters.AddWithValue("@Lista", pVenta.VentaLista);
+            _comando.Parameters.AddWithValue("@IDventa", V.IDventa);
+            _comando.Parameters.AddWithValue("@Precio", V.Precio);
+            _comando.Parameters.AddWithValue("@Fehca", V.Fecha);
+            _comando.Parameters.AddWithValue("@Cliente", V.Clientes.IDPasaporte);
+            _comando.Parameters.AddWithValue("@Empleado", V.Empleado.UsuLog);
+            _comando.Parameters.AddWithValue("@Vuelo", V.Vuelo.IDvuelo);
+            _comando.Parameters.AddWithValue("@Lista", V.VentaLista);
             
 
             SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
@@ -71,11 +71,11 @@ namespace Persistencia
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Venta _unaV = null;
-            List<Venta> _lista = new List<Venta>();
+            List<Venta> _listaVentas = new List<Venta>();
 
             SqlCommand _comando = new SqlCommand("ListarVentas", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("Vuelo",V);
+            _comando.Parameters.AddWithValue("Vuelo ", V );
 
 
             try
@@ -87,8 +87,9 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        Vuelo V = new Vuelo(); // me tranque aca...
-                        _lista.Add(V);
+                        
+                        // me tranque...
+                        
 
                     }
 
@@ -104,7 +105,7 @@ namespace Persistencia
                 _cnn.Close();
             }
 
-            return _lista;
+            return _listaVentas;
 
         }
     }

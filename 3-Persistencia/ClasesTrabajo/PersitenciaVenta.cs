@@ -26,75 +26,99 @@ namespace Persistencia
 
         // operaciones 
 
-        public void AltaVenta(Venta V , Empleado E)
+        public void AltaVenta(Venta V, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _comando = new SqlCommand("Venta", _cnn);
-            _comando.CommandType = CommandType.StoredProcedure;
+            SqlConnection oConexion = new SqlConnection(Conexion.Cnn(E));
+            SqlCommand oComando = new SqlCommand("AltaVenta", oConexion);
+            oComando.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter _IDVenta = new SqlParameter("@IDVenta", V.IDventa);
+            SqlParameter _Precio = new SqlParameter("@Precio ", V.Precio);
+            SqlParameter _Cliente = new SqlParameter("@Cliente", V.Clientes.IDPasaporte);
+            SqlParameter _Empleado = new SqlParameter("@Empleado ", V.Empleado.UsuLog);
+            SqlParameter _Vuelo = new SqlParameter("@Vuelo", V.Vuelo.IDvuelo);
+            SqlParameter _Lista = new SqlParameter("@Lista ", V.VentaLista);
 
 
-            _comando.Parameters.AddWithValue("@IDventa", V.IDventa);
-            _comando.Parameters.AddWithValue("@Precio", V.Precio);
-            _comando.Parameters.AddWithValue("@Fehca", V.Fecha);
-            _comando.Parameters.AddWithValue("@Cliente", V.Clientes.IDPasaporte);
-            _comando.Parameters.AddWithValue("@Empleado", V.Empleado.UsuLog);
-            _comando.Parameters.AddWithValue("@Vuelo", V.Vuelo.IDvuelo);
-            _comando.Parameters.AddWithValue("@Lista", V.VentaLista);
-            
 
-            SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
-            _retorno.Direction = ParameterDirection.ReturnValue;
-            _comando.Parameters.Add(_retorno);
+            SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
+            _Retorno.Direction = ParameterDirection.ReturnValue;
+
+            oComando.Parameters.Add(_IDVenta);
+            oComando.Parameters.Add(_Precio);
+            oComando.Parameters.Add(_Cliente);
+            oComando.Parameters.Add(_Empleado);
+            oComando.Parameters.Add(_Vuelo);
+            oComando.Parameters.Add(_Lista);
+
+            int oAfectados = -1;
+            SqlTransaction _transaccion = null;
 
             try
             {
-                _cnn.Open();
-                _comando.ExecuteNonQuery();
-                if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - La venta ya existe ");
-                else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error -  En Alta venta, verifique los campos");
-               
+                oConexion.Open();
+                _transaccion = oConexion.BeginTransaction();
+                oComando.Transaction = _transaccion;
+
+                oComando.ExecuteNonQuery();
+                oAfectados = (int)oComando.Parameters["@Retorno"].Value;
+                if (oAfectados == -1)
+                    throw new Exception("ERROR- EL USUARIO NO EXISTE ");
+                if (oAfectados == -2)
+                    throw new Exception("ERROR - EL VUELO NO EXISTE");
+                if (oAfectados == -3)
+                    throw new Exception("ERROR - EL CLIENTE NO EXISTE ");
+                if (oAfectados == -4)
+                    throw new Exception("ERROR -  LA LISTA DE VENTAS DE VUELO  NO EXISTE ");
+
+
+                
+                _transaccion.Commit();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _transaccion.Rollback();
+                throw ex;
             }
             finally
             {
-                _cnn.Close();
+                oConexion.Close();
             }
-
         }
-                      
+
+
+
         public List<Venta> ListarVentas(Vuelo V, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            Venta _unaV = null;
-            List<Venta> _listaVentas = new List<Venta>();
 
-            SqlCommand _comando = new SqlCommand("ListarVentas", _cnn);
-            _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("Vuelo ", V );
+            List<Venta> _Lista = new List<Venta>();
 
+            SqlConnection _Conexion = new SqlConnection(Conexion.Cnn(E));
+            SqlCommand _Comando = new SqlCommand("ListarVentas", _Conexion);
+            _Comando.CommandType = CommandType.StoredProcedure;
 
+            SqlDataReader _Reader;
             try
             {
-                _cnn.Open();
-                SqlDataReader _lector = _comando.ExecuteReader();
+                _Conexion.Open();
+                _Reader = _Comando.ExecuteReader();
 
-                if (_lector.HasRows)
+                while (_Reader.Read())
                 {
-                    while (_lector.Read())
-                    {
-                        
-                        // me tranque...
-                        
+                    int _IDVenta= (int)_Reader["IDVenta"];
+                    DateTime _fecha = Convert.ToDateTime(_Reader["Fecha"]);
+                    double _Precio = (double)_Reader["Precio"];
+                    string _UsuLog = (string)_Reader["UsuLog"];
+                    string _IDVuelo = (string)_Reader["IDVuelo"];
 
-                    }
 
-                    _lector.Close();
+
+                    Venta _V = new PersitenciaVenta().ListarVentas(_IDVenta);
+                    Pasaje _P = new Pasaje((int)_Reader["NAsiento"], (PersistenciaCliente.GetInstancia().;
+                    _Lista.Add(f);
                 }
+
+                _Reader.Close();
             }
             catch (Exception ex)
             {
@@ -102,12 +126,12 @@ namespace Persistencia
             }
             finally
             {
-                _cnn.Close();
+                _Conexion.Close();
             }
 
-            return _listaVentas;
-
+            return _Lista;
         }
+    }
     }
 
 }

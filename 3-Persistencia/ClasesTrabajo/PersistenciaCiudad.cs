@@ -48,10 +48,8 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error -  El ID de la ciudad ya existe  ");
-                else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - El nombre  de la ciudad ya existe ");
-                
+                    throw new Exception("Error -  LA CIUDAD YA EXISTE  ");
+             
             }
             catch (Exception ex)
             {
@@ -71,7 +69,7 @@ namespace Persistencia
             SqlCommand oComando = new SqlCommand("BajaCiudad", oConexion);
             oComando.CommandType = CommandType.StoredProcedure;
 
-            SqlParameter _IDCiudad = new SqlParameter("@IDAeropuerto", C.IDCiudad);
+            SqlParameter _IDCiudad = new SqlParameter("@IDCiudad", C.IDCiudad);
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
@@ -87,9 +85,8 @@ namespace Persistencia
                 oComando.ExecuteNonQuery();
                 oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                 if (oAfectados == -1)
-                    throw new Exception("El Ciudad no existe - No se elimina");
-                if (oAfectados == -2)
-                    throw new Exception("El Ciudad  tiene aeropuertos asignados - No se puede eliminar");
+                    throw new Exception("ERROR - LA CIUDAD NO EXISTE");
+            
             }
             catch (Exception ex)
             {
@@ -106,9 +103,9 @@ namespace Persistencia
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Ciudad _unaC = null;
 
-            SqlCommand _comando = new SqlCommand("SP_BuscarUsuario", _cnn);
+            SqlCommand _comando = new SqlCommand("@BuscarCiudad", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@Usu", C);
+            _comando.Parameters.AddWithValue("@IDCiudad", C);
 
             try
             {
@@ -141,7 +138,7 @@ namespace Persistencia
 
             _comando.Parameters.AddWithValue("@IDCiudad", C.IDCiudad);
             _comando.Parameters.AddWithValue("@NombreCiudad", C.NombreCiudad);
-            _comando.Parameters.AddWithValue("@NobrePais", C.NombrePais);
+            _comando.Parameters.AddWithValue("@NombrePais", C.NombrePais);
 
             SqlParameter _retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _retorno.Direction = ParameterDirection.ReturnValue;
@@ -153,9 +150,9 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - La ciudad no existe");
+                    throw new Exception("Error - LA CIUDAD NO EXISTE ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - En Modificacion de ciudad, verifique ");
+                    throw new Exception("Error - EN LA MODIFICACION DE CIUDAD ");
                 
             }
             catch (Exception ex)

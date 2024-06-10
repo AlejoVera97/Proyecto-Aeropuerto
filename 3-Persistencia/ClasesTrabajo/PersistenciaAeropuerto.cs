@@ -53,10 +53,13 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El nombre del aeropuerto ya existe  ");
+                    throw new Exception("Error - NO ES POSIBLE DAR DE ALTA EL AEROPUERTO");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - El ID del aeropuerto ya existe ");
-               
+                    throw new Exception("Error -  EL AEROPUERTO YA ESTA DADO DE ALTA ");
+                else if ((int)_retorno.Value == -3)
+                    throw new Exception("Error - LA CIUDAD NO EXISTE ");
+             
+
 
             }
             catch (Exception ex)
@@ -85,7 +88,7 @@ namespace Persistencia
                 oComando.Parameters.Add(_IDAeropuerto);
                 oComando.Parameters.Add(_Retorno);
 
-                int oAfectados = -1;
+                int oAfectados = -1;        
 
                 try
                 {
@@ -93,9 +96,9 @@ namespace Persistencia
                     oComando.ExecuteNonQuery();
                     oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                     if (oAfectados == -1)
-                        throw new Exception("El Aeropuerto no existe - No se elimina");
+                        throw new Exception("ERROR - El Aeropuerto no existe - No se elimina");
                     if (oAfectados == -2)
-                        throw new Exception("El Aeropuerto tiene vuelos asignados - No se elimina");
+                        throw new Exception("ERROR - El Aeropuerto tiene vuelos asignados - No se elimina");
                 }
                 catch (Exception ex)
                 {
@@ -131,9 +134,9 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El Aeropuerto que intenta modificar no existe");
+                    throw new Exception("Error - EL AEROPUERTO QUE INTENTA MODIFICAR NO EXISTE ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - En la modificacion de Aeropuerto, verificar ");
+                    throw new Exception("Error - LA CIUDAD QUE INTENTA MODIFICAR NO EXISTE ");
             }
             catch (Exception ex)
             {

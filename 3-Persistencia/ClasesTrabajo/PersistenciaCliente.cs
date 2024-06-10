@@ -29,7 +29,7 @@ namespace Persistencia
         public void AltaCliente(Clientes C, Empleado E)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _comando = new SqlCommand("ClienteAlta", _cnn);
+            SqlCommand _comando = new SqlCommand("AltaCliente", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
 
@@ -48,11 +48,10 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("ERROR -  Pasaporte invalido .");
+                    throw new Exception("ERROR -  NUMERO DE PASAPORTE INCORRECTO .");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - N de tarjeta invalido ");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("ERROR -  En alta cliente: recibe los campos ");
+                    throw new Exception("ERROR - NO SE PUDO DAR DE ALTA EL CLIENTE ");
+                
             
             }
             catch (Exception ex)
@@ -90,9 +89,9 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El cliente no existe");
+                    throw new Exception("Error - EL CLIENTE QUE INTENTA MODIFICAR NO EXISTE");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error -  En Modificacion del cliente, verifique ");
+                    throw new Exception("Error -  MODIFICACION DE CLIENTE  ");
             }
             catch (Exception ex)
             {
@@ -127,8 +126,12 @@ namespace Persistencia
                 oComando.ExecuteNonQuery();
                 oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                 if (oAfectados == -1)
-                    throw new Exception("El Cliente no existe - No se eliminar");
-              
+                    throw new Exception("ERROR - EL CLIENTE NO EXISTE ");
+                if (oAfectados == -2)
+                    throw new Exception("ERROR - EL CLIENTE TIENE VENTAS ASOCIACADAS, NO SE PUEDE ELIMINAR" );
+                if (oAfectados == -3)
+                    throw new Exception("ERROR - EN LA ELIMINACION DE CLIENTE");
+
             }
             catch (Exception ex)
             {

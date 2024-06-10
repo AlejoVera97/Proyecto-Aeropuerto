@@ -29,38 +29,41 @@ namespace Persistencia
         internal void AltaPasaje(int NVenta, Pasaje NAsiento, SqlTransaction trn, Clientes C)
 
         {
-            SqlCommand _comando = new SqlCommand("AltaPasaje", trn.Connection);
-            _comando.CommandType = CommandType.StoredProcedure;
+            SqlCommand oComando = new SqlCommand("AltaPasaje ", trn.Connection);
+            oComando.CommandType = CommandType.StoredProcedure;
 
+            SqlParameter _NVenta = new SqlParameter("@NVenta", NVenta);
+            SqlParameter _NAsiento = new SqlParameter("@NAsiento", NAsiento);
+            SqlParameter _IDPasaporte = new SqlParameter("@Cleinte", C.IDPasaporte);
 
-            _comando.Parameters.AddWithValue("@NVenta", NVenta);
-            _comando.Parameters.AddWithValue("@NAsiento", NAsiento);
-            _comando.Parameters.AddWithValue("@Clientes", C.IDPasaporte);
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
-            _comando.Parameters.Add(_Retorno);
+
+            oComando.Parameters.Add(_NVenta);
+            oComando.Parameters.Add(_NAsiento);
+            oComando.Parameters.Add(_IDPasaporte);
+            oComando.Parameters.Add(_Retorno);
+
+            int oAfectados = -1;
 
             try
             {
-                _comando.Transaction = trn;
-                _comando.ExecuteNonQuery();
-
-
-                int retorno = Convert.ToInt32(_Retorno.Value);
-                if (retorno == -1)
-                    throw new Exception("Error - El Pasaje ya  existe");
-                else if (retorno == -2)
-                    throw new Exception("Error-  El asiento ya esta ocupado");
-                else if (retorno == -3)
-                    throw new Exception("Error-  En el ID del pasaporte");
-
+                oComando.Transaction = trn;
+                oComando.ExecuteNonQuery();
+                oAfectados = (int)oComando.Parameters["@Retorno"].Value;
+                if (oAfectados == -1)
+                    throw new Exception("EL NUMERO DE VENTA NO EXISTE");
+                if (oAfectados == -2)
+                    throw new Exception("EL ASIENTO NO ESTA DISPONIBLE");
+                if (oAfectados == -3)
+                    throw new Exception("EL ID PASAPORTE NO ES CORRECTO");
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        }
 
+        }
 
         internal List<Venta> ListarPasajes(int NVenta)
         {
@@ -71,9 +74,9 @@ namespace Persistencia
 
             SqlCommand _comando = new SqlCommand("ListarPasajes", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@NVenta",  NVenta);
+            _comando.Parameters.AddWithValue("@NVenta", NVenta);
             _comando.Parameters.AddWithValue("@IDPasaporte", Clientes.IDPasaporte);
-           
+
 
             try
             {
@@ -85,10 +88,13 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        Pasaje = new Venta(IDventa, (string)_lector["Fehca"], (double)_lector["Precio"],(PersistenciaCliente.GetInstancia().
-                            BuscarCliente((string)_lector["IDPasaporte"],Empleado)),(PersistenciaEmpleado.GetInstancia().BuscarEmpleado((string)_lector
-                            ["UsuLog"], Empleado)), (PersitenciaVuelo.GetInstancia(). //  ME TRANQUE ACA...
+                        Pasaje = new Pasaje((int)_lector["NAsiento"], ((Clientes)_lector["IDpasaporte"]);
+                        _ListaPasaje.Add(Pasaje);
+
+                    }
                 }
+
+
                 _lector.Close();
             }
             catch (Exception ex)
@@ -102,7 +108,9 @@ namespace Persistencia
             return _ListaPasaje;
         }
     }
+
 }
+
     
 
 

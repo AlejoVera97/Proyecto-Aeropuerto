@@ -288,7 +288,6 @@ End
 
 go
 
-
 CREATE PROCEDURE AltaVuelo 
     @IDVuelo VARCHAR(15),
     @CantidadAsientos INT,
@@ -352,7 +351,6 @@ BEGIN
     VALUES (@IDCiudad, @NombreCiudad, @NombrePais)
 END
 GO
-
  
 CREATE PROCEDURE AltaVenta
     
@@ -486,8 +484,6 @@ BEGIN
 END
 GO
 
-
-
 Create Procedure BajaAeropuerto   
  @IDAeropuerto INT
 
@@ -521,8 +517,6 @@ Begin
 	
 go
 
-
-
 CREATE PROCEDURE BajaCiudad             
     @IDCiudad VARCHAR(15) 
 AS    
@@ -549,7 +543,6 @@ go
   
 
 
-
 -------------------------------------
 
 
@@ -565,7 +558,6 @@ Begin
 	Select * 	From Empleados	Where UsuLog = @UsuLog
 End
 go
-
  
 Create Proc BuscarCliente        
 
@@ -585,8 +577,6 @@ select * from Clientes where IDPasaporte=@IDPasaporte;
 end 
 go
 
-
-
 Create Proc BuscarAeropuerto       
 
 @IDAeropuerto varchar
@@ -605,8 +595,6 @@ begin
 Select * from Aeropuerto where IDAeropuerto = @IDAeropuerto 
 end 
 go
-
-
 
 Create Proc BuscarCiudad       
 

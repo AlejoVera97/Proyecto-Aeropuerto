@@ -34,7 +34,7 @@ namespace Persistencia
 
             SqlParameter _NVenta = new SqlParameter("@NVenta", NVenta);
             SqlParameter _NAsiento = new SqlParameter("@NAsiento", NAsiento);
-            SqlParameter _IDPasaporte = new SqlParameter("@Cleinte", C.IDPasaporte);
+            SqlParameter _IDPasaporte = new SqlParameter("@Cliente", C.IDPasaporte);
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
@@ -56,7 +56,7 @@ namespace Persistencia
                 if (oAfectados == -2)
                     throw new Exception("EL ASIENTO NO ESTA DISPONIBLE");
                 if (oAfectados == -3)
-                    throw new Exception("EL ID PASAPORTE NO ES CORRECTO");
+                    throw new Exception(" El CLIENTE NO EXISTE ");
             }
             catch (Exception ex)
             {

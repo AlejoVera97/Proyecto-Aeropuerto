@@ -63,16 +63,19 @@ namespace Persistencia
                 oComando.ExecuteNonQuery();
                 oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                 if (oAfectados == -1)
-                    throw new Exception("ERROR- EL USUARIO NO EXISTE ");
+                    throw new Exception("ERROR- EL VENTA YA EXISTE ");
                 if (oAfectados == -2)
-                    throw new Exception("ERROR - EL VUELO NO EXISTE");
-                if (oAfectados == -3)
                     throw new Exception("ERROR - EL CLIENTE NO EXISTE ");
+                if (oAfectados == -3)
+                    throw new Exception("ERROR - EL EMPLEADO NO  EXISTE ");
                 if (oAfectados == -4)
-                    throw new Exception("ERROR -  LA LISTA DE VENTAS DE VUELO  NO EXISTE ");
+                    throw new Exception("ERROR -  EL VUENO NO EXISTE  ");
+                if (oAfectados == -5)
+                    throw new Exception("ERROR -  VERIFICAR LA LISTA DE VENTAS ");
 
 
-                
+
+
                 _transaccion.Commit();
             }
             catch (Exception ex)
@@ -96,6 +99,7 @@ namespace Persistencia
             SqlConnection _Conexion = new SqlConnection(Conexion.Cnn(E));
             SqlCommand _Comando = new SqlCommand("ListarVentas", _Conexion);
             _Comando.CommandType = CommandType.StoredProcedure;
+            _Comando.Parameters.AddWithValue("@Vuelo", V.IDvuelo);
 
             SqlDataReader _Reader;
             try
@@ -105,17 +109,18 @@ namespace Persistencia
 
                 while (_Reader.Read())
                 {
-                    int _IDVenta= (int)_Reader["IDVenta"];
+                    int _IDVenta = (int)_Reader["IDVenta"];
                     DateTime _fecha = Convert.ToDateTime(_Reader["Fecha"]);
                     double _Precio = (double)_Reader["Precio"];
                     string _UsuLog = (string)_Reader["UsuLog"];
                     string _IDVuelo = (string)_Reader["IDVuelo"];
+                    string _IDPasaporte = (string)_Reader["IDPasaporte"];
 
 
 
-                    Venta _V = new PersitenciaVenta().ListarVentas(_IDVenta);
-                    Pasaje _P = new Pasaje((int)_Reader["NAsiento"], (PersistenciaCliente.GetInstancia().;
-                    _Lista.Add(f);
+                    Pasaje _P = new PersitenciaPasaje().ListarPasajes(_IDVenta);
+                    Venta _V = new Venta(_IDVenta, _fecha, _Precio, _P);
+                    _Lista.Add(_P);
                 }
 
                 _Reader.Close();
@@ -132,9 +137,8 @@ namespace Persistencia
             return _Lista;
         }
     }
-    }
-
 }
+
 
     
     

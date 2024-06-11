@@ -49,7 +49,9 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error -  LA CIUDAD YA EXISTE  ");
-             
+                else if ((int)_retorno.Value == -2)
+                    throw new Exception("Error - LA CIUDAD YA ESTA DADA DE ALTA");
+
             }
             catch (Exception ex)
             {
@@ -86,7 +88,9 @@ namespace Persistencia
                 oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                 if (oAfectados == -1)
                     throw new Exception("ERROR - LA CIUDAD NO EXISTE");
-            
+                if (oAfectados == -2)
+                    throw new Exception("ERROR - LA CIUDAD TIENE VUELOS ASIGNADOS , NO SE PUEDE ELIMINAR");
+
             }
             catch (Exception ex)
             {
@@ -98,14 +102,14 @@ namespace Persistencia
             }
         }
 
-        public Ciudad BuscarCiudad(string C, Empleado E)
+        public Ciudad BuscarCiudad(string IDCiudad , Empleado E)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Ciudad _unaC = null;
 
             SqlCommand _comando = new SqlCommand("@BuscarCiudad", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@IDCiudad", C);
+            _comando.Parameters.AddWithValue("@IDCiudad", IDCiudad);
 
             try
             {
@@ -114,7 +118,7 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     if (_lector.Read())
-                        _unaC = new Ciudad (C , (string)_lector["NombreCiudad"], (string)_lector["NombrePais"]);
+                        _unaC = new Ciudad (IDCiudad , (string)_lector["NombreCiudad"], (string)_lector["NombrePais"]);
                 }
                 _lector.Close();
             }

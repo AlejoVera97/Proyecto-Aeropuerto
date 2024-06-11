@@ -241,8 +241,7 @@ END
 END
 GO
 
-
-Create Proc AltaAeropuerto
+CREATE PROCEDURE AltaAeropuerto
 
 	@IDAeropuerto INT , 
     @Nombre VARCHAR, 
@@ -286,7 +285,7 @@ BEGIN
 		 RETURN 0;  -- Nuevo aeropuerto insertado con éxito
 End  
 
-go
+GO
 
 CREATE PROCEDURE AltaVuelo 
     @IDVuelo VARCHAR(15),
@@ -328,7 +327,7 @@ BEGIN
 END;
 GO
 
-  CREATE PROCEDURE AltaCiudad
+CREATE PROCEDURE AltaCiudad
     @IDCiudad VARCHAR (15), 
     @NombreCiudad VARCHAR,
     @NombrePais VARCHAR
@@ -399,7 +398,7 @@ END
 GO
 
 CREATE PROCEDURE AltaPasaje
-    @NVenta INT,
+    @IDVenta INT,
     @NPasaporte VARCHAR,
     @NAsiento INT
    
@@ -409,7 +408,7 @@ BEGIN
     BEGIN TRY
               
         -- Verificar que la venta asociada existe
-        IF NOT EXISTS (SELECT 1 FROM Venta WHERE  IDVenta = @NVenta)
+        IF NOT EXISTS (SELECT 1 FROM Venta WHERE  IDVenta = @IDVenta)
         BEGIN
             RETURN -1;
         END
@@ -657,7 +656,7 @@ Begin
 			Begin
 				return -1
 			end
-			if ( Not Exists(Select * From Ciudades Where IDCiudad= @IDAeropuerto AND Activo= 1))
+			if ( Not Exists(Select * From Ciudades Where IDCiudad= @IDCiudad AND Activo= 1))
 			Begin
 				return -1
 			end

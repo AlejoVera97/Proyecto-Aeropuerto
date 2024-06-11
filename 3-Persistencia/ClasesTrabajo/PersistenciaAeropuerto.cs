@@ -53,12 +53,14 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - NO ES POSIBLE DAR DE ALTA EL AEROPUERTO");
+                    throw new Exception("Error - EL AEROPUERTO NO EXISTE ");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error -  EL AEROPUERTO YA ESTA DADO DE ALTA ");
                 else if ((int)_retorno.Value == -3)
                     throw new Exception("Error - LA CIUDAD NO EXISTE ");
-             
+                else if ((int)_retorno.Value == -4)
+                    throw new Exception("Error - LA CIUDAD YA ESTA DADA DE ALTA");
+
 
 
             }
@@ -96,9 +98,9 @@ namespace Persistencia
                     oComando.ExecuteNonQuery();
                     oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                     if (oAfectados == -1)
-                        throw new Exception("ERROR - El Aeropuerto no existe - No se elimina");
+                        throw new Exception("ERROR - EL AEROPUERTO NO EXISTE ");
                     if (oAfectados == -2)
-                        throw new Exception("ERROR - El Aeropuerto tiene vuelos asignados - No se elimina");
+                        throw new Exception("ERROR - EL AEROPUERTO TIENE VUELOS ASIGNADOS NO SE PUEDE ELIMINAR");
                 }
                 catch (Exception ex)
                 {
@@ -136,7 +138,9 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error - EL AEROPUERTO QUE INTENTA MODIFICAR NO EXISTE ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - LA CIUDAD QUE INTENTA MODIFICAR NO EXISTE ");
+                    throw new Exception("Error - EN LA MODIFICACION DE AEROPUERTO ");
+                else if ((int)_retorno.Value == -3)
+                    throw new Exception("Error - EN LA CIUDAD DEL AEROPUERTO ");
             }
             catch (Exception ex)
             {

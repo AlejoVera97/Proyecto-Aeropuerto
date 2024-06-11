@@ -48,9 +48,9 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("ERROR -  NUMERO DE PASAPORTE INCORRECTO .");
-                else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - NO SE PUDO DAR DE ALTA EL CLIENTE ");
+                    throw new Exception("ERROR -  EL CLIENTE YA  EXISTE ");
+                            else if ((int)_retorno.Value == -2)
+                    throw new Exception("ERROR - EL CLIENTE NO SE PUDO DAR DE ALTA ");
                 
             
             }
@@ -130,7 +130,7 @@ namespace Persistencia
                 if (oAfectados == -2)
                     throw new Exception("ERROR - EL CLIENTE TIENE VENTAS ASOCIACADAS, NO SE PUEDE ELIMINAR" );
                 if (oAfectados == -3)
-                    throw new Exception("ERROR - EN LA ELIMINACION DE CLIENTE");
+                    throw new Exception("ERROR - EL CLIENTE TIENE VUELOS ASOCIADOS, NO SE PUEDE ELIMINAR");
 
             }
             catch (Exception ex)
@@ -191,7 +191,9 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     _lector.Read();
-                    _C = new Clientes ((string)_lector["IDPasaporte"], (string)_lector["Nombre"], (string)_lector["Contrasena"], (int)_lector["NTarjeta"]);
+                    _C = new Clientes ((string)_lector["IDPasaporte"], (string)_lector["Nombre"], (string)_lector["Contrasena"], 
+                        
+                        (int)_lector["NTarjeta"]);
                 }
             }
             catch (Exception ex)

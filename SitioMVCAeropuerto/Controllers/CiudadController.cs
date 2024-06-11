@@ -22,7 +22,7 @@ namespace Sitio.Controllers
         }
 
 
-        // ------------- AGREGAR CIUDAD
+        // ------------- AGREGAR CIUDAD  (LISTO)
         [HttpGet]
         public ActionResult FormAgregarCiudad()
         {
@@ -39,15 +39,16 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormAgregarCiudad(Ciudad C)
+        public ActionResult FormAgregarCiudad(Ciudad C,Empleado E)
         {
             try
             {
                 //valido objeto correcto
                 C.ValidarCiudad();
+                E.ValidarEmpleado();
 
                 //intento agregar articulo en la bd
-                FabricaLogica.GetLogicaCiudad().AltaCiudad(C);
+                FabricaLogica.GetLogicaCiudad().AltaCiudad(C,E);
                 // no hubo error, alta correcto
                 return RedirectToAction("Formulario agregar", "Ciudad");
             }
@@ -63,12 +64,12 @@ namespace Sitio.Controllers
         //----------- BAJA CIUDAD
 
         [HttpGet]
-        public ActionResult FormBajaCiudad(string IDCiudad)
+        public ActionResult FormBajaCiudad(string IDCiudad,Empleado E)
         {
             try
             {
 
-                Ciudad _C =  FabricaLogica.GetLogicaCiudad().BajaCiudad(IDCiudad);
+                Ciudad _C =  FabricaLogica.GetLogicaCiudad().BajaCiudad(IDCiudad,E);
                 if (_C != null)
                     return View(_C);
                 else

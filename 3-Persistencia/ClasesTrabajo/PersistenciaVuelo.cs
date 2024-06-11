@@ -50,10 +50,12 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - El ID del vuelo ya existe ");
+                    throw new Exception("ERROR- EL VUELO YA EXISTE  ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - Verifique su vuelo");
-               
+                    throw new Exception("ERROR - EL AEROPUERTO DE LLEGADA NO COINCIDE ");
+                else if ((int)_retorno.Value == -2)
+                    throw new Exception("ERROR - EL AEROPUERTO DE SALIDA NO COINCIDE ");
+
             }
             catch (Exception ex)
             {

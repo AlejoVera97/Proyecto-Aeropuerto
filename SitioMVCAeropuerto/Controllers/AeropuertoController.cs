@@ -20,7 +20,7 @@ namespace Sitio.Controllers
         }
        
         
-        // ******************** AGREGAR
+        // ******************** AGREGAR (LISTO)
         [HttpGet]
         public ActionResult FormAgregarAeropuerto()
         {
@@ -43,6 +43,7 @@ namespace Sitio.Controllers
             {
                 //valido objeto correcto
                 A.ValidarAeropuerto();
+                E.ValidarEmpleado();
 
                 //intento agregar articulo en la bd
                 FabricaLogica.GetLogicaAeropuerto().AltaAeropuerto(A, E);
@@ -57,15 +58,17 @@ namespace Sitio.Controllers
         }
 
 
-        //******************* MODIFICAR 
+
+
+        //******************* MODIFICAR (LISTO)
 
         [HttpGet]
-        public ActionResult FormModificarAeropuerto(Aeropuertos A, Empleado E)
+        public ActionResult FormModificarAeropuerto(string IDAeropuerto, Empleado E)
         {
             try
             {
                 //obtengo el Aeropeurto
-                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().ModificarAeropuerto(A,E);
+                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto, E);
                 if (_A != null)
                     return View(_A);
                 else
@@ -79,15 +82,16 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormModificarAeropuerto(Aeropuertos A, Empleado E)
+        public ActionResult ModificarAeropuerto(Aeropuertos A,Empleado E)
         {
             try
             {
                 //valido objeto correcto
                 A.ValidarAeropuerto();
+                E.ValidarEmpleado();
 
                 //intento modificar
-                FabricaLogica.GetLogicaAeropuerto().ModificarAeropuerto(A, E);
+                FabricaLogica.GetLogicaAeropuerto().ModificarAeropuerto(A,E);
                 ViewBag.Mensaje = "Modificacion Exitosa";
                 return View(new Aeropuertos());
             }
@@ -102,15 +106,15 @@ namespace Sitio.Controllers
 
 
 
-        // ************************ BAJA
+        // ************************ BAJA (LISTO)
 
         [HttpGet]
-        public ActionResult FormBajaAeropuerto(string IDAeropuerto)
+        public ActionResult FormBajaAeropuerto(string IDAeropuerto,Empleado E)
         {   
             try
             {
                 //obtengo el aeropuertos
-                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto);
+                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto,E);
                 if (_A != null)
                     return View(_A);
                 else
@@ -124,12 +128,12 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormBajaAeropuerto(Aeropuertos A)
+        public ActionResult FormBajaAeropuerto(Aeropuertos A, Empleado E)
         {
             try
             {
                 //intento eliminar
-                 FabricaLogica.GetLogicaAeropuerto().BajaAeropuerto(A);
+                 FabricaLogica.GetLogicaAeropuerto().BajaAeropuerto(A,E);
                 return RedirectToAction("FormBajaAeropuerto", "Aeropuerto");
             }
             catch (Exception ex)
@@ -140,28 +144,11 @@ namespace Sitio.Controllers
         }
 
 
-        // ******************* BUSCAR
+        
+       
 
-        public ActionResult BuscarAeropuerto(string IDAeropuerto)
-        {
-            try
-            {
-                //obtengo el articulos
-                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto); ;
-                if (_A != null)
-                    return View(_A);
-                else
-                    throw new Exception("No existe el Aeropuerto");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Mensaje = ex.Message;
-                return View(new Aeropuertos());
-            }
-        }
-
-        // ******************** LISTA 
-        public ActionResult FormListarAeropuerto(Empleado E)
+        // ******************** LISTAR (LISTO)
+        public ActionResult FormListarAeropuerto(string Nombre,Empleado E )
 
         {
             try
@@ -173,13 +160,13 @@ namespace Sitio.Controllers
                 if (_lista.Count >= 1)
                 {
                     //primero reviso si hay que filtrar...
-                    if (String.IsNullOrEmpty(IDAeropuerto))
+                    if (String.IsNullOrEmpty(Nombre))
                         return View(_lista); //no hay filtro - muestro compelto
                     else
                     {
                         //hay dato para filtro
                         _lista = (from unA in _lista
-                                  where unA.Nombre.ToUpper().StartsWith(IDAeropuerto.ToUpper())
+                                  where unA.Nombre.ToUpper().StartsWith(Nombre.ToUpper())
                                   select unA).ToList();
                         return View(_lista);
                     }
@@ -196,6 +183,25 @@ namespace Sitio.Controllers
 
 
 
+
+        // ******************  CONSULTAR (LISTO)
+        public ActionResult FormAeropuertoConsultar(string IDAeropuerto, Empleado E)
+        {
+            try
+            {
+                //obtengo el 
+                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto, E);
+                if (_A != null)
+                    return View(_A);
+                else
+                    throw new Exception("No existe el aeropuerto");
+    }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = ex.Message;
+                return View(new Aeropuertos());
+            }
+        }
 
 
     }

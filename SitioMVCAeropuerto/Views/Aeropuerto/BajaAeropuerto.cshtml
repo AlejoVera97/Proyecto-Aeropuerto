@@ -8,32 +8,32 @@
 @ViewBag.Mensaje
 
 
-<h3>Esta Seguro que desea eliminar el siguiente Articulo?</h3>
+<h3>Esta Seguro que desea eliminar el siguiente Aeropuerto?</h3>
 
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(Model=>Model.IDaeropuerto)
+            @Html.DisplayNameFor(EntidadesCompartidas=>EntidadesCompartidas.IDAeropuerto)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IDaeropuerto);
+            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.IDAeropuerto);
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model=> model.Nombre)
+            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.Nombre);
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Direccion)
+            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.Direccion);
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ImpuestoLlegada)
+            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoLlegada);
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ImpuestoParitda)
+            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoParitda);
         </dd>
 
     </dl>

@@ -1,0 +1,42 @@
+﻿@model EntidadesCompartidas.Aeropuertos
+@{
+    ViewBag.Title = "CONSULTA AEROPUERTOS";
+}
+
+<h2> CONSULTAS DE AEROPUERTOS </h2>
+
+@ViewBag.Mensaje
+
+<div>
+
+    @Html.ActionLink("Volver a listado", "BUSCAR AEROPUERTO")
+
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDAeropuerto);
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre);
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion);
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpuestoParitda);
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpuestoLlegada);
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model._Ciudad);
+        </dd>
+
+    </dl>
+    </div>

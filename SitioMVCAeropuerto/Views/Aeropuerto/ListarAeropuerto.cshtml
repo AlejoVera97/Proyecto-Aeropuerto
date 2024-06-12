@@ -29,7 +29,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.IDaeropuerto)
+            @Html.DisplayNameFor(model => model.IDAeropuerto)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Nombre)
@@ -41,11 +41,11 @@
     </tr>
 
 </table>
- @foreach (EntidadesCompartidas.Aeropuertos aeropuertos in .............. )
-    {
+ @foreach (EntidadesCompartidas.Aeropuertos aeropuertos in Model.IDAeropuerto)
+ {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => aeropuertos.IDaeropuerto)
+                @Html.DisplayFor(modelItem => aeropuertos.IDAeropuerto)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => aeropuertos.Nombre)
@@ -54,12 +54,13 @@
                 @Html.DisplayFor(modelItem => aeropuertos.Direccion)
             </td>
             <td>
-                @Html.ActionLink("Modificar", "FormArticuloModificar", new { aeropuertos.IDaeropuerto}) @**@
-@Html.ActionLink("Consultar", "FormArticuloConsultar", new { aeropuertos.Nombre})
-@Html.ActionLink("Borrar", "FormArticuloEliminar", new { aeropuertos.Direccion})
+                @Html.ActionLink("Modificar", "FormArticuloModificar", new { aeropuertos.IDAeropuerto }) @**@
+@Html.ActionLink("Consultar", "FormArticuloConsultar", new { aeropuertos.IDAeropuerto })
+@Html.ActionLink("Borrar", "FormArticuloEliminar", new { aeropuertos.IDAeropuerto })
             </td>
         </tr>
-    } *@
+ }
+
 
 
 

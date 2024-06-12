@@ -126,7 +126,7 @@ namespace Sitio.Controllers
                 return View(new Aeropuertos());
             }
         }
-
+            
         [HttpPost]
         public ActionResult FormBajaAeropuerto(Aeropuertos A, Empleado E)
         {
@@ -195,7 +195,8 @@ namespace Sitio.Controllers
                     return View(_A);
                 else
                     throw new Exception("No existe el aeropuerto");
-    }
+            }
+
             catch (Exception ex)
             {
                 ViewBag.Mensaje = ex.Message;

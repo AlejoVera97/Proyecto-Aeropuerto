@@ -61,32 +61,33 @@ namespace Sitio.Controllers
 
 
 
-        //----------- BAJA CIUDAD
+        //----------- BAJA CIUDAD (LISTO)
 
         [HttpGet]
         public ActionResult FormBajaCiudad(string IDCiudad,Empleado E)
+        
+            {
+                try
+                {
+                    Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad, E);
+                    if (_C != null)
+                        return View(_C);
+                    else
+                        throw new Exception("No existe el CLIENTE");
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View(new Clientes());
+                }
+            }
+        
+        public ActionResult FormBajaCiudad(Ciudad C, Empleado E)
         {
             try
             {
 
-                Ciudad _C =  FabricaLogica.GetLogicaCiudad().BajaCiudad(IDCiudad,E);
-                if (_C != null)
-                    return View(_C);
-                else
-                    throw new Exception("No existe la ciudad");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Mensaje = ex.Message;
-                return View(new Ciudad());
-            }
-        }
-        public ActionResult FormBajaCiudad(Ciudad C)
-        {
-            try
-            {
-
-                FabricaLogica.GetLogicaCiudad().BajaCiudad(C);
+                FabricaLogica.GetLogicaCiudad().BajaCiudad(C,E);
                 return RedirectToAction("Baja Ciudad", "Ciudad");
             }
             catch (Exception ex)
@@ -98,14 +99,14 @@ namespace Sitio.Controllers
 
 
 
-        //---------- BUSCAR CIUDAD
-        public ActionResult FormBuscarCiudad(string IDCiudad)
+        //---------- BUSCAR CIUDAD (LISTO)
+        public ActionResult FormBuscarCiudad(string IDCiudad,Empleado E)
         {
             try
             {
 
-                //obtengo el articulos
-                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad);
+                
+                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad,E);
                 if (_C != null)
                     return View(_C);
                 else
@@ -124,11 +125,11 @@ namespace Sitio.Controllers
         //--------- MODIFICAR CIUDAD
 
         [HttpGet]
-        public ActionResult FormModificarCiudad(string IDCiudad)
+        public ActionResult FormModificarCiudad(string IDCiudad,Empleado E)
         {
             try
             {
-                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad);
+                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad ,E);
                 if (_C != null)
                     return View(_C);
                 else
@@ -142,7 +143,7 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormModificarCiudad(Ciudad C)
+        public ActionResult FormModificarCiudad(Ciudad C, Empleado E)
         {
             try
             {
@@ -150,7 +151,7 @@ namespace Sitio.Controllers
                 C.ValidarCiudad();
 
                 //intento modificar
-                FabricaLogica.GetLogicaCiudad().ModificarCiudad(C);
+                FabricaLogica.GetLogicaCiudad().ModificarCiudad(C, E);
                 ViewBag.Mensaje = "Modificacion Exitosa";
                 return View(new Ciudad());
             }
@@ -165,33 +166,35 @@ namespace Sitio.Controllers
 
         //-------- LISTAR CIUDAD
 
-        public ActionResult FormListarCiudad(string IDCiudad)
+        public ActionResult FormListarCiudad(string IDCiudad, Empleado E)
         {
             try
             {
+                //obtengo lista de articulos
+                List<Ciudad> _lista = FabricaLogica.GetLogicaCiudad().ListarCiudad(E);
 
-                List<Ciudad> _lista = FabricaLogica.GetLogicaCiudad().ListarCiudad();
+                //si hay datos... defino despliegue
                 if (_lista.Count >= 1)
                 {
-
+                    //primero reviso si hay que filtrar...
                     if (String.IsNullOrEmpty(IDCiudad))
                         return View(_lista); //no hay filtro - muestro compelto
                     else
                     {
                         //hay dato para filtro
-                        _lista = (from unA in _lista
-                                  where unA.IDCiudad.ToUpper().StartsWith(IDCiudad.ToUpper())
-                                  select unA).ToList();
+                        _lista = (from unC in _lista
+                                  where unC.IDCiudad.ToUpper().StartsWith(IDCiudad.ToUpper())
+                                  select unC).ToList();
                         return View(_lista);
                     }
                 }
                 else //no hay datos - no hago nada
-                    throw new Exception("No hay Ciudad para mostar");
+                    throw new Exception("No hay Articulos para mostar");
             }
             catch (Exception ex)
             {
                 ViewBag.Mensaje = ex.Message;
-                return View(new List<Ciudad>());
+                return View(new List<Aeropuertos>());
             }
         }
 

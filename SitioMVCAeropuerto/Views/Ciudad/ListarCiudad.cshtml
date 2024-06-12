@@ -1,15 +1,16 @@
 ﻿@model  EntidadesCompartidas.Ciudad
+
 @{
-    ViewBag.Title = "LISTAR CIUDADES";
+    ViewBag.Title = "FormListarCiudad";
 }
 
-<h2>Listado Ciudades</h2>
+<h2>Listado de CIUDADES</h2>
 
 @ViewBag.Mensaje
 
 
 <p>
-    @Html.ActionLink("Nuevo ", "Alta Ciudad")
+    @Html.ActionLink("Nuevo ", "FormAltaCiudad")
     @Html.ActionLink(" Volver", "Principal", "Home")
 </p>
 
@@ -31,30 +32,30 @@
             @Html.DisplayNameFor(model => model.IDCiudad)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NombreCiudad)
+            @Html.DisplayNameFor(model => model.NombrePais)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NombrePais)
+            @Html.DisplayNameFor(model => model.NombreCiudad)
         </th>
         <th></th>
     </tr>
 
-    @foreach (EntidadesCompartidas.Ciudad ciudad in Model)
+    @foreach (EntidadesCompartidas.Ciudad _ciudad  in EntidadesCompartidas.Ciudad)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => ciudad.IDCiudad)
+                @Html.DisplayFor(modelItem => _ciudad.IDCiudad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => ciudad.NombreCiudad)
+                @Html.DisplayFor(modelItem => _ciudad.NombreCiudad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => ciudad.NombrePais)
+                @Html.DisplayFor(modelItem => _ciudad.NombrePais)
             </td>
             <td>
-                @Html.ActionLink("Modificar", "Formulario Modificar", new { ciudad.IDCiudad }) @**@
-                @Html.ActionLink("Consultar", "FormArticuloConsultar", new { ciudad.IDCiudad })
-                @Html.ActionLink("Borrar", "Formulario Eliminar", new { ciudad.IDCiudad })
+                @Html.ActionLink("Modificar", "FormModificarCiudad", new { _ciudad.IDCiudad }) @**@
+                @Html.ActionLink("Consultar", "FormConsultaCiudad", new { _ciudad.IDCiudad })
+                @Html.ActionLink("Borrar", "FormBajaCiudad", new { _ciudad.IDCiudad })
             </td>
         </tr>
     }

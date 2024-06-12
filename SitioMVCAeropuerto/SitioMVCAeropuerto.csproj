@@ -119,7 +119,7 @@
     <Content Include="Views\Aeropuerto\ModificarAeropuerto.cshtml" />
     <Content Include="Views\Ciudad\AltaCiudad.cshtml" />
     <Content Include="Views\Ciudad\BajaCiudad.cshtml" />
-    <Content Include="Views\Ciudad\BuscarCiudad.cshtml" />
+    <Content Include="Views\Ciudad\ConsultaCiudad.cshtml" />
     <Content Include="Views\Ciudad\ListarCiudad.cshtml" />
     <Content Include="Views\Ciudad\ModificarCiudad.cshtml" />
     <Content Include="Views\Cliente\AltaCliente.cshtml" />

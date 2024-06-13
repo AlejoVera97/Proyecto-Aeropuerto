@@ -61,21 +61,17 @@ namespace Persistencia
                 oComando.Transaction = _transaccion;
 
                 oComando.ExecuteNonQuery();
+
                 oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                 if (oAfectados == -1)
-                    throw new Exception("ERROR- EL VENTA YA EXISTE ");
+                    throw new Exception("ERROR- EL EMPLEADO NO COINCIDE ");
                 if (oAfectados == -2)
-                    throw new Exception("ERROR - EL CLIENTE NO EXISTE ");
+                    throw new Exception("ERROR - EL CLIENTE NO COINCIDE ");
                 if (oAfectados == -3)
-                    throw new Exception("ERROR - EL EMPLEADO NO  EXISTE ");
+                    throw new Exception("ERROR - EL VUELO NO EXISTE ");
                 if (oAfectados == -4)
-                    throw new Exception("ERROR -  EL VUENO NO EXISTE  ");
-                if (oAfectados == -5)
-                    throw new Exception("ERROR -  VERIFICAR LA LISTA DE VENTAS ");
-
-
-
-
+                    throw new Exception("ERROR -  EN EL PROCESO DE ALTA VENTA   ");
+          
                 _transaccion.Commit();
             }
             catch (Exception ex)
@@ -117,10 +113,10 @@ namespace Persistencia
                     string _IDPasaporte = (string)_Reader["IDPasaporte"];
 
 
+                    //Venta v = new Venta(_IDVenta, _fecha, _Precio, _UsuLog, _IDPasaporte, _IDVuelo, new PersitenciaVenta().ListarVentas(V, E));
+                        
+                    //_Lista.Add(v);
 
-                    Pasaje _P = new PersitenciaPasaje().ListarPasajes(_IDVenta);
-                    Venta _V = new Venta(_IDVenta, _fecha, _Precio, _P);
-                    _Lista.Add(_P);
                 }
 
                 _Reader.Close();

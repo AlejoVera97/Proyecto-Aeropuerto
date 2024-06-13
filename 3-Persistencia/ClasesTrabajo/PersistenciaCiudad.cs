@@ -50,7 +50,7 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error -  LA CIUDAD YA EXISTE  ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error - LA CIUDAD YA ESTA DADA DE ALTA");
+                    throw new Exception("Error - EN EL ALTA DE LA CIUDAD ");
 
             }
             catch (Exception ex)

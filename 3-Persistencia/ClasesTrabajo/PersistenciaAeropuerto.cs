@@ -48,6 +48,7 @@ namespace Persistencia
             _retorno.Direction = ParameterDirection.ReturnValue;
             _comando.Parameters.Add(_retorno);
 
+
             try
             {
                 _cnn.Open();
@@ -56,11 +57,7 @@ namespace Persistencia
                     throw new Exception("Error - EL AEROPUERTO NO EXISTE ");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error -  EL AEROPUERTO YA ESTA DADO DE ALTA ");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("Error - LA CIUDAD NO EXISTE ");
-                else if ((int)_retorno.Value == -4)
-                    throw new Exception("Error - LA CIUDAD YA ESTA DADA DE ALTA");
-
+              
 
 
             }
@@ -139,8 +136,9 @@ namespace Persistencia
                     throw new Exception("Error - EL AEROPUERTO QUE INTENTA MODIFICAR NO EXISTE ");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error - EN LA MODIFICACION DE AEROPUERTO ");
-                else if ((int)_retorno.Value == -3)
-                    throw new Exception("Error - EN LA CIUDAD DEL AEROPUERTO ");
+                else if ((int)_retorno.Value == -2)
+                    throw new Exception("Error - LA CIUDAD NO EXISTE ");
+
             }
             catch (Exception ex)
             {
@@ -171,7 +169,7 @@ namespace Persistencia
                 {
                     if (_lector.Read())
                         _unA = new Aeropuertos(pIDAeropuerto, (string)_lector["Nombre"], (string)_lector["Direccion"], (int)_lector["ImpuestoPartida"],
-                            (int)_lector["ImpuestoLlegada"], (PersistenciaCiudad.GetInstancia().BuscarCiudad( pIDAeropuerto,E)));                          
+                            (int)_lector["ImpuestoLlegada"], (PersistenciaCiudad.GetInstancia().BuscarCiudad((string)_lector["IDCiudad"], E)));                          
                 }
                 _lector.Close();
             }

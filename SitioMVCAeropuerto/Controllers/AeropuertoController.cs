@@ -37,7 +37,7 @@ namespace Sitio.Controllers
         }
 
        [HttpPost]
-        public ActionResult FormAgregarAeropuerto(Aeropuertos A, Empleado E)
+        public ActionResult FormAgregarAeropuerto(Aeropuertos A)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace Sitio.Controllers
         //******************* MODIFICAR (LISTO)
 
         [HttpGet]
-        public ActionResult FormModificarAeropuerto(string IDAeropuerto, Empleado E)
+        public ActionResult FormModificarAeropuerto(string IDAeropuerto)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult ModificarAeropuerto(Aeropuertos A,Empleado E)
+        public ActionResult ModificarAeropuerto(Aeropuertos A)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Sitio.Controllers
         // ************************ BAJA (LISTO)
 
         [HttpGet]
-        public ActionResult FormBajaAeropuerto(string IDAeropuerto,Empleado E)
+        public ActionResult FormBajaAeropuerto(string IDAeropuerto)
         {   
             try
             {
@@ -128,7 +128,7 @@ namespace Sitio.Controllers
         }
             
         [HttpPost]
-        public ActionResult FormBajaAeropuerto(Aeropuertos A, Empleado E)
+        public ActionResult FormBajaAeropuerto(Aeropuertos A)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Sitio.Controllers
        
 
         // ******************** LISTAR (LISTO)
-        public ActionResult FormListarAeropuerto(string Nombre,Empleado E )
+        public ActionResult FormListarAeropuerto(string Nombre)
 
         {
             try
@@ -185,7 +185,7 @@ namespace Sitio.Controllers
 
 
         // ******************  CONSULTAR (LISTO)
-        public ActionResult FormAeropuertoConsultar(string IDAeropuerto, Empleado E)
+        public ActionResult FormAeropuertoConsultar(string IDAeropuerto)
         {
             try
             {

@@ -52,9 +52,11 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("ERROR- EL VUELO YA EXISTE  ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - EL AEROPUERTO DE LLEGADA NO COINCIDE ");
-                else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - EL AEROPUERTO DE SALIDA NO COINCIDE ");
+                    throw new Exception("ERROR - EL AEROPUERTO DE LLEGADA NO ESTA ACTIVO  ");
+                else if ((int)_retorno.Value == -3)
+                    throw new Exception("ERROR - EL AEROPUERTO DE SALIDA NO ESTA ACTIVO ");
+                else if ((int)_retorno.Value == -4)
+                    throw new Exception("ERROR - DUARTE EL PROCESO DE ALTA VUELO");
 
             }
             catch (Exception ex)

@@ -50,7 +50,7 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("ERROR -  EL CLIENTE YA  EXISTE ");
                             else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - EL CLIENTE NO SE PUDO DAR DE ALTA ");
+                    throw new Exception("ERROR - EN EL ALTA DEL CLIENTE ");
                 
             
             }
@@ -91,7 +91,7 @@ namespace Persistencia
                 if ((int)_retorno.Value == -1)
                     throw new Exception("Error - EL CLIENTE QUE INTENTA MODIFICAR NO EXISTE");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("Error -  MODIFICACION DE CLIENTE  ");
+                    throw new Exception("Error - EN LA  MODIFICACION DEL CLIENTE  ");
             }
             catch (Exception ex)
             {

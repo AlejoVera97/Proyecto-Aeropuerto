@@ -1,0 +1,77 @@
+﻿@model  EntidadesCompartidas.Clientes
+
+@{
+    ViewBag.Title = "Listado Clientes";
+}
+
+<h2>Listado de clientes </h2>
+
+
+@ViewBag.Mensaje
+
+
+<p>
+    @Html.ActionLink(" Volver", "Principal", "Home")
+</p>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>Pasaporte:  @Html.TextBox("IDpasaporte", "")</td>
+            <td>Nombre:  @Html.TextBox("Nombre", "")</td>
+            <td>Nombre:  @Html.TextBox("NTarjeta", "")</td>
+
+            <td><input type="submit" value="Filtrar" class="btn btn-default" /></td>
+            <td>
+                @Html.ActionLink("Limpiar", "FormListarCliente", null, new { @class = "btn btn-default" })
+            </td>
+        </tr>
+</table>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDPasaporte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.NTarjeta)
+        </th>
+
+        <th>
+            @Html.Label("Cantidad clientes ")
+        </th>
+        <th></th>
+
+    </tr>
+
+    @foreach (EntidadesCompartidas.Clientes unCliente in Model) 
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => unCliente.IDPasaporte)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => unCliente.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => unCliente.NTarjeta)
+            </td>
+
+
+            <td>
+                @Html.ActionLink("Modificar", "FormArticuloModificar", new { unCliente.IDPasaporte}) @**@
+                @Html.ActionLink("Consultar", "FormArticuloConsultar", new { unCliente.Nombre})
+                @Html.ActionLink("Borrar", "FormArticuloEliminar", new { unCliente.NTarjeta })
+            </td>
+        </tr>
+    }
+
+</table>
+

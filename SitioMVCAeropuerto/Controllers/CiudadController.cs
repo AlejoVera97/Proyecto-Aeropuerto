@@ -39,7 +39,7 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormAgregarCiudad(Ciudad C,Empleado E)
+        public ActionResult FormAgregarCiudad(Ciudad C)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Sitio.Controllers
         //----------- BAJA CIUDAD (LISTO)
 
         [HttpGet]
-        public ActionResult FormBajaCiudad(string IDCiudad,Empleado E)
+        public ActionResult FormBajaCiudad(string IDCiudad)
         
             {
                 try
@@ -81,8 +81,8 @@ namespace Sitio.Controllers
                     return View(new Clientes());
                 }
             }
-        
-        public ActionResult FormBajaCiudad(Ciudad C, Empleado E)
+       
+        public ActionResult FormBajaCiudad(Ciudad C)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Sitio.Controllers
 
 
         //---------- BUSCAR CIUDAD (LISTO)
-        public ActionResult FormBuscarCiudad(string IDCiudad,Empleado E)
+        public ActionResult FormBuscarCiudad(string IDCiudad)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Sitio.Controllers
         //--------- MODIFICAR CIUDAD
 
         [HttpGet]
-        public ActionResult FormModificarCiudad(string IDCiudad,Empleado E)
+        public ActionResult FormModificarCiudad(string IDCiudad)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormModificarCiudad(Ciudad C, Empleado E)
+        public ActionResult FormModificarCiudad(Ciudad C)
         {
             try
             {
@@ -166,7 +166,7 @@ namespace Sitio.Controllers
 
         //-------- LISTAR CIUDAD
 
-        public ActionResult FormListarCiudad(string IDCiudad, Empleado E)
+        public ActionResult FormListarCiudad(string IDCiudad)
         {
             try
             {

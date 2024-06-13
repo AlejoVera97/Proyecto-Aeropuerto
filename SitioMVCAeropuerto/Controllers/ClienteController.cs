@@ -40,7 +40,7 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormAltaCliente(Clientes C, Empleado E)
+        public ActionResult FormAltaCliente(Clientes C)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Sitio.Controllers
 
         //----- MODIFICAR CLIENTE (LISTO)
         [HttpGet]
-        public ActionResult FormModificarCliente(string IDPasaporte, Empleado E)
+        public ActionResult FormModificarCliente(string IDPasaporte)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormModificarCliente(Clientes C, Empleado E)
+        public ActionResult FormModificarCliente(Clientes C)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Sitio.Controllers
 
         //--------- BAJA CLIENTE (LISTO)
         [HttpGet]
-        public ActionResult FormBajaCliente(string IDPasaporte, Empleado E)
+        public ActionResult FormBajaCliente(string IDPasaporte)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace Sitio.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormBajaCliente(Clientes C,Empleado E)
+        public ActionResult FormBajaCliente(Clientes C)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace Sitio.Controllers
 
 
         //------- LISTAR CLIENTE (LISTO) 
-        public ActionResult FormListarCliente(string IDPasaporte,Empleado E)
+        public ActionResult FormListarCliente(string IDPasaporte)
         {
             try
             {
@@ -181,7 +181,7 @@ namespace Sitio.Controllers
 
         //--------- CONSULTA (LISTO)
 
-        public ActionResult FormConsultaCliente (string IDPasaporte, Empleado E)
+        public ActionResult FormConsultaCliente (string IDPasaporte)
         {
             try
             {

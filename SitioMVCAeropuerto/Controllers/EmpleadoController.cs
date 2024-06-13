@@ -27,21 +27,21 @@ namespace Sitio.Controllers
         {
             //----- LOGUEO
             [HttpGet]
-            public ActionResult FormularioLogueo()
+            public ActionResult FormLogueo()
             {
                 return View();
             }
 
             [HttpPost]
-            public ActionResult FormularioLogueo(Empleado E)
+            public ActionResult FormLogueo(string usuLog)
             {
                 try
                 {
                     if (ModelState.IsValid)
                     {
-                         FabricaLogica.GetLogicaEmpleado().LogueoEmpleado(E);   
+                        FabricaLogica.GetLogicaEmpleado().LogueoEmpleado(usuLog);
 
-                        Session["Logueo"] = E;
+                        Session["Logueo"] = usuLog;
                         return RedirectToAction("Principal", "Home");
                     }
                     else
@@ -65,25 +65,6 @@ namespace Sitio.Controllers
         }
 
 
-          //-----  BUSCAR EMPLEADO
-
-        public ActionResult BuscarEmpleado(string UsuLog)
-        {
-            try
-            {
-                //obtengo el articulos
-                Empleado _E = FabricaLogica.GetLogicaEmpleado().BuscarEmpleado(UsuLog); 
-                if (_E != null)
-                    return View(_E);
-                else
-                    throw new Exception("No existe el empleado");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Mensaje = ex.Message;
-                return View(new Empleado());
-            }
-        }
     }
 }
 

@@ -1,7 +1,7 @@
 ﻿@model  EntidadesCompartidas.Clientes
 
 @{
-    ViewBag.Title = "   NUEVO CLIENTE ";
+    ViewBag.Title = "    CLIENTE    ";
 }
 
 <h2>Alta Cliente</h2>
@@ -14,7 +14,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.ActionLink("Volver a listado", "ListarCliente")
+        @Html.ActionLink("Volver a listado", "FormListarCliente")
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

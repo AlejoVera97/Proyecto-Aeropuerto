@@ -1,15 +1,16 @@
 ﻿@model  EntidadesCompartidas.Clientes
+
 @{
-    ViewBag.Title = "BUSCAR CLIENTE ";
+    ViewBag.Title = "FormConsultaCliente";
 }
 
-<h2> BUSCAR CLIENTE </h2>
+<h2> Consultar un Cliente </h2>
 
 @ViewBag.Mensaje
 
 <div>
 
-    @Html.ActionLink("HOME")
+    @Html.ActionLink("Volver a listado", "FormListarCliente")
 
     <hr />
 
@@ -19,16 +20,24 @@
         </dt>
 
         <dd>
+            @Html.DisplayFor(model => model.IDPasaporte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
             @Html.DisplayFor(model => model.Nombre)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Contresena)
+            @Html.DisplayNameFor(model => model.NTarjeta)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.NTarjeta)
-
+        </dd>
 
     </dl>
 

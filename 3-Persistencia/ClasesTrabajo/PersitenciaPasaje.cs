@@ -52,11 +52,11 @@ namespace Persistencia
                 oComando.ExecuteNonQuery();
                 oAfectados = (int)oComando.Parameters["@Retorno"].Value;
                 if (oAfectados == -1)
-                    throw new Exception("EL NUMERO DE VENTA NO EXISTE");
+                    throw new Exception("LA VENTA DEL PASAJE DE VENTA NO EXISTE");
                 if (oAfectados == -2)
-                    throw new Exception("EL ASIENTO NO ESTA DISPONIBLE");
+                    throw new Exception("EL CLIENTE QUE OBTIENE EL PASAJE NO EXISTE");
                 if (oAfectados == -3)
-                    throw new Exception(" El CLIENTE NO EXISTE ");
+                    throw new Exception(" El ASIENTO YA ESTA VENDIDO ");
             }
             catch (Exception ex)
             {

@@ -34,19 +34,20 @@ namespace Sitio.Controllers
                 return View();
             }
         }
-    
+
         [HttpPost]
         public ActionResult FormAltaVenta(Venta V)
         {
             try
             {
-
+                Empleado _E = (Empleado)Session["Logeo"];
+                _E.ValidarEmpleado();
                 V.ValidarVenta();
 
 
-            FabricaLogica.GetLogicaVenta().AltaVenta(V);
-            return RedirectToAction("Formulario agregar", "Venta");
-        }
+                FabricaLogica.GetLogicaVenta().AltaVenta(V, _E);
+                return RedirectToAction("Formulario agregar", "Venta");
+            }
             catch (Exception ex)
             {
                 ViewBag.Mensaje = ex.Message;
@@ -60,35 +61,44 @@ namespace Sitio.Controllers
         {
             try
             {
-
-                List<Venta> _lista = FabricaLogica.GetLogicaVenta().ListarVentas();
-
-
-                if (_lista.Count >= 1)
+                Empleado _E = (Empleado)Session["Logeo"];
+                 
+                //obtengo lista para la vista (facturas)
+                List<Venta> _lista = null;
+                
+                //obtengo lista de Ventas
+                if (Session["Lista"] == null)
                 {
-
-                    if (IDVenta == null)
-                        return View(_lista);
-                    else
-                    {
-                        //hay dato para filtro
-                        _lista = (from unA in _lista
-                                  where unA.IDventa.CompareTo().StartsWith(IDVenta.CompareTo())
-                                  select unA).ToList();
-                        return View(_lista);
-                    }
+                    _lista = FabricaLogica.GetLogicaVenta().ListarVentas(V, _E);
+                    Session["Lista"] = _lista;
                 }
-                else //no hay datos - no hago nada
+                else
+                    _lista = (List<Venta>)Session["Lista"];
+
+                //no hay ventas
+                if (_lista.Count == 0)
                     throw new Exception("No hay ventas  para mostar");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Mensaje = ex.Message;
-                return View(new List<Venta>());
-            }
-        }
+
+                //obtengo lista para el drop de articulos filtro 
+                //*************
+                List<Articulo> _ListaA = new ArticulosBD().ListarArticulo();
+                _ListaA.Insert(0, new Articulo(0, "Seleccione", 0)); //parche para que no quede articulo seleccionado
+                ViewBag.ListaA = new SelectList(_ListaA, "Codigo", "Nombre");
 
 
+                //filtros o no
+                if (!String.IsNullOrEmpty(FechaFiltro))
+                {
+                    _lista = (from unaF in _lista
+                              where unaF.Fecha.Date == Convert.ToDateTime(FechaFiltro).Date
+                              select unaF).ToList();
+                }
+
+
+
+            }
+}
     }
 }
+
 

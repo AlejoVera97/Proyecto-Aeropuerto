@@ -87,38 +87,45 @@ namespace Persistencia
 
 
 
+        
+
         public List<Venta> ListarVentas(Vuelo V, Empleado E)
         {
-
+            Venta unaVenta = null;
             List<Venta> _Lista = new List<Venta>();
 
-            SqlConnection _Conexion = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _Comando = new SqlCommand("ListarVentas", _Conexion);
+            SqlConnection _Cnn = new SqlConnection(Conexion.Cnn(E));
+            SqlCommand _Comando = new SqlCommand("ListarVenta", _Cnn);
             _Comando.CommandType = CommandType.StoredProcedure;
-            _Comando.Parameters.AddWithValue("@Vuelo", V.IDvuelo);
 
-            SqlDataReader _Reader;
+            _Comando.Parameters.AddWithValue("@IDVuelo", V.IDvuelo);
+
             try
             {
-                _Conexion.Open();
-                _Reader = _Comando.ExecuteReader();
+                _Cnn.Open();
 
-                while (_Reader.Read())
+                SqlDataReader _Reader = _Comando.ExecuteReader();
+                if (_Reader.HasRows)
                 {
-                    int _IDVenta = (int)_Reader["IDVenta"];
-                    DateTime _fecha = Convert.ToDateTime(_Reader["Fecha"]);
-                    double _Precio = (double)_Reader["Precio"];
-                    string _UsuLog = (string)_Reader["UsuLog"];
-                    string _IDVuelo = (string)_Reader["IDVuelo"];
-                    string _IDPasaporte = (string)_Reader["IDPasaporte"];
+                    while (_Reader.Read())
+                    {
 
+                        int _NVenta = Convert.ToInt32(_Reader["IDVenta"]);
+                        int _Precio = Convert.ToInt32(_Reader["Precio"]);
+                        DateTime _Fecha = Convert.ToDateTime(_Reader["Fecha"]);
+                        string _UsuLog = _Reader["UsuLog"].ToString();
+                        string _IDPasaporte = _Reader["IDPasaporte"].ToString();
 
-                    //Venta v = new Venta(_IDVenta, _fecha, _Precio, _UsuLog, _IDPasaporte, _IDVuelo, new PersitenciaVenta().ListarVentas(V, E));
-                        
-                    //_Lista.Add(v);
+                        Clientes _Cliente = PersistenciaCliente.GetInstancia().BuscarCliente(_IDPasaporte, E);
+                        List<Pasaje> listarPasajes = PersitenciaPasaje.GetInstancia().ListarPasajes(_NVenta);
+                        Empleado _Empleado = PersistenciaEmpleado.GetInstancia().BuscarEmpleado(_UsuLog, E);
+
+                        unaVenta = new Venta(_NVenta, _Fecha, _Precio,_Cliente,_Empleado,V,listarPasajes);
+
+                        _Lista.Add(unaVenta);
+                    }
 
                 }
-
                 _Reader.Close();
             }
             catch (Exception ex)
@@ -127,11 +134,11 @@ namespace Persistencia
             }
             finally
             {
-                _Conexion.Close();
+                _Cnn.Close();
             }
-
             return _Lista;
         }
+
     }
 }
 

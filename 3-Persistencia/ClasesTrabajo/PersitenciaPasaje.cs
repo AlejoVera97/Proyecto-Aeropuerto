@@ -12,7 +12,7 @@ using System.Data;
 
 namespace Persistencia
 {
-    public class PersitenciaPasaje : Venta
+    internal class PersitenciaPasaje : Venta
     {
         // singleton
         private static PersitenciaPasaje _instancia = null;
@@ -68,7 +68,7 @@ namespace Persistencia
         internal List<Venta> ListarPasajes(int NVenta)
         {
             SqlConnection _cnn = new SqlConnection(Conexion.Cnn());
-            Venta Pasaje = null;
+            Venta _Pasaje = null;
             List<Venta> _ListaPasaje = new List<Venta>();
 
 
@@ -88,9 +88,18 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        Pasaje = new Pasaje((int)_lector["NAsiento"], ((Clientes)_lector["IDpasaporte"]);
-                        _ListaPasaje.Add(Pasaje);
+                        int _NAsiento = Convert.ToInt32(_lector["NAsiento"]);
+                        string _IDPasaporte = _lector["IDPasaporte"].ToString();
+                        string _UsuLog = _lector["UsuLog"].ToString();
 
+
+
+
+                        _Pasaje = new Pasaje(_NAsiento, (PersistenciaCliente.GetInstancia().BuscarCliente
+                            (_IDPasaporte, E)));
+                       
+
+                        _ListaPasaje.Add(_Pasaje);
                     }
                 }
 
@@ -107,6 +116,9 @@ namespace Persistencia
             }
             return _ListaPasaje;
         }
+
+        
+        
     }
 
 }

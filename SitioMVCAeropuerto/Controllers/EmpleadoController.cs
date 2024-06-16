@@ -33,13 +33,13 @@ namespace Sitio.Controllers
             }
 
             [HttpPost]
-            public ActionResult FormLogueo(string usuLog)
+            public ActionResult FormLogueo(string usuLog,string contranesa)
             {
                 try
                 {
                     if (ModelState.IsValid)
                     {
-                        FabricaLogica.GetLogicaEmpleado().LogueoEmpleado(usuLog);
+                        FabricaLogica.GetLogicaEmpleado().LogueoEmpleado(usuLog,contranesa);
 
                         Session["Logueo"] = usuLog;
                         return RedirectToAction("Principal", "Home");

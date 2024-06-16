@@ -12,11 +12,11 @@ namespace Logica
 {
    public  interface ILogicaCliente
     {
-        void AltaCliente(Clientes unCliente,Empleado E);
+        void AltaCliente(Clientes unCliente, Empleado E);
 
         void BajaCliente(Clientes unCliente, Empleado E);
 
-        void ModificarCliente(Clientes unCliente,Empleado E);
+        void ModificarCliente(Clientes unCliente, Empleado E);
 
         Clientes BuscarCliente(string IDPasaporte, Empleado E);
 

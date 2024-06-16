@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using EntidadesCompartidas;
 using Logica;
-using Persistencia;
+
 
 
 
@@ -41,12 +41,14 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logueo"];
+
                 //valido objeto correcto
                 A.ValidarAeropuerto();
-                E.ValidarEmpleado();
-
-                //intento agregar articulo en la bd
-                FabricaLogica.GetLogicaAeropuerto().AltaAeropuerto(A, E);
+                _E.ValidarEmpleado();
+               
+                //intento agregar el aeropuerto en la bd
+                FabricaLogica.GetLogicaAeropuerto().AltaAeropuerto(A,_E);
                 // no hubo error, alta correcto
                 return RedirectToAction("Formulario agregar", "Aeropuerto");
             }
@@ -67,8 +69,10 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logueo"];
+
                 //obtengo el Aeropeurto
-                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto, E);
+                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto,_E);
                 if (_A != null)
                     return View(_A);
                 else
@@ -86,12 +90,13 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logueo"];
                 //valido objeto correcto
                 A.ValidarAeropuerto();
-                E.ValidarEmpleado();
+                _E.ValidarEmpleado();
 
                 //intento modificar
-                FabricaLogica.GetLogicaAeropuerto().ModificarAeropuerto(A,E);
+                FabricaLogica.GetLogicaAeropuerto().ModificarAeropuerto(A,_E);
                 ViewBag.Mensaje = "Modificacion Exitosa";
                 return View(new Aeropuertos());
             }
@@ -113,8 +118,10 @@ namespace Sitio.Controllers
         {   
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
+
                 //obtengo el aeropuertos
-                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto,E);
+                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto,_E);
                 if (_A != null)
                     return View(_A);
                 else
@@ -132,8 +139,9 @@ namespace Sitio.Controllers
         {
             try
             {
-                //intento eliminar
-                 FabricaLogica.GetLogicaAeropuerto().BajaAeropuerto(A,E);
+                Empleado _E = (Empleado)Session["Logeo"];
+                    //intento eliminar
+                 FabricaLogica.GetLogicaAeropuerto().BajaAeropuerto(A,_E);
                 return RedirectToAction("FormBajaAeropuerto", "Aeropuerto");
             }
             catch (Exception ex)
@@ -153,8 +161,10 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
+
                 //obtengo lista de articulos
-                List<Aeropuertos> _lista = FabricaLogica.GetLogicaAeropuerto().ListarAeropuerto(E);
+                List<Aeropuertos> _lista = FabricaLogica.GetLogicaAeropuerto().ListarAeropuerto(_E);
 
                 //si hay datos... defino despliegue
                 if (_lista.Count >= 1)
@@ -189,8 +199,10 @@ namespace Sitio.Controllers
         {
             try
             {
+
+                Empleado _E = (Empleado)Session["Logeo"]; 
                 //obtengo el 
-                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto, E);
+                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto, _E);
                 if (_A != null)
                     return View(_A);
                 else

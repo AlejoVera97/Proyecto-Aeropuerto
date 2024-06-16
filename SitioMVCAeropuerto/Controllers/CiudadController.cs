@@ -43,12 +43,13 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
                 //valido objeto correcto
                 C.ValidarCiudad();
-                E.ValidarEmpleado();
+                _E.ValidarEmpleado();
 
                 //intento agregar articulo en la bd
-                FabricaLogica.GetLogicaCiudad().AltaCiudad(C,E);
+                FabricaLogica.GetLogicaCiudad().AltaCiudad(C,_E);
                 // no hubo error, alta correcto
                 return RedirectToAction("Formulario agregar", "Ciudad");
             }
@@ -69,7 +70,9 @@ namespace Sitio.Controllers
             {
                 try
                 {
-                    Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad, E);
+                Empleado _E = (Empleado)Session["Logeo"];
+
+                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad, _E);
                     if (_C != null)
                         return View(_C);
                     else
@@ -86,8 +89,9 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
 
-                FabricaLogica.GetLogicaCiudad().BajaCiudad(C,E);
+                FabricaLogica.GetLogicaCiudad().BajaCiudad(C,_E);
                 return RedirectToAction("Baja Ciudad", "Ciudad");
             }
             catch (Exception ex)
@@ -104,9 +108,9 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
 
-                
-                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad,E);
+                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad,_E);
                 if (_C != null)
                     return View(_C);
                 else
@@ -129,7 +133,8 @@ namespace Sitio.Controllers
         {
             try
             {
-                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad ,E);
+                Empleado _E = (Empleado)Session["Logeo"];
+                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad ,_E);
                 if (_C != null)
                     return View(_C);
                 else
@@ -147,11 +152,13 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
+
                 //valido objeto correcto
                 C.ValidarCiudad();
-
+                _E.ValidarEmpleado();
                 //intento modificar
-                FabricaLogica.GetLogicaCiudad().ModificarCiudad(C, E);
+                FabricaLogica.GetLogicaCiudad().ModificarCiudad(C, _E);
                 ViewBag.Mensaje = "Modificacion Exitosa";
                 return View(new Ciudad());
             }
@@ -170,8 +177,10 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
+
                 //obtengo lista de articulos
-                List<Ciudad> _lista = FabricaLogica.GetLogicaCiudad().ListarCiudad(E);
+                List<Ciudad> _lista = FabricaLogica.GetLogicaCiudad().ListarCiudad(_E);
 
                 //si hay datos... defino despliegue
                 if (_lista.Count >= 1)

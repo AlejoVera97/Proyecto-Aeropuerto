@@ -43,7 +43,7 @@ namespace Logica
         {
             return (FabricaPersistencia.GetPersistenciaAeropuerto().BuscarAeropuerto(pIDAeropuerto, E));
         }
-        public List<Aeropuertos> ListarAeropuerto(Empleado E)
+                public List<Aeropuertos> ListarAeropuerto(Empleado E)
         {
             return (FabricaPersistencia.GetPersistenciaAeropuerto().ListarAeropuerto(E));
         }

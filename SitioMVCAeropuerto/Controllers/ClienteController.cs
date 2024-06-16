@@ -44,10 +44,11 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
                 C.ValidarClientes();
-
+                _E.ValidarEmpleado();
                 //intento agregar articulo en la bd
-                FabricaLogica.GetLogicaCliente().AltaCliente(C, E);
+                FabricaLogica.GetLogicaCliente().AltaCliente(C, _E);
                 // no hubo error, alta correcto
                 return RedirectToAction("Formulario Alta", "Cliente");
             }
@@ -66,8 +67,9 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
 
-                Clientes _A = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, E);
+                Clientes _A = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, _E);
                 if (_A != null)
                     return View(_A);
                 else
@@ -85,11 +87,12 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
 
                 C.ValidarClientes();
+                _E.ValidarEmpleado();
 
-
-                FabricaLogica.GetLogicaCliente().ModificarCliente(C, E);
+                FabricaLogica.GetLogicaCliente().ModificarCliente(C, _E);
                 ViewBag.Mensaje = "Modificacion Exitosa";
                 return View(new Clientes());
             }
@@ -108,7 +111,8 @@ namespace Sitio.Controllers
         {
             try
             {
-                Clientes _C = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, E);
+                Empleado _E = (Empleado)Session["Logeo"];
+                Clientes _C = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, _E);
                 if (_C != null)
                     return View(_C);
                 else
@@ -126,8 +130,9 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
                 //intento eliminar
-                FabricaLogica.GetLogicaCliente().BajaCliente(C, E);
+                FabricaLogica.GetLogicaCliente().BajaCliente(C, _E);
                 return RedirectToAction("Formulario baja", "Clientes");
             }
             catch (Exception ex)
@@ -147,8 +152,9 @@ namespace Sitio.Controllers
         {
             try
             {
-                
-                List<Clientes> _lista = FabricaLogica.GetLogicaCliente().ListarCliente(e);
+                Empleado _E = (Empleado)Session["Logeo"];
+
+                List<Clientes> _lista = FabricaLogica.GetLogicaCliente().ListarCliente(_E);
 
 
                 if (_lista.Count >= 1)
@@ -185,8 +191,9 @@ namespace Sitio.Controllers
         {
             try
             {
+                Empleado _E = (Empleado)Session["Logeo"];
                 //obtengo el 
-                Clientes _C = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, E);
+                Clientes _C = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, _E);
                 if (_C != null)
                     return View(_C);
                 else

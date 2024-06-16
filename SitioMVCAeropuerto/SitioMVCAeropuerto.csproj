@@ -99,7 +99,6 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
-    <Compile Include="Controllers\PasajeController.cs" />
     <Compile Include="Controllers\VentaController.cs" />
     <Compile Include="Controllers\VueloController.cs" />
     <Compile Include="Global.asax.cs">

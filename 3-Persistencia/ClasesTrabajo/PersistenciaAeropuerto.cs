@@ -237,7 +237,7 @@ namespace Persistencia
                     {
                         _unA = new Aeropuertos((string)_lector["IDAeropuerto"], (string)_lector["Nombre"], (string)_lector["Direccion"],
                             (int)_lector["ImpuestoPartida"], (int)_lector["ImpuestoLlegada"], (PersistenciaCiudad.GetInstancia().
-                            BuscarCiudad((string)_lector["IDCiudad"], E)));
+                            BuscarCiudad((string)_lector["IDCiudad"], E))); 
                           
                               
 

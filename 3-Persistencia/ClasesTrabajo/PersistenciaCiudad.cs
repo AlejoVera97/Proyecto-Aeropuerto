@@ -30,8 +30,8 @@ namespace Persistencia
         //operaciones
         public void AltaCiudad(Ciudad C, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _comando = new SqlCommand("Ciudad", _cnn);
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
+            SqlCommand _comando = new SqlCommand("AltaCiudad", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
 
@@ -48,7 +48,7 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error -  LA CIUDAD YA EXISTE  ");
+                    throw new Exception("Error -  LA CIUDAD YA EXISTE CON SU ID   ");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error - EN EL ALTA DE LA CIUDAD ");
 
@@ -67,29 +67,28 @@ namespace Persistencia
         public void BajaCiudad(Ciudad C, Empleado E)
         {
 
-            SqlConnection oConexion = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand oComando = new SqlCommand("BajaCiudad", oConexion);
-            oComando.CommandType = CommandType.StoredProcedure;
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
+            SqlCommand _Comando = new SqlCommand("BajaCiudad", _cnn);
+            _Comando.CommandType = CommandType.StoredProcedure;
 
             SqlParameter _IDCiudad = new SqlParameter("@IDCiudad", C.IDCiudad);
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
+            
+            _Comando.Parameters.Add(_Retorno);
 
-            oComando.Parameters.Add(_IDCiudad);
-            oComando.Parameters.Add(_Retorno);
-
-            int oAfectados = -1;
-
-            try
+           try
             {
-                oConexion.Open();
-                oComando.ExecuteNonQuery();
-                oAfectados = (int)oComando.Parameters["@Retorno"].Value;
-                if (oAfectados == -1)
-                    throw new Exception("ERROR - LA CIUDAD NO EXISTE");
-                if (oAfectados == -2)
-                    throw new Exception("ERROR - LA CIUDAD TIENE VUELOS ASIGNADOS , NO SE PUEDE ELIMINAR");
+                _cnn.Open();
+                _Comando.ExecuteNonQuery();
+
+                if ((int)_Retorno.Value == -1)
+                    throw new Exception("ERROR - EL ID CIUDAD NO EXISTE");
+
+                if ((int)_Retorno.Value == -2)
+                    throw new Exception("ERROR - LA CIUAD  NO SE PUEDE  ELIMINA");
+
 
             }
             catch (Exception ex)
@@ -98,17 +97,18 @@ namespace Persistencia
             }
             finally
             {
-                oConexion.Close();
+                _cnn.Close();
             }
         }
 
         public Ciudad BuscarCiudad(string IDCiudad , Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Ciudad _unaC = null;
-
+           
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("@BuscarCiudad", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
+           
             _comando.Parameters.AddWithValue("@IDCiudad", IDCiudad);
 
             try
@@ -117,8 +117,13 @@ namespace Persistencia
                 SqlDataReader _lector = _comando.ExecuteReader();
                 if (_lector.HasRows)
                 {
-                    if (_lector.Read())
-                        _unaC = new Ciudad (IDCiudad , (string)_lector["NombreCiudad"], (string)_lector["NombrePais"]);
+                    _lector.Read();
+                    string _NombrePais = _lector["NombrePais"].ToString();
+                    string _NombreCiudad = _lector["NombreCiudad"].ToString() ; 
+
+                    _unaC = new Ciudad(IDCiudad,_NombreCiudad,_NombrePais);
+
+                  
                 }
                 _lector.Close();
             }
@@ -135,7 +140,7 @@ namespace Persistencia
     
         public void ModificarCiudad(Ciudad C, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("ModificarCiudad", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
@@ -154,7 +159,7 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - LA CIUDAD NO EXISTE ");
+                    throw new Exception("Error - EL ID DE LA CIUDAD NO EXISTE ");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error - EN LA MODIFICACION DE CIUDAD ");
                 
@@ -170,15 +175,16 @@ namespace Persistencia
             }
         }
 
-        internal Ciudad BuscarTodasCiudades (string IDCiudad)
+        internal Ciudad BuscarTodasCiudades (string pIDCiudad,Empleado E)
         {
 
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn());
             Ciudad _unaC= null;
 
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("BuscarTodasCiudades", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
-            _comando.Parameters.AddWithValue("@IDCiudad", IDCiudad);
+           
+            _comando.Parameters.AddWithValue("@IDCiudad", pIDCiudad);
 
             try
             {
@@ -187,7 +193,11 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     _lector.Read();
-                    _unaC = new Ciudad(IDCiudad, (string)_lector["NombreCiudad"], (string)_lector["NombrePais"]);
+                    string _NombrePais = _lector["NombrePais"].ToString();
+                    string _NombreCiudad = _lector["NombreCiudad"].ToString();
+
+                    _unaC = new Ciudad(pIDCiudad, _NombreCiudad, _NombrePais);
+
                 }
             }
             catch (Exception ex)
@@ -203,11 +213,11 @@ namespace Persistencia
     
        public List<Ciudad> ListarCiudad(Empleado E )
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Ciudad unaCiudad = null;
             List<Ciudad> _listaCiudad = new List<Ciudad>();
 
-            SqlCommand _comando = new SqlCommand("ListadoCiudad", _cnn);
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
+            SqlCommand _comando = new SqlCommand("ListarCiudad", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
             try
@@ -218,8 +228,13 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        unaCiudad = new Ciudad((string)_lector["IDCiudad"], (string)_lector["NombreCiudad"], (string)_lector["NombrePais"]);
-                        _listaCiudad.Add(unaCiudad);
+                        
+                        string _IDCiudad = _lector["IDCiudad"].ToString();
+                        string _NombrePais = _lector["NombrePais"].ToString();
+                        string _NombreCiudad = _lector["NombreCiudad"].ToString();
+
+                        unaCiudad = new Ciudad(_IDCiudad,_NombreCiudad, _NombrePais);
+                        _listaCiudad.Add(unaCiudad);    
                     }
                 }
                 _lector.Close();

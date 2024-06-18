@@ -8,7 +8,7 @@ namespace Persistencia
 
     internal class Conexion
     {
-        internal static string Cnn(EntidadesCompartidas.Empleado UsuLog = null)
+        internal static string _cnn(EntidadesCompartidas.Empleado UsuLog = null)
         {
             if (UsuLog == null)
                 return "Data Source =.; Initial Catalog = AeropuertosAmericanos; Integrated Security = true";

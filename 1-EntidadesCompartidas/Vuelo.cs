@@ -67,7 +67,7 @@ namespace EntidadesCompartidas
 
 
 
-        public Vuelo(string pIDvuelo, DateTime pFechaHoraSalida, DateTime pFechaHoraLlegada, byte pCantidadAsientos, double pPrecio,
+        public Vuelo(string pIDvuelo, DateTime pFechaHoraSalida, DateTime pFechaHoraLlegada, int pCantidadAsientos, double pPrecio,
                 Aeropuertos pAeropuertoLlegada, Aeropuertos pAeropuertoSalida)
 
         {

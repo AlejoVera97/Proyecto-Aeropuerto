@@ -28,14 +28,14 @@ namespace Persistencia
 
         public void AltaVenta(Venta pVenta, Empleado E)
         {
-            SqlConnection _Cnn = new SqlConnection(Conexion.Cnn(E));
+            SqlConnection _Cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _Comando = new SqlCommand("AltaVenta", _Cnn);
             _Comando.CommandType = CommandType.StoredProcedure;
 
             _Comando.Parameters.AddWithValue("@PrecioTotal", pVenta.Precio);
             _Comando.Parameters.AddWithValue("@CodVuelo", pVenta.Vuelo.IDvuelo);
             _Comando.Parameters.AddWithValue("@UsuLog", E.UsuLog);
-            _Comando.Parameters.AddWithValue("@NumPasaporte", pVenta.Clientes.IDPasaporte);
+            _Comando.Parameters.AddWithValue("@IDPasaporte", pVenta.Clientes.IDPasaporte);
 
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
@@ -54,20 +54,20 @@ namespace Persistencia
                 int NVenta = Convert.ToInt32(_Retorno.Value);
 
                 if (NVenta == -1)
-                    throw new Exception("No existe el vuelo");
+                    throw new Exception("NO EXISTE EL VUELO");
 
                 if (NVenta == -2)
-                    throw new Exception("No existe el empleado");
+                    throw new Exception("NO EXISTE EL EMPLEADO");
 
                 if (NVenta == -3)
-                    throw new Exception("No existe el cliente");
+                    throw new Exception("NO EXISTE EL CLIENTE");
 
                 if (NVenta == -4)
-                    throw new Exception("ERROR INESPERADO - NO SE DA EL ALTA");
+                    throw new Exception("ERROR - NO SE DA EL ALTA");
 
                 foreach (Pasaje unPasaje in pVenta.VentaLista)
                 {
-                    PersitenciaPasaje.GetInstancia().AltaPasaje(unPasaje, NVenta, miTransaccion);
+                    PersitenciaPasaje.GetInstancia().AltaPasaje(NVenta, unPasaje, miTransaccion);
                 }
 
                 miTransaccion.Commit();
@@ -90,7 +90,7 @@ namespace Persistencia
             Venta unaVenta = null;
             List<Venta> _Lista = new List<Venta>();
 
-            SqlConnection _Cnn = new SqlConnection(Conexion.Cnn(E));
+            SqlConnection _Cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _Comando = new SqlCommand("ListarVenta", _Cnn);
             _Comando.CommandType = CommandType.StoredProcedure;
 

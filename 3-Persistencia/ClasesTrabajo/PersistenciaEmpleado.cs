@@ -29,11 +29,13 @@ namespace Persistencia
         public Empleado LogueoEmpleado(string pUsuLog,string pContrasena)
         {
             {
-                SqlConnection _cnn = new SqlConnection(Conexion.Cnn());
                 Empleado _unEmpleado = null;
-
+                
+                SqlConnection _cnn = new SqlConnection(Conexion._cnn());
                 SqlCommand _comando = new SqlCommand("Logueo", _cnn);
                 _comando.CommandType = CommandType.StoredProcedure;
+
+
                 _comando.Parameters.AddWithValue("@UsuLog", pUsuLog);
                 _comando.Parameters.AddWithValue("@Contrasena ", pContrasena);
 
@@ -44,7 +46,10 @@ namespace Persistencia
                     if (_lector.HasRows)
                     {
                         _lector.Read();
-                        _unEmpleado = new Empleado((string)_lector["UsuLog"], (string)_lector["NombreCompleto"], (string)_lector["Contrasena"], (string)_lector["Labor"]);
+                        string _NombreCompleto = _lector["Nombre"].ToString();
+                        string _Labor = _lector["Labor"].ToString();
+
+                        _unEmpleado = new Empleado(pUsuLog, _NombreCompleto,pContrasena, _Labor);
                     }
                 }
                 catch (Exception ex)
@@ -60,15 +65,16 @@ namespace Persistencia
 
         }
 
-        public Empleado  BuscarEmpleado(string pUsuLog,Empleado E)
+        public Empleado BuscarEmpleado(string pUsuLog, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Empleado unEmpleado = null;
 
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("BuscarEmpleado", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
+
             _comando.Parameters.AddWithValue("@UsuLog", pUsuLog);
-          
+
 
             try
             {
@@ -77,7 +83,11 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     _lector.Read();
-                    unEmpleado = new Empleado (pUsuLog , (string)_lector["NombreCompleto"],(string)_lector["Contrasena"], (string)_lector["Labor"]);
+                    string _NombreCompleto = _lector["Nombre"].ToString();
+                    string _Labor = _lector["Labor"].ToString();
+                    string _Contrasena = _lector["Contrasena"].ToString();
+
+                    unEmpleado = new Empleado(pUsuLog,_NombreCompleto,_Contrasena,_Labor);
                 }
             }
             catch (Exception ex)

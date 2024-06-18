@@ -28,7 +28,7 @@ namespace Persistencia
         //operaciones
         public void AltaCliente(Clientes C, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("AltaCliente", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
@@ -48,7 +48,7 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("ERROR -  EL CLIENTE YA  EXISTE ");
+                    throw new Exception("ERROR -  EL CLIENTE YA EXISTE CON EL IDPASAPORTE  ");
                             else if ((int)_retorno.Value == -2)
                     throw new Exception("ERROR - EN EL ALTA DEL CLIENTE ");
                 
@@ -67,8 +67,8 @@ namespace Persistencia
 
         public void ModificarCliente(Clientes C, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand _comando = new SqlCommand("ClienteModificar", _cnn);
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
+            SqlCommand _comando = new SqlCommand("ModificarCliente", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
 
@@ -89,7 +89,7 @@ namespace Persistencia
                 _comando.ExecuteNonQuery();
 
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("Error - EL CLIENTE QUE INTENTA MODIFICAR NO EXISTE");
+                    throw new Exception("Error - NO EXISTE UN CLIENTE CON EL IDPASAPORTE ");
                 else if ((int)_retorno.Value == -2)
                     throw new Exception("Error - EN LA  MODIFICACION DEL CLIENTE  ");
             }
@@ -106,50 +106,47 @@ namespace Persistencia
         public void BajaCliente(Clientes C, Empleado E)
         {
 
-            SqlConnection oConexion = new SqlConnection(Conexion.Cnn(E));
-            SqlCommand oComando = new SqlCommand("BajaCliente", oConexion);
-            oComando.CommandType = CommandType.StoredProcedure;
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
+            SqlCommand _Comando = new SqlCommand("BajaCliente", _cnn);
+            _Comando.CommandType = CommandType.StoredProcedure;
 
-            SqlParameter _IDPasaporte = new SqlParameter("@IDPasaporte", C.IDPasaporte) ;
+            _Comando.Parameters.AddWithValue("@NumPasaporte", C.IDPasaporte);
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
-
-            oComando.Parameters.Add(_IDPasaporte);
-            oComando.Parameters.Add(_Retorno);
-
-            int oAfectados = -1;
+            _Comando.Parameters.Add(_Retorno);
 
             try
             {
-                oConexion.Open();
-                oComando.ExecuteNonQuery();
-                oAfectados = (int)oComando.Parameters["@Retorno"].Value;
-                if (oAfectados == -1)
-                    throw new Exception("ERROR - EL CLIENTE NO EXISTE ");
-                if (oAfectados == -2)
-                    throw new Exception("ERROR - EL CLIENTE TIENE VENTAS ASOCIACADAS, NO SE PUEDE ELIMINAR" );
-                if (oAfectados == -3)
-                    throw new Exception("ERROR - EL CLIENTE TIENE VUELOS ASOCIADOS, NO SE PUEDE ELIMINAR");
+                _cnn.Open();
+                _Comando.ExecuteNonQuery();
+
+                if ((int)_Retorno.Value == -1)
+                    throw new Exception("ERROR- NO EXISTE UN CLIENTE CON EL IDPASAPORTE");
+
+                if ((int)_Retorno.Value == -2)
+                    throw new Exception("ERROR  - NO SE PUEDE ELIMINAR");
+
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.Message);
             }
             finally
             {
-                oConexion.Close();
+                _cnn.Close();
             }
         }
 
         public Clientes BuscarCliente(string pIDPasaporte, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Clientes _unCliente = null;
 
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("BuscarCliente", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
+
             _comando.Parameters.AddWithValue("@NPasaporte", pIDPasaporte);
 
             try
@@ -159,10 +156,13 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     _lector.Read();
-                    _unCliente = new Clientes((string)_lector["IDPasaporte"], (string)_lector["Nombre"], (string)_lector["Contrasena"],
-                        (int)_lector["NTarjeta"]);
+                    string _Nombre = _lector["Nombre"].ToString();
+                    string _Contrasena  = _lector["Contrasenia"].ToString();
+                    int _NTarjeta = Convert.ToInt32(_lector["NTarjeta"]);
 
+                    _unCliente = new Clientes (pIDPasaporte,_Nombre, _Contrasena,_NTarjeta);  
                 }
+                _lector.Close();
             }
             catch (Exception ex)
             {
@@ -175,13 +175,15 @@ namespace Persistencia
             return _unCliente;
         }
 
-        internal Clientes BuscarTodosClientes(string pIDPasaporte)
+        internal Clientes BuscarTodosClientes(string pIDPasaporte, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn());
-            Clientes _C = null;
+            Clientes _Cliente = null;
 
+
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("BuescarTodosClientes", _cnn);
             _comando.CommandType = System.Data.CommandType.StoredProcedure;
+           
             _comando.Parameters.AddWithValue("@IDPsaporte", pIDPasaporte);
 
             try
@@ -191,9 +193,11 @@ namespace Persistencia
                 if (_lector.HasRows)
                 {
                     _lector.Read();
-                    _C = new Clientes ((string)_lector["IDPasaporte"], (string)_lector["Nombre"], (string)_lector["Contrasena"], 
-                        
-                        (int)_lector["NTarjeta"]);
+                    string _Nombre = _lector["Nombre"].ToString();
+                    string _Contrasena = _lector["Contrasenia"].ToString();
+                    int _NTarjeta = Convert.ToInt32(_lector["NTarjeta"]);
+
+                    _Cliente = new Clientes (pIDPasaporte,_Nombre, _Contrasena,_NTarjeta);    
                 }
             }
             catch (Exception ex)
@@ -204,16 +208,16 @@ namespace Persistencia
             {
                 _cnn.Close();
             }
-            return _C;
+            return _Cliente;
         }
         
         public List<Clientes> ListarCliente(Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Clientes _unCliente = null;
-            List<Clientes> _listaClientes = new List<Clientes>();
-
-            SqlCommand _comando = new SqlCommand("ListadoClientes", _cnn);
+            List<Clientes> _ListaClientes = new List<Clientes>();
+            
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
+           SqlCommand _comando = new SqlCommand("ListadoClientes", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
             try
@@ -224,8 +228,14 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        _unCliente = new Clientes((string)_lector["IDPasaporte"], (string)_lector["Nombre"], (string)_lector["Contrasena"], (int)_lector["NTarjeta"]);
-                        _listaClientes.Add(_unCliente);
+                        string _IDPasaporte = _lector["IDPasaporte"].ToString();
+                        string _Nombre = _lector["Nombre"].ToString();
+                        string _Contrasena = _lector["Contrasenia"].ToString();
+                        int _NTarjeta = Convert.ToInt32(_lector["NTarjeta"]);
+
+                        _unCliente = new Clientes(_IDPasaporte, _Nombre, _Contrasena,_NTarjeta);
+                        _ListaClientes.Add(_unCliente); 
+
                     }
                 }
                 _lector.Close();
@@ -238,7 +248,7 @@ namespace Persistencia
             {
                 _cnn.Close();
             }
-            return _listaClientes;
+            return _ListaClientes;
         }
 
     }

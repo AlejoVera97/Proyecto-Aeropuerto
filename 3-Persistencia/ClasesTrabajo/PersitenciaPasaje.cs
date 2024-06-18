@@ -5,10 +5,7 @@ using System.Text;
 using EntidadesCompartidas;
 using System.Data.SqlClient;
 using System.Data;
-using System.Diagnostics.Eventing.Reader;
-using System.Web;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
+
 
 namespace Persistencia
 {
@@ -29,8 +26,8 @@ namespace Persistencia
         internal void AltaPasaje(int NVenta, Pasaje pPasaje, SqlTransaction trn)
 
         {
-            SqlCommand oComando = new SqlCommand("AltaPasaje ", trn.Connection);
-            oComando.CommandType = CommandType.StoredProcedure;
+            SqlCommand _Comando = new SqlCommand("AltaPasaje ", trn.Connection);
+            _Comando.CommandType = CommandType.StoredProcedure;
 
             SqlParameter _NVenta = new SqlParameter("@NVenta", NVenta);
             SqlParameter _IDPasaporte = new SqlParameter("@IDPasaporte ", pPasaje.IDPasaporte);
@@ -39,31 +36,32 @@ namespace Persistencia
 
             SqlParameter _Retorno = new SqlParameter("@Retorno", SqlDbType.Int);
             _Retorno.Direction = ParameterDirection.ReturnValue;
-            oComando.Parameters.Add(_NVenta);
-            oComando.Parameters.Add(_IDPasaporte);
-            oComando.Parameters.Add(_Retorno);
+            _Comando.Parameters.Add(_Retorno);
 
-            int oAfectados = -1;
 
             try
             {
-                oComando.Transaction = trn;
-                oComando.ExecuteNonQuery();
-                oAfectados = (int)oComando.Parameters["@Retorno"].Value;
-                if (oAfectados == -1)
-                    throw new Exception("YA EXISTE UN PASAJE CON ESE NUMERO DE VENTA Y ASIENTO");
-                if (oAfectados == -2)
+                _Comando.Transaction = trn;
+                _Comando.ExecuteNonQuery();
+                int resultado = Convert.ToInt32(_Retorno.Value);
+
+                if (resultado == -1)
+                    throw new Exception("YA EXISTE ESE PASAJE CON NVENTA Y ASIENTO");
+
+                if (resultado == -2)
                     throw new Exception("NO EXISTE LA VENTA");
-                if (oAfectados == -3)
-                    throw new Exception(" NO EXISTE EL CLIENTE");
-                if (oAfectados == -4)
-                    throw new Exception("ERROR INESPERADO -NO SE DA DE ALTA ");
+
+                if (resultado == -3)
+                    throw new Exception("NO EXISTE EL CLIENTE");
+
+                if (resultado == -4)
+                    throw new Exception("ERROR  - NO SE DA EL ALTA");
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(ex.Message);
             }
-
+          
         }
 
         public  List<Pasaje> ListarPasajes(int IDVenta,Empleado E)
@@ -73,7 +71,7 @@ namespace Persistencia
             Pasaje unPasaje = null;
             List<Pasaje> _Lista = new List<Pasaje>();
 
-            SqlConnection _Cnn = new SqlConnection(Conexion.Cnn(E));
+            SqlConnection _Cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _Comando = new SqlCommand("ListarPasajes", _Cnn);
             _Comando.CommandType = CommandType.StoredProcedure;
 

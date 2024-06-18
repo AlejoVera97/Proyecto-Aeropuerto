@@ -25,10 +25,10 @@ namespace Persistencia
         }
 
         // operaciones 
-        public void AltaVuelo(Vuelo V,Empleado E)
+        public void AltaVuelo(Vuelo V, Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
-                        SqlCommand _comando = new SqlCommand("AltaVuelo", _cnn);
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
+            SqlCommand _comando = new SqlCommand("AltaVuelo", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
             _comando.Parameters.AddWithValue("@IDVuelo", V.IDvuelo);
@@ -50,11 +50,11 @@ namespace Persistencia
                 _cnn.Open();
                 _comando.ExecuteNonQuery();
                 if ((int)_retorno.Value == -1)
-                    throw new Exception("ERROR- EL VUELO YA EXISTE  ");
+                    throw new Exception("ERROR- EL VUELO YA EXISTE CON ESE ID ");
                 else if ((int)_retorno.Value == -2)
-                    throw new Exception("ERROR - EL AEROPUERTO DE LLEGADA NO ESTA ACTIVO  ");
+                    throw new Exception("ERROR - EL AEROPUERTO DE PARTIDA NO EXISTE  ");
                 else if ((int)_retorno.Value == -3)
-                    throw new Exception("ERROR - EL AEROPUERTO DE SALIDA NO ESTA ACTIVO ");
+                    throw new Exception("ERROR - EL AEROPUERTO DE SALIDA NO EXISTE ");
                 else if ((int)_retorno.Value == -4)
                     throw new Exception("ERROR - DUARTE EL PROCESO DE ALTA VUELO");
 
@@ -72,10 +72,10 @@ namespace Persistencia
 
         public List<Vuelo> ListarVuelo(Empleado E)
         {
-            SqlConnection _cnn = new SqlConnection(Conexion.Cnn(E));
             Vuelo _unVuelo = null;
             List<Vuelo> listaVuelo = new List<Vuelo>();
 
+            SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));
             SqlCommand _comando = new SqlCommand("ListadoVuelo", _cnn);
             _comando.CommandType = CommandType.StoredProcedure;
 
@@ -87,15 +87,21 @@ namespace Persistencia
                 {
                     while (_lector.Read())
                     {
-                        _unVuelo = new Vuelo((string)_lector["IDvuelo"], (DateTime)_lector["FechaHoraSalida"], (DateTime)_lector["FechaHoraLlegada"],
-                            (byte)_lector["CantidadAsientos"], (double)_lector["PrecioVueo"], (PersistenciaAeropuerto.GetInstancia().
-                            BuscarAeropuerto((string)_lector["AeropuertoLlegada"], E)), (PersistenciaAeropuerto.GetInstancia().
-                            BuscarAeropuerto((string)_lector["AeropuertoSalida"], E)));
+                        string _IDVuelo = _lector["IDVuelo"].ToString();
+                        DateTime _FechaPartida = Convert.ToDateTime(_lector["FechaPartida"]);
+                        DateTime _FechaLlegada = Convert.ToDateTime(_lector["FechaLlegada"]);
+                        double _Precio = Convert.ToInt32(_lector["Precio"]);
+                        int  _CantidadAsiento = Convert.ToInt32(_lector["CantidadAsiento"]);
+                        string _IDAeropuertoPartida =_lector["AeropuertoPartida"].ToString();
+                        string _IDAeropuertoLlegada = _lector["AeropuertoLlegada"].ToString();
 
+                        Aeropuertos _AeropuertoPartida = PersistenciaAeropuerto.GetInstancia().BuscarTodosAeropuertos(_IDAeropuertoPartida, E);
+                        Aeropuertos _AeropuertoLlegada = PersistenciaAeropuerto.GetInstancia().BuscarTodosAeropuertos(_IDAeropuertoLlegada, E);
 
+                        _unVuelo = new Vuelo(_IDVuelo, _FechaPartida, _FechaLlegada, _CantidadAsiento, _Precio, _AeropuertoLlegada, _AeropuertoPartida);
 
                         listaVuelo.Add(_unVuelo);
-                    } 
+                    }
                 }
                 _lector.Close();
             }

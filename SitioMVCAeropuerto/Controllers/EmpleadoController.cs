@@ -5,27 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using EntidadesCompartidas;
 using Logica;
-using Microsoft.AspNetCore.Mvc;
 
 
-//agregar----------------------------
-using Sitio.Models;
-//------------------------------
+
 
 
 namespace Sitio.Controllers
 {
     public class EmpleadoControlador : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
-
 
         public class UsuariosController : Controller
         {
-            //----- LOGUEO
+            
             [HttpGet]
             public ActionResult FormLogueo()
             {
@@ -33,37 +25,30 @@ namespace Sitio.Controllers
             }
 
             [HttpPost]
-            public ActionResult FormLogueo(string usuLog,string contranesa)
+            public ActionResult FormLogueo(Empleado E)
             {
                 try
                 {
-                    if (ModelState.IsValid)
+                    if (E.Contrasena == null || E.UsuLog == null)
+                        throw new Exception("no puede dejar ningún campos vacios");
+                    E = FabricaLogica.GetLogicaEmpleado().LogueoEmpleado(E.UsuLog, E.Contrasena);
+                    if (E == null)
                     {
-                        FabricaLogica.GetLogicaEmpleado().LogueoEmpleado(usuLog,contranesa);
-
-                        Session["Logueo"] = usuLog;
-                        return RedirectToAction("Principal", "Home");
-                    }
-                    else
+                        ViewBag.Mensaje = "Usuario / Contraseña Incorrectos";
                         return View();
-
+                    }
+                    Session["Logueo"] = E;
+                    return RedirectToAction("Menu", "Home");
                 }
                 catch (Exception ex)
                 {
                     ViewBag.Mensaje = ex.Message;
                     return View();
                 }
+
             }
 
-
-            //----- DESLOGEO
-
-            public ActionResult Deslogueo()
-            {
-                return RedirectToAction("Index", "Home");
-            }
         }
-
 
     }
 }

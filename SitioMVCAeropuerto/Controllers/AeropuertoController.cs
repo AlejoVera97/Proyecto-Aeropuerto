@@ -5,14 +5,15 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using EntidadesCompartidas;
 using Logica;
+using Persistencia;
 
 
 namespace Sitio.Controllers
 {
     public class AeropuertoControlador : Controller
     {
-       
-        //-------------- MENU 
+
+
         public ActionResult MenuAeropuertos(string Filtro)
         {
             try
@@ -48,9 +49,6 @@ namespace Sitio.Controllers
             }
         }
 
-
-
-        // ******************** AGREGAR 
         [HttpGet]
         public ActionResult FormAgregarAeropuerto()
         {
@@ -73,14 +71,14 @@ namespace Sitio.Controllers
             }
         }
 
-       [HttpPost]
+        [HttpPost]
         public ActionResult FormAgregarAeropuerto(Aeropuertos A)
         {
 
             try
             {
                 Empleado logueado = (Empleado)Session["Logueo"];
-                A.Air_Ciudad = FabricaLogica.GetLogicaCiudad().BuscarCiudad(A.CodCiu, logueado);
+                A._Ciudad = FabricaLogica.GetLogicaCiudad().BuscarCiudad(A._Ciudad.IDCiudad, logueado);
 
                 if (!(ModelState.IsValid))
                     throw new Exception("Complete los datos requeridos");
@@ -99,11 +97,6 @@ namespace Sitio.Controllers
                 return View(new Aeropuertos());
             }
         }
-
-
-
-
-        //******************* MODIFICAR 
 
         [HttpGet]
         public ActionResult FormModificarAeropuerto(string IDAeropuerto)
@@ -141,12 +134,12 @@ namespace Sitio.Controllers
             try
             {
                 Empleado _E = (Empleado)Session["Logueo"];
-                
+
                 A._Ciudad = FabricaLogica.GetLogicaCiudad().BuscarCiudad(A._Ciudad.IDCiudad, _E);
                 A.ValidarAeropuerto();
-                
-                
-                FabricaLogica.GetLogicaAeropuerto().ModificarAeropuerto(A,_E);
+
+
+                FabricaLogica.GetLogicaAeropuerto().ModificarAeropuerto(A, _E);
                 return RedirectToAction("FormAeropuertoConsulta", "Aeropuertos", new { A.IDAeropuerto });
             }
             catch (Exception ex)
@@ -158,23 +151,17 @@ namespace Sitio.Controllers
             }
         }
 
-
-
-
-
-        // ************************ BAJA 
-
         [HttpGet]
         public ActionResult FormBajaAeropuerto(string IDAeropuerto)
-        {   
+        {
             try
             {
                 if (!(Session["Logeo"] is Empleado))
                     return RedirectToAction("Logeo", "Empleado");
-                
+
                 Empleado _E = (Empleado)Session["Logeo"];
 
-                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto,_E);
+                Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto, _E);
                 if (_A != null)
                     return View(_A);
                 else
@@ -186,14 +173,14 @@ namespace Sitio.Controllers
                 return View(new Aeropuertos());
             }
         }
-            
+
         [HttpPost]
         public ActionResult FormBajaAeropuerto(Aeropuertos A)
         {
             try
             {
                 Empleado _E = (Empleado)Session["Logeo"];
-                FabricaLogica.GetLogicaAeropuerto().BajaAeropuerto(A,_E);
+                FabricaLogica.GetLogicaAeropuerto().BajaAeropuerto(A, _E);
                 return RedirectToAction("MenuAeropuerto", "Aeropuerto");
             }
             catch (Exception ex)
@@ -203,18 +190,16 @@ namespace Sitio.Controllers
             }
         }
 
-
-        // ******************  CONSULTAR 
         public ActionResult FormAeropuertoConsultar(string IDAeropuerto)
         {
             try
             {
-                if(!(Session["Logeo"]is Empleado))
+                if (!(Session["Logeo"] is Empleado))
                     return RedirectToAction("FormLogeo", "Empleados");
 
 
-                Empleado _E = (Empleado)Session["Logeo"]; 
-                
+                Empleado _E = (Empleado)Session["Logeo"];
+
                 Aeropuertos _A = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(IDAeropuerto, _E);
                 if (_A != null)
                     return View(_A);

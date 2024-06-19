@@ -17,7 +17,7 @@ namespace Sitio.Controllers
     public class CiudadControlador : Controller
     {
 
-        //---------- MENU
+        
         public ActionResult MenuCiudades(string Filtro)
         {
 
@@ -57,11 +57,7 @@ namespace Sitio.Controllers
 
 
         }
-
-
-
-
-        // ------------- AGREGAR CIUDAD  
+      
         [HttpGet]
         public ActionResult FormAgregarCiudad()
         {
@@ -93,11 +89,7 @@ namespace Sitio.Controllers
                 ViewBag.Mensaje = ex.Message;
                 return View();
             }
-        }
-
-
-
-        //----------- BAJA CIUDAD 
+        }                
 
         [HttpGet]
         public ActionResult FormBajaCiudad(string IDCiudad)
@@ -136,13 +128,8 @@ namespace Sitio.Controllers
                 ViewBag.Mensaje = ex.Message;
                 return View(new Ciudad());
             }
-        }
-
-
-
-      
-        //--------- MODIFICAR CIUDAD
-
+        }     
+        
         [HttpGet]
         public ActionResult FormModificarCiudad(string IDCiudad)
         {
@@ -187,11 +174,7 @@ namespace Sitio.Controllers
                 ViewBag.Mensaje = ex.Message;
                 return View(new Ciudad());
             }
-        }
-
-
-
-        //-------- CONSULTAR CIUDAD
+        }               
 
         [HttpGet]
         public ActionResult FormCiudadConsultar(string IDCiudad)

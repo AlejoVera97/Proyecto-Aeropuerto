@@ -15,23 +15,28 @@ namespace Sitio.Controllers
 {
     public class VuelosControlador : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
 
 
-        //----- ALTA VUELO
         [HttpGet]
         public ActionResult FormAltaVuelo()
         {
             try
             {
-                //muestro la vista
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+
+                Empleado _E = (Empleado)Session["Logueo"];
+                List<Aeropuertos> unaLisA = FabricaLogica.GetLogicaAeropuerto().ListarAeropuerto(_E);
+                ViewBag.ListA = new SelectList(unaLisA, "IDAeropuerto", "Nombre");
+                ViewBag.ListB = new SelectList(unaLisA, "IDAeropuerto", "Nombre");
+                Session["ListaAeropuertos"] = unaLisA;
+
                 return View();
             }
             catch (Exception ex)
             {
+                ViewBag.ListA = new SelectList(null);
+                ViewBag.ListB = new SelectList(null);
                 ViewBag.Mensaje = ex.Message;
                 return View();
             }
@@ -40,53 +45,123 @@ namespace Sitio.Controllers
         [HttpPost]
         public ActionResult FormAltaVuelo(Vuelo V)
         {
+
             try
             {
-                //valido objeto correcto
+                Empleado _E = (Empleado)Session["Logueo"];
+
+                if (V.AeropuertoSalida == V.AeropuertoLlegada)
+                    throw new Exception("EL AEROPUERTO SALIDA NO PUEDE COINCIDIR CON EL MISMO DE LLEGADA");
+
+                V.AeropuertoSalida = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(V.AeropuertoSalida.IDAeropuerto, _E);
+                V.AeropuertoLlegada = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(V.AeropuertoLlegada.IDAeropuerto, _E);
+                string codigo = V.AeropuertoSalida.ToString("yyyyMMddHHmm");
+                V.IDvuelo = codigo + V.AeropuertoLlegada.IDAeropuerto;
                 V.ValidarVuelo();
 
-                //intento agregar articulo en la bd
-                FabricaLogica.GetLogicaVuelo().AltaVuelo(V);
-                // no hubo error, alta correcto
-                return RedirectToAction("Formulario agregar", "Vuelo");
+                Session["Vuelo"] = V;
+
+                FabricaLogica.GetLogicaVuelo().AltaVuelo(V, _E);
+                Session["ListaV"] = null;
+                return RedirectToAction("FormVueloConsultar", "Vuelos");
+
+
             }
             catch (Exception ex)
             {
+                List<Aeropuertos> AeropuertosConCP = (List<Aeropuertos>)Session["ListaAeropuertos"];
+                ViewBag.ListA = new SelectList(AeropuertosConCP, "IDAeropuerto", "Nombre");
+                ViewBag.ListB = new SelectList(AeropuertosConCP, "IDAeropuerto", "Nombre");
                 ViewBag.Mensaje = ex.Message;
-                return View();
+                return View(new Vuelo());
             }
         }
 
 
-        //----- LISTADO DE VUELOS
-        public ActionResult FormListarVuelo(string IDVuelo)
+        public ActionResult FormVueloConsultar()
         {
             try
             {
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
 
-                List<Vuelo> _lista = FabricaLogica.GetLogicaVuelo().ListarVuelo();
-                if (_lista.Count >= 1)
-                {
+                Vuelo V = (Vuelo)Session["Vuelo"];
 
-                    if (String.IsNullOrEmpty(IDVuelo))
-                        return View(_lista); //no hay filtro - muestro compelto
-                    else
-                    {
-                        //hay dato para filtro
-                        _lista = (from unA in _lista
-                                  where unA.IDvuelo.ToUpper().StartsWith(IDVuelo.ToUpper())
-                                  select unA).ToList();
-                        return View(_lista);
-                    }
-                }
-                else //no hay datos - no hago nada
-                    throw new Exception("No hay Vuelos para mostar");
+                return View(V);
             }
             catch (Exception ex)
             {
                 ViewBag.Mensaje = ex.Message;
-                return View(new List<Ciudad>());
+                return View(new Vuelo());
             }
         }
+
+
+        public ActionResult FormListaVuelo(string pFecha, string pOpcion, string pAeropuerto)
+        {
+            try
+            {
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+
+                Empleado _E = (Empleado)Session["Logueo"];
+
+                List<Vuelo> listVuelos = null;
+
+                if (Session["ListaV"] == null)
+                {
+                    listVuelos = FabricaLogica.GetLogicaVuelo().ListarVuelo(_E);
+                    Session["ListaV"] = listVuelos;
+                }
+                else
+                    listVuelos = (List<Vuelo>)Session["ListaVuelo"];
+
+                if (listVuelos.Count == 0)
+                    throw new Exception("No hay vuelos Registrados");
+
+                List<Aeropuertos> listA = FabricaLogica.GetLogicaAeropuerto().ListarAeropuerto(_E);
+                listA.Insert(0, new Aeropuertos("", "", "Seleccionar", 0, 0, null));
+                ViewBag.ListaA = new SelectList(listA, "IDAeropuerto", "Nombre");
+
+                listVuelos = (from unV in listVuelos
+                              orderby unV.FechaHoraSalida
+                              select unV).ToList();
+
+                if (!String.IsNullOrEmpty(pFecha))
+                {
+                    listVuelos = (from unV in listVuelos
+                                  where unV.FechaHoraSalida.Date == Convert.ToDateTime(pFecha).Date
+                                  select unV).ToList();
+                }
+                if (pOpcion == "Partidas")
+                {
+                    listVuelos = (from unV in listVuelos
+                                  where unV.FechaHoraSalida<= DateTime.Now
+                                  select unV).ToList();
+                }
+                if (pOpcion == "No_Partidas")
+                {
+                    listVuelos = (from unV in listVuelos
+                                  where unV.FechaHoraSalida> DateTime.Now
+                                  select unV).ToList();
+                }
+                if (!String.IsNullOrEmpty(pAeropuerto) && pAeropuerto != "0")
+                {
+                    listVuelos = (from unV in listVuelos
+                                  where unV.AeropuertoSalida.IDAeropuerto == pAeropuerto
+                                  select unV).ToList();
+                }
+
+                return View(listVuelos);
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = ex.Message;
+                return ViewBag(new List<Vuelo>());
+            }
+        }
+
     }
 }
+

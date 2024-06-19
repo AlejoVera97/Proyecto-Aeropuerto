@@ -16,27 +16,48 @@ namespace Sitio.Controllers
 {
     public class ClienteControlador : Controller
     {
-        public ActionResult Index()
+        public ActionResult MenuClientes(string Filtro)
         {
-            return View();
-        }
 
-
-        //------ AGREGAR CLIENTE (LISTO)
-
-        [HttpGet]
-        public ActionResult FromAltaCliente()
-        {
             try
             {
-                //muestro la vista
-                return View();
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+
+                Empleado _E = (Empleado)Session["Logueo"];
+
+                List<Clientes> listaClientes = FabricaLogica.GetLogicaCliente().ListarCliente(_E);
+
+                if (listaClientes.Count != 0)
+                {
+
+                    if (String.IsNullOrEmpty(Filtro))
+                        return View(listaClientes);
+                    else
+                    {
+                        listaClientes = (from unC in listaClientes
+                                         where unC.Nombre.ToUpper().StartsWith(Filtro.ToUpper())
+                                         select unC).ToList();
+                        return View(listaClientes);
+                    }
+                }
+                else
+                    throw new Exception("No hay Clientes ingresados en el sistema");
             }
             catch (Exception ex)
             {
                 ViewBag.Mensaje = ex.Message;
-                return View();
+                return View(new List<Clientes>());
+
             }
+        }
+
+        [HttpGet]
+        public ActionResult FromAltaCliente()
+        {
+            if (!(Session["Logueo"] is Empleado))
+                return RedirectToAction("FormLogueo", "Empleados");
+            return View();
         }
 
         [HttpPost]
@@ -46,11 +67,10 @@ namespace Sitio.Controllers
             {
                 Empleado _E = (Empleado)Session["Logeo"];
                 C.ValidarClientes();
-                _E.ValidarEmpleado();
-                //intento agregar articulo en la bd
+
+
                 FabricaLogica.GetLogicaCliente().AltaCliente(C, _E);
-                // no hubo error, alta correcto
-                return RedirectToAction("Formulario Alta", "Cliente");
+                return RedirectToAction("MeneClientes", "Cliente");
             }
             catch (Exception ex)
             {
@@ -59,21 +79,22 @@ namespace Sitio.Controllers
             }
         }
 
-
-
-        //----- MODIFICAR CLIENTE (LISTO)
         [HttpGet]
         public ActionResult FormModificarCliente(string IDPasaporte)
         {
             try
             {
-                Empleado _E = (Empleado)Session["Logeo"];
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+                Empleado _E = (Empleado)Session["Logueo"];
 
-                Clientes _A = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, _E);
-                if (_A != null)
-                    return View(_A);
+                Clientes C = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, _E);
+                if (C != null)
+                    return View(C);
                 else
                     throw new Exception("No existe el cliente");
+
+
             }
             catch (Exception ex)
             {
@@ -90,11 +111,8 @@ namespace Sitio.Controllers
                 Empleado _E = (Empleado)Session["Logeo"];
 
                 C.ValidarClientes();
-                _E.ValidarEmpleado();
-
                 FabricaLogica.GetLogicaCliente().ModificarCliente(C, _E);
-                ViewBag.Mensaje = "Modificacion Exitosa";
-                return View(new Clientes());
+                return RedirectToAction("FormClienteConsultar", "Clientes", new { C.IDPasaporte });
             }
             catch (Exception ex)
             {
@@ -103,14 +121,14 @@ namespace Sitio.Controllers
             }
         }
 
-
-
-        //--------- BAJA CLIENTE (LISTO)
         [HttpGet]
         public ActionResult FormBajaCliente(string IDPasaporte)
         {
             try
             {
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+
                 Empleado _E = (Empleado)Session["Logeo"];
                 Clientes _C = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, _E);
                 if (_C != null)
@@ -131,9 +149,9 @@ namespace Sitio.Controllers
             try
             {
                 Empleado _E = (Empleado)Session["Logeo"];
-                //intento eliminar
+
                 FabricaLogica.GetLogicaCliente().BajaCliente(C, _E);
-                return RedirectToAction("Formulario baja", "Clientes");
+                return RedirectToAction("MenuCliente", "Clientes");
             }
             catch (Exception ex)
             {
@@ -142,57 +160,14 @@ namespace Sitio.Controllers
             }
         }
 
-
-             
-        
-
-
-        //------- LISTAR CLIENTE (LISTO) 
-        public ActionResult FormListarCliente(string IDPasaporte)
+        public ActionResult FormConsultaCliente(string IDPasaporte)
         {
             try
             {
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+
                 Empleado _E = (Empleado)Session["Logeo"];
-
-                List<Clientes> _lista = FabricaLogica.GetLogicaCliente().ListarCliente(_E);
-
-
-                if (_lista.Count >= 1)
-                {
-
-                    if (String.IsNullOrEmpty(IDPasaporte))
-                        return View(_lista);
-                    else
-                    {
-
-                        _lista = (from unA in _lista
-                                  where unA.IDPasaporte.ToUpper().StartsWith(IDPasaporte.ToUpper())
-                                  select unA).ToList();
-                        return View(_lista);
-                    }
-                }
-                else //no hay datos - no hago nada
-                    throw new Exception("No hay Clientes para mostar");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Mensaje = ex.Message;
-                return View(new List<Clientes>());
-            }
-        }
-
-
-
-
-
-        //--------- CONSULTA (LISTO)
-
-        public ActionResult FormConsultaCliente (string IDPasaporte)
-        {
-            try
-            {
-                Empleado _E = (Empleado)Session["Logeo"];
-                //obtengo el 
                 Clientes _C = FabricaLogica.GetLogicaCliente().BuscarCliente(IDPasaporte, _E);
                 if (_C != null)
                     return View(_C);

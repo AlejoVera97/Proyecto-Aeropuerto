@@ -97,7 +97,7 @@
     <Compile Include="Controllers\AeropuertoController.cs" />
     <Compile Include="Controllers\CiudadController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\VentaController.cs" />
     <Compile Include="Controllers\VueloController.cs" />

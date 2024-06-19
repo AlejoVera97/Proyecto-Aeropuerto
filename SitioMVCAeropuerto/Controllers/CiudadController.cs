@@ -16,26 +16,59 @@ namespace Sitio.Controllers
 {
     public class CiudadControlador : Controller
     {
-        public ActionResult Index()
+
+        //---------- MENU
+        public ActionResult MenuCiudades(string Filtro)
         {
-            return View();
-        }
 
 
-        // ------------- AGREGAR CIUDAD  (LISTO)
-        [HttpGet]
-        public ActionResult FormAgregarCiudad()
-        {
             try
             {
-                //muestro la vista
-                return View();
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+
+                Empleado _E = (Empleado)Session["Logueo"];
+
+                List<Ciudad> listaCiudades = FabricaLogica.GetLogicaCiudad().ListarCiudad(_E);
+
+                if (listaCiudades.Count != 0)
+                {
+
+                    if (String.IsNullOrEmpty(Filtro))
+                        return View(listaCiudades);
+                    else
+                    {
+                        listaCiudades = (from unaC in listaCiudades
+                                         where unaC.NombreCiudad.ToUpper().StartsWith(Filtro.ToUpper())
+                                         select unaC).ToList();
+                        return View(listaCiudades);
+                    }
+                }
+                else
+                    throw new Exception("No hay ciudades ingresadas en el sistema");
             }
             catch (Exception ex)
             {
                 ViewBag.Mensaje = ex.Message;
-                return View();
+                return View(new List<Ciudad>());
+
             }
+
+
+
+        }
+
+
+
+
+        // ------------- AGREGAR CIUDAD  
+        [HttpGet]
+        public ActionResult FormAgregarCiudad()
+        {
+
+            if (!(Session["Logueo"] is Empleado))
+                return RedirectToAction("FormLogueo", "Empleados");
+            return View();
         }
 
         [HttpPost]
@@ -44,14 +77,16 @@ namespace Sitio.Controllers
             try
             {
                 Empleado _E = (Empleado)Session["Logeo"];
-                //valido objeto correcto
-                C.ValidarCiudad();
-                _E.ValidarEmpleado();
+              
+                if(ModelState.IsValid)
+                {
+                    C.ValidarCiudad();
+                    FabricaLogica.GetLogicaCiudad().AltaCiudad(C, _E);
+                    return RedirectToAction("Formulario agregar", "Ciudad");
+                }
+                return View();             
 
-                //intento agregar articulo en la bd
-                FabricaLogica.GetLogicaCiudad().AltaCiudad(C,_E);
-                // no hubo error, alta correcto
-                return RedirectToAction("Formulario agregar", "Ciudad");
+                
             }
             catch (Exception ex)
             {
@@ -62,7 +97,7 @@ namespace Sitio.Controllers
 
 
 
-        //----------- BAJA CIUDAD (LISTO)
+        //----------- BAJA CIUDAD 
 
         [HttpGet]
         public ActionResult FormBajaCiudad(string IDCiudad)
@@ -70,13 +105,16 @@ namespace Sitio.Controllers
             {
                 try
                 {
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
+
                 Empleado _E = (Empleado)Session["Logeo"];
 
                 Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad, _E);
                     if (_C != null)
                         return View(_C);
                     else
-                        throw new Exception("No existe el CLIENTE");
+                        throw new Exception("No existe la ciudad");
                 }
                 catch (Exception ex)
                 {
@@ -90,9 +128,8 @@ namespace Sitio.Controllers
             try
             {
                 Empleado _E = (Empleado)Session["Logeo"];
-
                 FabricaLogica.GetLogicaCiudad().BajaCiudad(C,_E);
-                return RedirectToAction("Baja Ciudad", "Ciudad");
+                return RedirectToAction("MenuCiudades", "Ciudad");
             }
             catch (Exception ex)
             {
@@ -103,29 +140,7 @@ namespace Sitio.Controllers
 
 
 
-        //---------- BUSCAR CIUDAD (LISTO)
-        public ActionResult FormBuscarCiudad(string IDCiudad)
-        {
-            try
-            {
-                Empleado _E = (Empleado)Session["Logeo"];
-
-                Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad,_E);
-                if (_C != null)
-                    return View(_C);
-                else
-                    throw new Exception("No existe la ciudad");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Mensaje = ex.Message;
-                return View(new Ciudad());
-            }
-        }
-
-
-
-
+      
         //--------- MODIFICAR CIUDAD
 
         [HttpGet]
@@ -133,6 +148,9 @@ namespace Sitio.Controllers
         {
             try
             {
+                if (!(Session["Logeo"] is Empleado))
+                    return RedirectToAction("FormLogeo", "Empleado");
+
                 Empleado _E = (Empleado)Session["Logeo"];
                 Ciudad _C = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad ,_E);
                 if (_C != null)
@@ -154,13 +172,15 @@ namespace Sitio.Controllers
             {
                 Empleado _E = (Empleado)Session["Logeo"];
 
-                //valido objeto correcto
-                C.ValidarCiudad();
-                _E.ValidarEmpleado();
-                //intento modificar
-                FabricaLogica.GetLogicaCiudad().ModificarCiudad(C, _E);
-                ViewBag.Mensaje = "Modificacion Exitosa";
-                return View(new Ciudad());
+                if (ModelState.IsValid)
+                {
+
+                    C.ValidarCiudad();
+                    FabricaLogica.GetLogicaCiudad().ModificarCiudad(C, _E);
+
+                    return RedirectToAction("FormCiudadConsultar", "Ciudad", new { C.IDCiudad });
+                }
+                return View(C);
             }
             catch (Exception ex)
             {
@@ -171,39 +191,34 @@ namespace Sitio.Controllers
 
 
 
-        //-------- LISTAR CIUDAD
+        //-------- CONSULTAR CIUDAD
 
-        public ActionResult FormListarCiudad(string IDCiudad)
+        [HttpGet]
+        public ActionResult FormCiudadConsultar(string IDCiudad)
         {
             try
             {
-                Empleado _E = (Empleado)Session["Logeo"];
 
-                //obtengo lista de articulos
-                List<Ciudad> _lista = FabricaLogica.GetLogicaCiudad().ListarCiudad(_E);
+                if (!(Session["Logueo"] is Empleado))
+                    return RedirectToAction("FormLogueo", "Empleados");
 
-                //si hay datos... defino despliegue
-                if (_lista.Count >= 1)
-                {
-                    //primero reviso si hay que filtrar...
-                    if (String.IsNullOrEmpty(IDCiudad))
-                        return View(_lista); //no hay filtro - muestro compelto
-                    else
-                    {
-                        //hay dato para filtro
-                        _lista = (from unC in _lista
-                                  where unC.IDCiudad.ToUpper().StartsWith(IDCiudad.ToUpper())
-                                  select unC).ToList();
-                        return View(_lista);
-                    }
-                }
-                else //no hay datos - no hago nada
-                    throw new Exception("No hay Articulos para mostar");
+                Empleado _E = (Empleado)Session["Logueo"];
+
+                Ciudad Ciu = FabricaLogica.GetLogicaCiudad().BuscarCiudad(IDCiudad, _E);
+                if (Ciu != null)
+                    return View(Ciu);
+                else
+                    throw new Exception("No existe la Ciudad");
+
+
+
             }
             catch (Exception ex)
             {
                 ViewBag.Mensaje = ex.Message;
-                return View(new List<Aeropuertos>());
+                return View(new Ciudad());
+
+
             }
         }
 

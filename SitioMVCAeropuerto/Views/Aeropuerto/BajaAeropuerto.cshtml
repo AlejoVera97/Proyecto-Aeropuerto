@@ -1,51 +1,42 @@
-﻿
-@model EntidadesCompartidas.Aeropuertos
+﻿@model  EntidadesCompartidas.Aeropuertos
 
 @{
-    ViewBag.Title = "BAJA AEROPUERTO";
+    ViewBag.Title = "Eliminar Aeropuerto";
 }
 
-@ViewBag.Mensaje
+<h2>Eliminar Aeropuerto</h2>
 
+@if (ViewBag.Mensaje != null)
+{
+    <div style="color:red;">
+        @ViewBag.Mensaje
+    </div>
+}
 
-<h3>Esta Seguro que desea eliminar el siguiente Aeropuerto?</h3>
+@using (Html.BeginForm("FormBajaAeropuerto", "AeropuertoController.cs", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IDAeropuerto)
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(EntidadesCompartidas=>EntidadesCompartidas.IDAeropuerto)
-        </dt>
+    <div>
+        <label>Nombre:</label>
+        <span>@Html.DisplayFor(model => model.Nombre)</span>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.IDAeropuerto);
-        </dd>
+    <div>
+        <label>Ubicación:</label>
+        <span>@Html.DisplayFor(model => model.Direccion)</span>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.Nombre);
-        </dt>
-        <dd>
-            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.Direccion);
-        </dd>
+    <div>
+        <label>Código:</label>
+        <span>@Html.DisplayFor(model => model.IDAeropuerto)</span>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoLlegada);
-        </dt>
+    
 
-        <dd>
-            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoParitda);
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Volver", "Principal")
-        </div>
-    }
-</div>
-
+    <div>
+        <p>¿Está seguro de que desea eliminar este aeropuerto?</p>
+        <input type="submit" value="Eliminar" />
+        @Html.ActionLink("Cancelar", "MenuAeropuerto", "Aeropuerto")
+    </div>
+}

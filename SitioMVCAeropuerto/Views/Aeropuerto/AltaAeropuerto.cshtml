@@ -1,44 +1,49 @@
-﻿@model EntidadesCompartidas.Aeropuertos
+﻿@model  EntidadesCompartidas.Aeropuertos
 
 @{
-    ViewBag.Title = "FORMULARIO ALTA AEROPUERTO";
+    ViewBag.Title = "Agregar Aeropuerto";
 }
 
-<h2> Deseas : Agregar un Aeropuerto?  </h2>
+<h2>Agregar Aeropuerto</h2>
 
-@ViewBag.Mensaje
+@if (ViewBag.Mensaje != null)
+{
+    <div style="color:red;">
+        @ViewBag.Mensaje
+    </div>
+}
 
-<div>
+@using (Html.BeginForm("FormAgregarAeropuerto", "AeropuertoController.cs", FormMethod.Post))
+{
+    <div>
+        <label for="Nombre">Nombre:</label>
+        @Html.TextBoxFor(model => model.Nombre)
+        @Html.ValidationMessageFor(model => model.Nombre)
+    </div>
 
-    @Html.ActionLink("Volver ", "FormAltaAeropuerto")
+    <div>
+        <label for="Direccion">Direccion:</label>
+        @Html.TextBoxFor(model => model.Direccion)
+        @Html.ValidationMessageFor(model => model.Direccion)
+    </div>
 
-    <hr />
+    <div>
+        <label for="Codigo">Código:</label>
+        @Html.TextBoxFor(model => model.IDAeropuerto)
+        @Html.ValidationMessageFor(model => model.IDAeropuerto)
+    </div>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.IDAeropuerto);
-        </dt>
+    <div>
+        <label for="Ciudad">Ciudad:</label>
+        @Html.DropDownListFor(model => model._Ciudad.IDCiudad, (SelectList)ViewBag.ListaC, "Seleccione una ciudad")
+        @Html.ValidationMessageFor(model => model._Ciudad.IDCiudad)
+    </div>
 
-        <dd>
-            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.Nombre);
-        </dd>
+  
 
-        <dt>
-            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.Direccion);
-        </dt>
+    <div>
+        <input type="submit" value="Agregar" />
+    </div>
+}
 
-        <dd>
-            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoParitda);
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(EntidadesCompartidas => EntidadesCompartidas.ImpuestoLlegada);
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(EntidadesCompartidas => EntidadesCompartidas._Ciudad);
-        </dd>
-
-    </dl>
-
-</div>
+}

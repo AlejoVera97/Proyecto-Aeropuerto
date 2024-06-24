@@ -114,7 +114,6 @@
     <Content Include="Views\Aeropuerto\AltaAeropuerto.cshtml" />
     <Content Include="Views\Aeropuerto\BajaAeropuerto.cshtml" />
     <Content Include="Views\Aeropuerto\ConsultaAeropuerto.cshtml" />
-    <Content Include="Views\Aeropuerto\ListarAeropuerto.cshtml" />
     <Content Include="Views\Aeropuerto\ModificarAeropuerto.cshtml" />
     <Content Include="Views\Ciudad\AltaCiudad.cshtml" />
     <Content Include="Views\Ciudad\BajaCiudad.cshtml" />
@@ -136,6 +135,7 @@
     <Content Include="Views\Vuelo\ListarVuelo.cshtml" />
     <Content Include="Views\Empleado\CambioContrasena.cshtml" />
     <Content Include="Views\Empleado\BajaEmpleado.cshtml" />
+    <Content Include="Views\Aeropuerto\MenuAeropuerto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

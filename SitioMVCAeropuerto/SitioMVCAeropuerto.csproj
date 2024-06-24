@@ -123,7 +123,7 @@
     <Content Include="Views\Clientes\AltaCliente.cshtml" />
     <Content Include="Views\Clientes\BajaCliente.cshtml" />
     <Content Include="Views\Clientes\ConsultaCliente.cshtml" />
-    <Content Include="Views\Clientes\ListarCliente.cshtml" />
+    <Content Include="Views\Clientes\MenuClientes.cshtml" />
     <Content Include="Views\Clientes\ModificarCliente.cshtml" />
     <Content Include="Views\Empleado\ListarEmpleado.cshtml" />
     <Content Include="Views\Empleado\LogueoEmpleado.cshtml" />

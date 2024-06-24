@@ -1,0 +1,53 @@
+﻿@model  EntidadesCompartidas.Ciudad
+
+@{
+    ViewBag.Title = "Menú de Ciudades";
+}
+
+<h2>Menú de Ciudades</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div style="color:red;">
+        @ViewBag.Mensaje
+    </div>
+}
+
+<form method="get" action="@Url.Action("MenuCiudades", "CiudadController.cs")">
+    <div>
+        <label for="Filtro">Filtrar por nombre:</label>
+        <input type="text" id="Filtro" name="Filtro" value="@Request.QueryString["Filtro"]" />
+        <input type="submit" value="Filtrar" />
+    </div>
+</form>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>País</th>
+                <th>IDCiudad</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ciudad in Model)
+            {
+                <tr>
+                    <td>@ciudad.NombreCiudad</td>
+                    <td>@ciudad.NombrePais</td>
+                    <td>@ciudad.IDCiudad</td>
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>
+        <p>No hay ciudades disponibles.</p>
+    </div>
+}

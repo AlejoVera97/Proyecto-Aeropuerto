@@ -4,45 +4,47 @@
     ViewBag.Title = "Eliminar Ciudad";
 }
 
-@ViewBag.Mensaje
+<h2>Eliminar Ciudad</h2>
 
+@if (ViewBag.Mensaje != null)
+{
+    <div style="color:red;">
+        @ViewBag.Mensaje
+    </div>
+}
 
-<h3>Esta Seguro que desea eliminar el siguiente CIUDAD ?</h3>
+@if (Model != null && !string.IsNullOrEmpty(Model.IDCiudad))
+{
+    <div>
+        <label>Nombre:</label>
+        <span>@Html.DisplayFor(model => model.NombreCiudad)</span>
+    </div>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IDCiudad)
-        </dt>
+    <div>
+        <label>País:</label>
+        <span>@Html.DisplayFor(model => model.NombrePais)</span>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.IDCiudad)
-        </dd>
+    <div>
+        <label>Código Postal:</label>
+        <span>@Html.DisplayFor(model => model.IDCiudad)</span>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NombrePais)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NombrePais)
-        </dd>
+   
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreCiudad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NombreCiudad)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Volver a listado", "FormListarCiudad")
-        </div>
-    }
+    <div>
+        <p>¿Está seguro de que desea eliminar esta ciudad?</p>
+        @using (Html.BeginForm("FormBajaCiudad", "CiudadController.cs", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.IDCiudad)
+            <input type="submit" value="Eliminar" />
+            @Html.ActionLink("Cancelar", "MenuCiudades", "Ciudad")
+        }
+    </div>
+}
+else
+{
+    <div>
+        <p>No se encontró información de la ciudad.</p>
+    </div>
+}

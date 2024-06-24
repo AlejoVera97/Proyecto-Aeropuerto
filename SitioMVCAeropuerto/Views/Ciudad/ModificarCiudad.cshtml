@@ -1,54 +1,48 @@
 ﻿@model  EntidadesCompartidas.Ciudad
 
 @{
-    ViewBag.Title = "MODIFICAR CIUDAD";
+    ViewBag.Title = "Modificar Ciudad";
 }
 
 <h2>Modificar Ciudad</h2>
 
-@ViewBag.Mensaje
-
-
+@if (ViewBag.Mensaje != null)
+{
+    <div style="color:red;">
+        @ViewBag.Mensaje
+    </div>
+}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div>
+        @Html.HiddenFor(model => model.IDCiudad)
+    </div>
 
-        @Html.ActionLink("Volver a listado", "FormListarCiudad")
-        <hr />
+    <div>
+        <label>Nombre:</label>
+        @Html.EditorFor(model => model.NombreCiudad)
+        @Html.ValidationMessageFor(model => model.NombreCiudad)
+    </div>
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div>
+        <label>País:</label>
+        @Html.EditorFor(model => model.NombrePais)
+        @Html.ValidationMessageFor(model => model.NombrePais)
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IDCiudad, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.IDCiudad, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
+    <div>
+        <label>IDCiudad:</label>
+        @Html.EditorFor(model => model.IDCiudad)
+        @Html.ValidationMessageFor(model => model.IDCiudad)
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NombreCiudad, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NombreCiudad, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NombreCiudad, "", new { @class = "text-danger" })
-            </div>
-        </div>
+   
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NombrePais, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NombrePais, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NombrePais, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Modificar" class="btn btn-default" />
-            </div>
-        </div>
+    <div>
+        <input type="submit" value="Guardar cambios" />
+        @Html.ActionLink("Cancelar", "FormCiudadConsultar", "Ciudad", new { IDCiudad = Model.IDCiudad }, null)
     </div>
 }
-

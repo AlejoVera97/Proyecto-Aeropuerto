@@ -118,7 +118,7 @@
     <Content Include="Views\Ciudad\AltaCiudad.cshtml" />
     <Content Include="Views\Ciudad\BajaCiudad.cshtml" />
     <Content Include="Views\Ciudad\ConsultaCiudad.cshtml" />
-    <Content Include="Views\Ciudad\ListarCiudad.cshtml" />
+    <Content Include="Views\Ciudad\MenuCiudades.cshtml" />
     <Content Include="Views\Ciudad\ModificarCiudad.cshtml" />
     <Content Include="Views\Clientes\AltaCliente.cshtml" />
     <Content Include="Views\Clientes\BajaCliente.cshtml" />

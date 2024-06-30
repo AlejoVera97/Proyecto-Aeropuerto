@@ -137,6 +137,8 @@
     <Content Include="Views\Venta\FormAltaFallo.cshtml" />
     <Content Include="Views\Vuelo\FormConsultarVuelo.cshtml" />
     <Content Include="Views\Vuelo\FormListarVuelo.cshtml" />
+    <Content Include="Views\Shared.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -15,6 +15,20 @@ USE AeropuertosAmericanos
 go
 --------------------------------------
 
+CREATE LOGIN [IIS APPPOOL\DefaultAppPool] FROM WINDOWS 
+GO
+
+USE AeropuertosAmericanos
+GO
+
+CREATE USER [IIS APPPOOL\DefaultAppPool] FOR LOGIN [IIS APPPOOL\DefaultAppPool]
+GO
+
+
+
+exec sys.sp_addrolemember 'db_owner', [IIS APPPOOL\DefaultAppPool]
+go
+
 
 
 -- TABLAS

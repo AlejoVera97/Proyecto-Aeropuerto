@@ -196,9 +196,9 @@ namespace Sitio.Controllers
 
                 int _ImpuestoPartida = unaV.Vuelo.AeropuertoSalida.ImpuestoParitda;
                 int _ImpuestoLlegada = unaV.Vuelo.AeropuertoLlegada.ImpuestoLlegada;
-                int _Precio = unaV.Vuelo.PrecioVuelo;
+                double _Precio = unaV.Vuelo.PrecioVuelo;
                 int _Cantidad = unaV.VentaLista.Count();
-                int _PrecioFinal = (_ImpuestoPartida + _ImpuestoLlegada + _Precio) * _Cantidad;
+                double _PrecioFinal = (_ImpuestoPartida + _ImpuestoLlegada + _Precio) * _Cantidad;
                 unaV.Precio = _PrecioFinal;
 
                 unaV.ValidarVenta();

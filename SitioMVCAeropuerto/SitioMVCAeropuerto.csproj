@@ -110,32 +110,33 @@
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Aeropuerto\AltaAeropuerto.cshtml" />
-    <Content Include="Views\Aeropuerto\BajaAeropuerto.cshtml" />
-    <Content Include="Views\Aeropuerto\ConsultaAeropuerto.cshtml" />
-    <Content Include="Views\Aeropuerto\ModificarAeropuerto.cshtml" />
-    <Content Include="Views\Ciudad\AltaCiudad.cshtml" />
-    <Content Include="Views\Ciudad\BajaCiudad.cshtml" />
-    <Content Include="Views\Ciudad\ConsultaCiudad.cshtml" />
-    <Content Include="Views\Ciudad\MenuCiudades.cshtml" />
-    <Content Include="Views\Ciudad\ModificarCiudad.cshtml" />
-    <Content Include="Views\Clientes\AltaCliente.cshtml" />
-    <Content Include="Views\Clientes\BajaCliente.cshtml" />
-    <Content Include="Views\Clientes\ConsultaCliente.cshtml" />
-    <Content Include="Views\Clientes\MenuClientes.cshtml" />
-    <Content Include="Views\Clientes\ModificarCliente.cshtml" />
-    <Content Include="Views\Empleado\ListarEmpleado.cshtml" />
-    <Content Include="Views\Empleado\LogueoEmpleado.cshtml" />
-    <Content Include="Views\Pasaje\AltaPasaje.cshtml" />
-    <Content Include="Views\Pasaje\ListarVentaPasaje.cshtml" />
-    <Content Include="Views\Venta\AltaVenta.cshtml" />
-    <Content Include="Views\Venta\ListarVenta.cshtml" />
-    <Content Include="Views\Vuelo\AltaVuelo.cshtml" />
-    <Content Include="Views\Vuelo\ListarVuelo.cshtml" />
-    <Content Include="Views\Empleado\CambioContrasena.cshtml" />
-    <Content Include="Views\Empleado\BajaEmpleado.cshtml" />
-    <Content Include="Views\Aeropuerto\MenuAeropuerto.cshtml" />
+    <Content Include="Views\Aeropuerto\FormAltaAeropuerto.cshtml" />
+    <Content Include="Views\Aeropuerto\FormBajaAeropuerto.cshtml" />
+    <Content Include="Views\Aeropuerto\FormConsultaAeropuerto.cshtml" />
+    <Content Include="Views\Aeropuerto\FormModificarAeropuerto.cshtml" />
+    <Content Include="Views\Ciudad\FormAltaCiudad.cshtml" />
+    <Content Include="Views\Ciudad\FormBajaCiudad.cshtml" />
+    <Content Include="Views\Ciudad\FormConsultaCiudad.cshtml" />
+    <Content Include="Views\Ciudad\FormMenuCiudades.cshtml" />
+    <Content Include="Views\Ciudad\FormModificarCiudad.cshtml" />
+    <Content Include="Views\Clientes\FormAltaCliente.cshtml" />
+    <Content Include="Views\Clientes\FormBajaCliente.cshtml" />
+    <Content Include="Views\Clientes\FormConsultaCliente.cshtml" />
+    <Content Include="Views\Clientes\FormMenuClientes.cshtml" />
+    <Content Include="Views\Clientes\FormModificarCliente.cshtml" />
+    <Content Include="Views\Empleado\FormLogueoEmpleado.cshtml" />
+    <Content Include="Views\Venta\FormAltaVenta.cshtml" />
+    <Content Include="Views\Vuelo\FormAltaVuelo.cshtml" />
+    <Content Include="Views\Empleado\FormLogeo.cshtml" />
+    <Content Include="Views\Aeropuerto\FormMenuAeropuerto.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Menu.cshtml" />
+    <Content Include="Views\Venta\FormAltaPasaje.cshtml" />
+    <Content Include="Views\Venta\FormGuardarVenta.cshtml" />
+    <Content Include="Views\Venta\FormMostrarVenta.cshtml" />
+    <Content Include="Views\Venta\FormAltaFallo.cshtml" />
+    <Content Include="Views\Vuelo\FormConsultarVuelo.cshtml" />
+    <Content Include="Views\Vuelo\FormListarVuelo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -145,8 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\1-EntidadesCompartidas\1-EntidadesCompartidas.csproj">

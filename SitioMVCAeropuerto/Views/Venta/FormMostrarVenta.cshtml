@@ -1,0 +1,60 @@
+﻿@model  EntidadesCompartidas.Venta
+@{
+    ViewBag.Title = "Detalles de la Venta";
+}
+
+<h2>Detalles de la Venta</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">
+        @Html.Raw(ViewBag.Mensaje)
+    </div>
+}
+
+@if (Model != null)
+{
+    <div class="alert alert-info">
+        <h4>Información del Vuelo</h4>
+        <p><strong>Código de Vuelo:</strong> @Model.Vuelo.CodVuelo</p>
+        <p><strong>Aeropuerto de Salida:</strong> @Model.Vuelo.AeropuertoSalida.Nombre (@Model.Vuelo.AeropuertoSalida.Codigo)</p>
+        <p><strong>Aeropuerto de Llegada:</strong> @Model.Vuelo.AeropuertoLlegada.Nombre (@Model.Vuelo.AeropuertoLlegada.Codigo)</p>
+        <p><strong>Fecha y Hora de Salida:</strong> @Model.Vuelo.FechaHoraSalida</p>
+        <p><strong>Precio del Vuelo:</strong> @Model.Vuelo.PrecioVuelo</p>
+
+        <h4>Información de la Venta</h4>
+        <p><strong>Impuesto de Partida:</strong> @Model.Vuelo.AeropuertoSalida.ImpuestoParitda</p>
+        <p><strong>Impuesto de Llegada:</strong> @Model.Vuelo.AeropuertoLlegada.ImpuestoLlegada</p>
+        <p><strong>Cantidad de Pasajes:</strong> @Model.VentaLista.Count()</p>
+        <p><strong>Precio Final:</strong> @Model.Precio</p>
+    </div>
+
+    <h4>Lista de Pasajes</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Número de Pasaporte</th>
+                <th>Nombre del Cliente</th>
+                <th>Número de Asiento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pasaje in Model.VentaLista)
+            {
+                <tr>
+                    <td>@pasaje.IDPasaporte</td>
+                    <td>@pasaje.Cliente.Nombre</td>
+                    <td>@pasaje.NAsiento</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">
+        No hay detalles de la venta disponibles.
+    </div>
+}
+
+<a href="@Url.Action("Index", "Home")" class="btn btn-primary">Volver al inicio</a>

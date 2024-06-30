@@ -1,0 +1,31 @@
+﻿@model  EntidadesCompartidas.Venta
+@{
+    ViewBag.Title = "Alta Venta";
+}
+
+<h2>Alta Venta</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Mensaje
+    </div>
+}
+
+@using (Html.BeginForm("FormAltaVenta", "Ventas", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(V => V.Vuelo.IDvuelo, "Seleccione un Vuelo:")
+        @Html.DropDownList("CodVuelo", ViewBag.ListaV as SelectList, "Seleccione un Vuelo", new { @class = "form-control" })
+        @Html.ValidationMessageFor(V => V.Vuelo.IDvuelo, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(V => V.Clientes.IDPasaporte, "Seleccione un Cliente:")
+        @Html.DropDownList("IDPasaporte", ViewBag.ListaC as SelectList, "Seleccione un Cliente", new { @class = "form-control" })
+        @Html.ValidationMessageFor(V => V.Clientes.IDPasaporte, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Registrar Venta</button>
+}
+

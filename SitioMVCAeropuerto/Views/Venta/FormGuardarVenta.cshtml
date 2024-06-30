@@ -1,0 +1,32 @@
+﻿@model  EntidadesCompartidas.Venta
+@{
+    ViewBag.Title = "Confirmar Venta";
+}
+
+<h2>Confirmar Venta</h2>
+
+@if (Session["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @Html.Raw(Session["Error"].ToString())
+    </div>
+}
+
+<div class="alert alert-info">
+    <p><strong>Vuelo:</strong> @Model.Vuelo.CodVuelo</p>
+    <p><strong>Aeropuerto de Salida:</strong> @Model.Vuelo.AeropuertoSalida.Nombre (@Model.Vuelo.AeropuertoSalida.Codigo)</p>
+    <p><strong>Aeropuerto de Llegada:</strong> @Model.Vuelo.AeropuertoLlegada.Nombre (@Model.Vuelo.AeropuertoLlegada.Codigo)</p>
+    <p><strong>Impuesto de Partida:</strong> @Model.Vuelo.AeropuertoSalida.ImpuestoParitda</p>
+    <p><strong>Impuesto de Llegada:</strong> @Model.Vuelo.AeropuertoLlegada.ImpuestoLlegada</p>
+    <p><strong>Precio del Vuelo:</strong> @Model.Vuelo.PrecioVuelo</p>
+    <p><strong>Cantidad de Pasajes:</strong> @Model.VentaLista.Count()</p>
+    <p><strong>Precio Final:</strong> @((Model.Vuelo.AeropuertoSalida.ImpuestoParitda + Model.Vuelo.AeropuertoLlegada.ImpuestoLlegada + Model.Vuelo.PrecioVuelo) * Model.VentaLista.Count())</p>
+</div>
+
+<div class="form-group">
+    @using (Html.BeginForm("GuardarVenta", "Ventas", FormMethod.Post))
+    {
+        <button type="submit" class="btn btn-primary">Confirmar Venta</button>
+        <a href="@Url.Action("CancelarVenta", "Ventas")" class="btn btn-secondary">Cancelar</a>
+    }
+</div>

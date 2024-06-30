@@ -1,0 +1,38 @@
+﻿@model  Logica.ILogicaVuelo
+@{
+    ViewBag.Title = "Consultar Vuelo";
+}
+
+<h2>Detalles del Vuelo</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">
+        @Html.Raw(ViewBag.Mensaje)
+    </div>
+}
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-header">
+            Información del Vuelo
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Código de Vuelo: @Model.IDvuelo</h5>
+            <p class="card-text"><strong>Aeropuerto de Salida:</strong> @Model.AeropuertoSalida.Nombre (@Model.AeropuertoSalida.Codigo)</p>
+            <p class="card-text"><strong>Aeropuerto de Llegada:</strong> @Model.AeropuertoLlegada.Nombre (@Model.AeropuertoLlegada.Codigo)</p>
+            <p class="card-text"><strong>Fecha y Hora de Salida:</strong> @Model.FechaHoraSalida</p>
+            <p class="card-text"><strong>Precio del Vuelo:</strong> @Model.PrecioVuelo</p>
+            <p class="card-text"><strong>Cantidad de Asientos:</strong> @Model.CantidadAsientos</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        No hay detalles del vuelo disponibles.
+    </div>
+}
+
+<a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Volver al inicio</a>

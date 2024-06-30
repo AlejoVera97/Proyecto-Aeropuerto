@@ -1,0 +1,71 @@
+﻿@model  EntidadesCompartidas.Vuelo
+@{
+    ViewBag.Title = "Lista de Vuelos";
+}
+
+<h2>Lista de Vuelos</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">
+        @Html.Raw(ViewBag.Mensaje)
+    </div>
+}
+
+@using (Html.BeginForm("FormListaVuelo", "VuelosControlador", FormMethod.Get))
+{
+    <div class="form-group">
+        <label for="pFecha">Fecha</label>
+        <input type="date" name="pFecha" id="pFecha" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="pOpcion">Opción</label>
+        <select name="pOpcion" id="pOpcion" class="form-control">
+            <option value="">Seleccione una opción</option>
+            <option value="Partidas">Partidas</option>
+            <option value="No_Partidas">No Partidas</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="pAeropuerto">Aeropuerto de Salida</label>
+        @Html.DropDownList("pAeropuerto", (SelectList)ViewBag.ListaA, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Código de Vuelo</th>
+                <th>Aeropuerto de Salida</th>
+                <th>Aeropuerto de Llegada</th>
+                <th>Fecha y Hora de Salida</th>
+                <th>Precio del Vuelo</th>
+                <th>Cantidad de Asientos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vuelo in Model)
+            {
+                <tr>
+                    <td>@vuelo.IDvuelo</td>
+                    <td>@vuelo.AeropuertoSalida.Nombre (@vuelo.AeropuertoSalida.Codigo)</td>
+                    <td>@vuelo.AeropuertoLlegada.Nombre (@vuelo.AeropuertoLlegada.Codigo)</td>
+                    <td>@vuelo.FechaHoraSalida</td>
+                    <td>@vuelo.PrecioVuelo</td>
+                    <td>@vuelo.CantidadAsientos</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning mt-3">
+        No hay vuelos disponibles.
+    </div>
+}
+
+<a href="@Url.Action("Index", "Home")" class="btn btn-secondary mt-3">Volver al inicio</a>

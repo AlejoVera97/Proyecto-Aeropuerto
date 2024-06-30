@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Mensaje de Error";
+}
+
+<h2>Mensaje de Error</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">
+        @Html.Raw(ViewBag.Mensaje)
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        No hay mensajes de error.
+    </div>
+}
+
+<a href="@Url.Action("Index", "Home")" class="btn btn-primary">Volver al inicio</a>

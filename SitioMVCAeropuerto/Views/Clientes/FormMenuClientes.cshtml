@@ -1,0 +1,59 @@
+﻿@model  IEnumerable< EntidadesCompartidas.Clientes>
+
+@{
+    ViewBag.Title = "Menú de Clientes";
+}
+
+<h2>Menú de Clientes</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div style="color:red;">
+        @ViewBag.Mensaje
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    <div>
+        <label>Filtrar por nombre:</label>
+        <input type="text" name="Filtro" value="@ViewBag.CurrentFilter" />
+        <input type="submit" value="Filtrar" />
+    </div>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDPasaporte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.NTarjeta)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IDPasaporte)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NTarjeta)
+            </td>
+        </tr>
+    }
+
+</table>
+
+{
+<p>No se encontraron clientes.</p>
+}

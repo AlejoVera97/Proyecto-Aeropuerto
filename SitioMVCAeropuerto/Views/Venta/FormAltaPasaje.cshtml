@@ -1,0 +1,34 @@
+﻿@model  EntidadesCompartidas.Pasaje
+@{
+    ViewBag.Title = "Alta Pasaje";
+}
+
+<h2>Alta Pasaje</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">
+        @Html.Raw(ViewBag.Mensaje)
+    </div>
+}
+
+<div class="alert alert-info">
+    Asientos disponibles: @ViewBag.Disponibles
+</div>
+
+@using (Html.BeginForm("FormAltaPasaje", "Ventas", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.IDPasaporte, "Seleccione un Cliente:")
+        @Html.DropDownListFor(m => m.IDPasaporte, ViewBag.unaLisC as SelectList, "Seleccione un Cliente", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.IDPasaporte, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.NAsiento, "Número de Asiento:")
+        @Html.TextBoxFor(m => m.NAsiento, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NAsiento, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Pasaje</button>
+}

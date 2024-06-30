@@ -55,7 +55,7 @@ namespace Sitio.Controllers
 
                 V.AeropuertoSalida = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(V.AeropuertoSalida.IDAeropuerto, _E);
                 V.AeropuertoLlegada = FabricaLogica.GetLogicaAeropuerto().BuscarAeropuerto(V.AeropuertoLlegada.IDAeropuerto, _E);
-                string codigo = V.AeropuertoSalida.ToString("yyyyMMddHHmm");
+                string codigo = V.AeropuertoSalida.ToString();
                 V.IDvuelo = codigo + V.AeropuertoLlegada.IDAeropuerto;
                 V.ValidarVuelo();
 

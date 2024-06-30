@@ -42,11 +42,9 @@
         @Html.ValidationMessageFor(model => model._Ciudad.IDCiudad)
     </div>
 
-    <!-- Agrega más campos según lo necesites -->
 
     <div>
         <input type="submit" value="Modificar" />
         @Html.ActionLink("Cancelar", "FormAeropuertoConsulta", "Aeropuertos", new { IDAeropuerto = Model.IDAeropuerto })
     </div>
-}
 }

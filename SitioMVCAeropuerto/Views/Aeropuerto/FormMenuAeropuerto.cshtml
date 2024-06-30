@@ -1,4 +1,4 @@
-﻿@model  EntidadesCompartidas.Aeropuertos
+﻿@model  IEnumerable<EntidadesCompartidas.Aeropuertos>
 
 @{
     ViewBag.Title = "Menu de Aeropuertos";
@@ -37,7 +37,10 @@
                 <td>@aeropuerto.Nombre</td>
                 <td>@aeropuerto.Direccion</td>
                 <td>@aeropuerto.IDAeropuerto</td>
-                
+                <td>@aeropuerto.ImpuestoParitda</td>
+                <td>@aeropuerto.ImpuestoLlegada</td>
+                <td>@aeropuerto._Ciudad.IDCiudad</td>
+
             </tr>
         }
     </tbody>

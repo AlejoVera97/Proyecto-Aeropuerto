@@ -1,0 +1,15 @@
+﻿@if (Session["Logueo"] is EntidadesCompartidas.Empleado)
+{
+    <p>Bienvenido, @((Session["Logueo"] as EntidadesCompartidas.Empleado).UsuLog)!</p>
+ 
+    <ul>
+        <li><a href="@Url.Action("Logeo", "LogeoEmpleados")">Opción 1</a></li>
+        <li><a href="@Url.Action("MenuCliente", "MenuCliente")">Opción 2</a></li>
+      
+       
+    </ul>
+}
+else
+{
+    <p>No tienes acceso a esta sección. Por favor, <a href="@Url.Action("FormLogueo", "Empleados")">inicia sesión</a>.</p>
+}

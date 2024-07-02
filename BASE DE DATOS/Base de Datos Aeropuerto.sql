@@ -10,29 +10,17 @@ BEGIN
 END
 go
 ---------------------------------------
+CREATE DATABASE AeropuertosAmericanos
+GO
+
+-------------------------------
 
 USE AeropuertosAmericanos
 go
 --------------------------------------
 
-CREATE LOGIN [IIS APPPOOL\DefaultAppPool] FROM WINDOWS 
-GO
-
-USE AeropuertosAmericanos
-GO
-
-CREATE USER [IIS APPPOOL\DefaultAppPool] FOR LOGIN [IIS APPPOOL\DefaultAppPool]
-GO
-
-
-
-exec sys.sp_addrolemember 'db_owner', [IIS APPPOOL\DefaultAppPool]
-go
-
-
-
 -- TABLAS
-CREATE TABLE Empleado
+CREATE TABLE Empleados
 (
     UsuLog VARCHAR(8) PRIMARY KEY,
     Contrasena VARCHAR(6) NOT NULL,
@@ -41,7 +29,7 @@ CREATE TABLE Empleado
 )
 GO
 
-CREATE TABLE Cliente
+CREATE TABLE Clientes
 (
     IDPasaporte VARCHAR(15) NOT NULL PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
@@ -51,7 +39,7 @@ CREATE TABLE Cliente
   )  
 Go
 
-CREATE TABLE Ciudad
+CREATE TABLE Ciudades
 (
     IDCiudad VARCHAR(6) NOT NULL PRIMARY KEY CHECK (LEN(IDCiudad) = 6 AND IDCiudad LIKE '[A-Z][A-Z][A-Z][A-Z][A-Z][A-Z]'), 
     NombreCiudad VARCHAR(100) NOT NULL,
@@ -65,39 +53,38 @@ CREATE TABLE Aeropuerto
     IDAeropuerto VARCHAR (3)  NOT NULL PRIMARY KEY CHECK (LEN(IDAeropuerto) = 3 AND IDAeropuerto LIKE  '[A-Z][A-Z][A-Z]'),
     Nombre VARCHAR(100) NOT NULL,
     Direccion VARCHAR(255) NOT NULL,
-    ImpuestoLlegada Money NOT NULL CHECK (ImpuestoLlegada >= 0),
-    ImpuestoPartida  Money NOT NULL CHECK (ImpuestoPardia >= 0),
+    ImpuestoLlegada int NOT NULL CHECK (ImpuestoLlegada >= 0),
+    ImpuestoPartida  int NOT NULL CHECK (ImpuestoPartida >= 0),
     IDCiudad VARCHAR (6) NOT NULL FOREIGN KEY (IDCiudad) REFERENCES Ciudades(IDCiudad),
         Activo Bit Not NUll default (1)
 )
 Go
 
-CREATE TABLE Vuelos
+CREATE TABLE Vuelo
 (
 
     IDVuelo varchar (15)  NOT NULL PRIMARY KEY  CHECK (LEN(IDVuelo) = 15 AND IDVuelo LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Za-z][A-Za-z][A-Za-z]'),
     CantidadAsientos INT NOT NULL CHECK ( CantidadAsientos between 100 and 300),
-    PrecioVuelo  Money  NOT NULL CHECK (( Precio > 0)),
+    PrecioVuelo  int  NOT NULL CHECK ( PrecioVuelo > 0),
     FechaHoraSalida DATETIME NOT NULL CHECK ((FechaHoraSalida) > GetDate ()),
-    FechaHoraLlegada DATETIME NOT NULL,
-    IDAeropuertoLlegada VARCHAR (3) NOT NULL FOREIGN KEY (IDAeropuerto) REFERENCES Aeropuerto(IDAeropuerto),
-     CHECK (FechaHoraLLegada > FechaHoraSalida),
-    IDAeropuertoSalida VARCHAR (3) NOT NULL FOREIGN KEY (IDAeropuerto) REFERENCES Aeropuerto (IDAeropuerto),
+    FechaHoraLlegada DATETIME NOT NULL  ,
+    IDAeropuertoLlegada VARCHAR (3) NOT NULL FOREIGN KEY (IDAeropuertoLlegada) REFERENCES Aeropuerto(IDAeropuerto), CHECK (FechaHoraLLegada > FechaHoraSalida),
+    IDAeropuertoSalida VARCHAR (3) NOT NULL FOREIGN KEY (IDAeropuertoSalida) REFERENCES Aeropuerto (IDAeropuerto),
     
     )
 Go
 
-CREATE TABLE Ventas
+CREATE TABLE Venta
 (
     IDVenta INT IDENTITY (1,1) NOT NULL PRIMARY KEY ,     
     Fecha DATE NOT NULL DEFAULT GETDATE(),
     Precio MONEY  NOT NULL CHECK (( Precio)>0),
     UsuLog VARCHAR(8) NOT NULL,
-    NPasaporte VARCHAR(15) NOT NULL,
-    IDVuelo varchar NOT NULL,
+    IDPasaporte VARCHAR(15) NOT NULL,
+    IDVuelo varchar (15) NOT NULL,
     FOREIGN KEY (UsuLog) REFERENCES Empleados(UsuLog),
-    FOREIGN KEY (NPasaporte) REFERENCES Clientes(IDPasaporte),
-    FOREIGN KEY (IDVuelo) REFERENCES Vuelos(IDVuelo),
+    FOREIGN KEY (IDPasaporte) REFERENCES Clientes(IDPasaporte),
+    FOREIGN KEY (IDVuelo) REFERENCES Vuelo(IDVuelo),
   )
   
   
@@ -117,56 +104,25 @@ CREATE TABLE Pasaje
 Go
 	
 	
-	----- INGRESO USUARIOS
+	
+--creacion de usuario IIS para que el sitio pueda acceder a la bd-------------------------------------------
+USE master
+GO
 
-INSERT INTO Empleados (UsuLog, Contrasena, NombreCompleto, Labor)
-VALUES ('Usuario1','Contraseña1','Alejo','Gerente'),
-		('Usuario2', 'Contraseña2','Pedro','Admin'),
-		 ('Usuario3','Contraseña3','Ramiro','Admin'),
-		 ('Usuario4','Contraseña4','Ciro','Vendedor'),
-		 ('Usuario5','Contraseña5','Rosana','Vendedor'),
-		 ('Usuario6','Contraseña6','Diego','Vendedor'),
-		 ('Usuario7','Contraseña7','Gimena','Gerente'),
-		 ('Usuario8','Contraseña8','Lucia','Admin'),
-		 ('Usuario9','Contraseña9','Luis','Vendedor'),
-		 ('Usuario10','Contraseña10','Rosina','Admin')
+CREATE LOGIN [IIS APPPOOL\DefaultAppPool] FROM WINDOWS
+GO
 
+USE AeropuertosAmericanos
+GO
 
- ---- Creación del login y el usuario
-CREATE LOGIN Usuario1 WITH PASSWORD = 'Contraseña1';
-CREATE USER Usuario1 FOR LOGIN Usuario1;
+CREATE USER [IIS APPPOOL\DefaultAppPool] FOR LOGIN [IIS APPPOOL\DefaultAppPool]
+GO
 
-CREATE LOGIN Usuario2 WITH PASSWORD = 'Contraseña1';
-CREATE USER Usuario2 FOR LOGIN Usuario2;
+GRANT EXECUTE TO [IIS APPPOOL\DefaultAppPool]
+GO
 
-CREATE LOGIN Usuario3 WITH PASSWORD = 'Contraseña3';
-CREATE USER Usuario3 FOR LOGIN Usuario3;
-
-CREATE LOGIN Usuario4 WITH PASSWORD = 'Contraseña4';
-CREATE USER Usuario4 FOR LOGIN Usuario4;
-
-CREATE LOGIN Usuario5 WITH PASSWORD = 'Contraseña5';
-CREATE USER Usuario5 FOR LOGIN Usuario5;
-
-CREATE LOGIN Usuario6 WITH PASSWORD = 'Contraseña6';
-CREATE USER Usuario6 FOR LOGIN Usuario6;
-
-CREATE LOGIN Usuario7 WITH PASSWORD = 'Contraseña7';
-CREATE USER Usuario7 FOR LOGIN Usuario7;
-
-CREATE LOGIN Usuario8 WITH PASSWORD = 'Contraseña8';
-CREATE USER Usuario8 FOR LOGIN Usuario8;
-
-CREATE LOGIN Usuario9 WITH PASSWORD = 'Contraseña9';
-CREATE USER Usuario9 FOR LOGIN Usuario9;
-
-CREATE LOGIN Usuario10 WITH PASSWORD = 'Contraseña10';
-CREATE USER Usuario10 FOR LOGIN Usuario10;
-
-
--- 4. Otorgar permisos
-GRANT SELECT INSERT ON Empleados TO Usuario1,Usuario2,Usuario3,Usuario4,Usuario5,Usuario6,Usuario7,Usuario8,Usuario9,Usuario10;
-go  
+	
+	
 
 ---------------------------------
 
@@ -176,7 +132,7 @@ go
 --LOGUEO
 
 
- Create Procedure Loguear 
+ Create Procedure LogueoEmpleado
  
 @UsuLog varchar(15), 
 @Contrasena varchar(6)
@@ -184,13 +140,13 @@ go
 AS
 Begin
 	Select * 
-	from Empleado 
+	from Empleados 
 	Where Usulog = @UsuLog AND Contrasena = @Contrasena
 End
 go 					
 
 
-Create Procedure BuscoEmpleado
+Create Procedure BuscarEmpleado
  @UsuLog varchar(15) 
  As
 Begin
@@ -209,14 +165,14 @@ CREATE PROCEDURE AltaCliente
     @IDpasaporte VARCHAR(15),
     @Nombre VARCHAR(100),
     @NTarjeta VARCHAR(16),
-    @Contasena VARCHAR(6)
+    @Contrasena VARCHAR(6)
     
 AS
 BEGIN
-IF (EXISTS(SELECT * FROM Cliente WHERE IDPasaporte = @IDpasaporte AND Activo = 0))
+IF (EXISTS(SELECT * FROM Clientes WHERE IDPasaporte = @IDpasaporte AND Activo = 0))
 BEGIN
-UPDATE Cliente
-SET Nombre = @Nombre, NTarjeta = @NTarjeta, Contasena = @Contasena, Activo = 1
+UPDATE Clientes
+SET Nombre = @Nombre, NTarjeta = @NTarjeta, Contasena = @Contrasena, Activo = 1
 WHERE IDPasaporte = @IDpasaporte;
 RETURN 1;
         
@@ -226,7 +182,7 @@ END
         RETURN -1
            
     INSERT  Clientes (IDPasaporte, Nombre, NTarjeta, Contasena) 
-    VALUES (@IDpasaporte, @Nombre, @NTarjeta, @Contasena)
+    VALUES (@IDpasaporte, @Nombre, @NTarjeta, @Contrasena)
 END
 GO
 
@@ -241,14 +197,14 @@ CREATE PROCEDURE AltaAeropuerto
     
 	AS
 BEGIN
-            -- Verificar si la CIUDAD está activa
+            -- Verificar si la CIUDAD est  activa
 
     IF NOT EXISTS (SELECT 1 FROM Ciudades WHERE IDCiudad = @IDCiudad AND Activo = 1)
      BEGIN
        RETURN -1;
     END
     
-     -- Verificar si el AEROPUERTO  está activa
+     -- Verificar si el AEROPUERTO  est  activa
      
     IF NOT EXISTS( SELECT 1 FROM Aeropuerto WHERE IDAeropuerto= @IDAeropuerto  and Activo = 1)
     BEGIN 
@@ -262,7 +218,7 @@ BEGIN
         UPDATE Aeropuerto
         SET Nombre=@Nombre , Direccion=@Direccion, ImpuestoLlegada=@ImpuestoLlegada, ImpuestoPartida=@ImpuestoPartida, IDCiudad = @IDCiudad, Activo = 1
         WHERE IDAeropuerto = @IDAeropuerto 
-        RETURN 0;   -- Aeropuerto actualizado y activado con éxito
+        RETURN 0;   -- Aeropuerto actualizado y activado con  xito
         end
        
         -- Si el aeropuerto no existe, insertar uno nuevo
@@ -271,7 +227,7 @@ BEGIN
 			
 		Insert Aeropuerto(IDAeropuerto, Nombre, Direccion,ImpuestoLlegada,ImpuestoPartida,IDCiudad) 
 		values (@IDAeropuerto, @Nombre, @Direccion, @ImpuestoLlegada,@ImpuestoPartida,@IDCiudad)
-		 RETURN 0;  -- Nuevo aeropuerto insertado con éxito
+		 RETURN 0;  -- Nuevo aeropuerto insertado con  xito
 End  
 
 GO
@@ -287,14 +243,14 @@ CREATE PROCEDURE AltaVuelo
 AS
 BEGIN
     
-    IF NOT EXISTS (SELECT 1 FROM Vuelos WHERE IDVuelo = @IDVuelo)
+    IF NOT EXISTS (SELECT 1 FROM Vuelo WHERE IDVuelo = @IDVuelo)
     BEGIN
     
         IF EXISTS (SELECT 1 FROM Aeropuerto WHERE IDAeropuerto = @IDAeropuertoSalida and Activo= 1) AND
            EXISTS (SELECT 1 FROM Aeropuerto WHERE IDAeropuerto = @IDAeropuertoLlegada and Activo =1 )
         BEGIN
             
-            INSERT INTO Vuelos (IDVuelo, CantidadAsientos, PrecioVuelo, FechaHoraSalida, FechaHoraLlegada, IDAeropuertoSalida, IDAeropuertoLlegada)
+            INSERT INTO Vuelo (IDVuelo, CantidadAsientos, PrecioVuelo, FechaHoraSalida, FechaHoraLlegada, IDAeropuertoSalida, IDAeropuertoLlegada)
             VALUES (@IDVuelo, @CantidadAsientos, @PrecioVuelo, @FechaHoraSalida, @FechaHoraLlegada, @IDAeropuertoSalida, @IDAeropuertoLlegada);
             
             IF @@ERROR = 0
@@ -335,7 +291,7 @@ BEGIN
         RETURN -1
     
        
-    INSERT INTO Ciudades  (IDCiudad, NombreCiudad , NombrePais ) 
+    INSERT INTO Ciudades (IDCiudad, NombreCiudad , NombrePais ) 
     VALUES (@IDCiudad, @NombreCiudad, @NombrePais)
 END
 GO
@@ -345,7 +301,7 @@ CREATE PROCEDURE AltaVenta
    @IDVenta INT,
     @Precio MONEY,
     @UsuLog VARCHAR(8),
-    @NPasaporte VARCHAR(15),
+    @IDPasaporte VARCHAR(15),
     @IDVuelo INT
 AS
 BEGIN
@@ -359,24 +315,24 @@ BEGIN
         END
         
         -- Verificar que el cliente exista
-        IF NOT EXISTS (SELECT 1 FROM Clientes WHERE IDPasaporte = @NPasaporte AND Activo= 1)
+        IF NOT EXISTS (SELECT 1 FROM Clientes WHERE IDPasaporte = @IDPasaporte AND Activo= 1)
         BEGIN
             
             RETURN -1;
         END
         
         -- Verificar que el vuelo exista
-        IF NOT EXISTS (SELECT 1 FROM Vuelos WHERE IDVuelo = @IDVuelo)
+        IF NOT EXISTS (SELECT 1 FROM Vuelo WHERE IDVuelo = @IDVuelo)
         BEGIN
         
             RETURN -1;
         END
         
         -- Insertar la venta
-        INSERT  Ventas( Precio, UsuLog, NPasaporte, IDVuelo)
-        VALUES ( @IDVenta,@Precio,@UsuLog,@NPasaporte, @Precio,@IDVuelo);
+        INSERT  Venta(IDVenta, Precio, UsuLog, IDPasaporte, IDVuelo)
+        VALUES ( @IDVenta,@Precio,@UsuLog,@IDPasaporte,@IDVuelo);
         
-                RETURN 1; -- Éxito
+                RETURN 1; --  xito
     END TRY
     BEGIN CATCH
         
@@ -397,7 +353,7 @@ BEGIN
     BEGIN TRY
               
         -- Verificar que la venta asociada existe
-        IF NOT EXISTS (SELECT 1 FROM Ventas WHERE  IDVenta = @IDVenta)
+        IF NOT EXISTS (SELECT 1 FROM Venta WHERE  IDVenta = @IDVenta)
         BEGIN
             RETURN -1;
         END
@@ -413,16 +369,16 @@ BEGIN
          -- Verificar si el asiento ya ha sido vendido 
          IF EXISTS ( SELECT * 
 					 FROM Pasaje 
-					 WHERE Pasaje.NVenta = ( SELECT IDVenta FROM Ventas WHERE IDVuelo = ( SELECT IDVuelo FROM Ventas WHERE IDVenta = @IDVenta) ) AND Pasaje.NAsiento = @NAsiento )
+					 WHERE Pasaje.IDVenta = ( SELECT IDVenta FROM Venta WHERE IDVuelo = ( SELECT IDVuelo FROM Venta WHERE IDVenta = @IDVenta) ) AND Pasaje.NAsiento = @NAsiento )
                         
         BEGIN 
 			RETURN -3 ;
         END
         
         -- Insertar el pasaje
-        INSERT INTO Pasaje (NVenta, NPasaporte, NAsiento) VALUES (@IDVenta, @NPasaporte, @NAsiento);
+        INSERT INTO Pasaje (IDVenta, NPasaporte, NAsiento) VALUES (@IDVenta, @NPasaporte, @NAsiento);
         
-               RETURN 1; -- Éxito
+               RETURN 1; --  xito
     END TRY
     BEGIN CATCH
        
@@ -449,7 +405,7 @@ BEGIN
     END
 			
   -- Marcar al cliente como inactivo si tiene ventas asociadas 
-    IF EXISTS ( SELECT * FROM Ventas WHERE  NPasaporte  = @IDpasaporte) 
+    IF EXISTS ( SELECT * FROM Venta WHERE  IDPasaporte  = @IDpasaporte) 
     BEGIN 
     -- baja logica - hay dependencias
     UPDATE Clientes SET Activo = 0 WHERE IDPasaporte = @IDpasaporte;
@@ -476,12 +432,12 @@ Create Procedure BajaAeropuerto
 AS
 Begin
 	-- Verificar si hay vuelos asociados al aeropuerto
-	if (Exists(Select * From Vuelos where IDAeropuertoSalida = @IDAeropuerto) or 
-	    Exists(Select * From Vuelos where IDAeropuertoLlegada = @IDAeropuerto))
+	if (Exists(Select * From Vuelo where IDAeropuertoSalida = @IDAeropuerto) or 
+	    Exists(Select * From Vuelo where IDAeropuertoLlegada = @IDAeropuerto))
 	BEGIN
-        -- Realizar la baja lógica
+        -- Realizar la baja l gica
         UPDATE Aeropuerto SET Activo = 0 WHERE IDAeropuerto= @IDAeropuerto;
-        RETURN 1; -- Baja lógica exitosa
+        RETURN 1; -- Baja l gica exitosa
     END
 	
 	IF NOT EXISTS (SELECT * FROM Aeropuerto WHERE IDAeropuerto = @IDAeropuerto)
@@ -489,13 +445,13 @@ Begin
     RETURN -1;
     END
 		
-   	-- Baja física del aeropuerto - no hay dependencias
+   	-- Baja f sica del aeropuerto - no hay dependencias
 	Begin Try
 		Delete From Aeropuerto where IDAeropuerto = @IDAeropuerto
 		return 1 -- Baja exitosa
 	End Try
 	Begin Catch
-		return -2 -- Error en la eliminación
+		return -2 -- Error en la eliminaci n
 	End Catch
 	
 	
@@ -514,9 +470,9 @@ BEGIN
     IF  EXISTS (SELECT * FROM Aeropuerto WHERE IDCiudad = @IDCiudad)
    
         BEGIN
-        -- Realizar la baja lógica
+        -- Realizar la baja l gica
         UPDATE Ciudades SET Activo = 0 WHERE IDCiudad = @IDCiudad;
-        RETURN 1; -- Baja lógica exitosa
+        RETURN 1; -- Baja l gica exitosa
      
     RETURN -1;
     END  
@@ -539,7 +495,7 @@ Create Proc BuscarEmpleados
 
 As
 Begin
-	Select * 	From Empleado	Where UsuLog = @UsuLog
+	Select * 	From Empleados	Where UsuLog = @UsuLog
 End
 go
  
@@ -548,7 +504,7 @@ Create Proc BuscarCliente
     @IDpasaporte VARCHAR
     as
 Begin
-	Select * From Cliente where IDPasaporte  = @IDpasaporte  AND Activo=1
+	Select * From Clientes where IDPasaporte  = @IDpasaporte  AND Activo=1
 	End
 go
 
@@ -556,7 +512,7 @@ CREATE PROC BuscarTodosLosClientes
 @IDPasaporte VARCHAR 
 AS
 Begin 
-select * from Cliente where IDPasaporte=@IDPasaporte;
+select * from Clientes where IDPasaporte=@IDPasaporte;
 end 
 go
 
@@ -584,15 +540,15 @@ Create Proc BuscarCiudad
 @IDCiudad varchar (6)
   as
 Begin
-	Select * From Ciudad where IDCiudad= @IDCiudad AND Activo=1
+	Select * From Ciudades where IDCiudad= @IDCiudad AND Activo=1
 End
 go
 
-Create proc BuscarTodasLasCiudad
+Create proc BuscarTodasCiudades
  @IDCiudad varchar 
 as
 begin 
-Select * From Ciudad where IDCiudad = @IDCiudad
+Select * From Ciudades where IDCiudad = @IDCiudad
 end
 GO
 
@@ -609,14 +565,14 @@ CREATE PROCEDURE ModificarCliente
 
 As
 Begin
-		if (Not Exists(Select * From Cliente Where IDPasaporte = @IDPasaporte AND Activo= 1))
+		if (Not Exists(Select * From Clientes Where IDPasaporte = @IDPasaporte AND Activo= 1))
 			Begin
 				return -1
 			end
 		Else
 			Begin
-				Update Cliente
-				Set Nombre=@Nombre, NTarjeta=@NTarjeta, Contasena=@Contrasena  Where IDPasaporte= @IDPasaporte
+				Update Clientes
+				Set Nombre=@Nombre, NTarjeta=@NTarjeta, @Contrasena=@Contrasena  Where IDPasaporte= @IDPasaporte
 				If (@@ERROR = 0)
 					return 1
 				Else
@@ -640,7 +596,7 @@ Begin
 			Begin
 				return -1
 			end
-			if ( Not Exists(Select * From Ciudad Where IDCiudad= @IDCiudad AND Activo= 1))
+			if ( Not Exists(Select * From Ciudades Where IDCiudad= @IDCiudad AND Activo= 1))
 			Begin
 				return -1
 			end
@@ -663,13 +619,13 @@ CREATE PROCEDURE ModificarCiudad
    
 As
 Begin
-		if (Not Exists(Select * From Ciudad Where IDCiudad= @IDCiudad AND Activo= 1))
+		if (Not Exists(Select * From Ciudades Where IDCiudad= @IDCiudad AND Activo= 1))
 			Begin
 				return -1
 			end
 		
 			Begin
-				Update Ciudad Set IDCiudad=@IDCiudad ,NombreCiudad=@NombreCiudad,NombrePais=@NombrePais
+				Update Ciudades Set IDCiudad=@IDCiudad ,NombreCiudad=@NombreCiudad,NombrePais=@NombrePais
 				If (@@ERROR = 0)
 					return 1
 				Else
@@ -687,16 +643,16 @@ go
 
 -- LISTADOS
 
-Create Procedure ListadosVuelos
+Create Procedure ListarVuelos
 
  As 
 Begin
-	Select *	From Vuelos
+	Select *	From Vuelo
 	End
 go
 
 
-Create Procedure ListadosAeropuertos
+Create Procedure ListarAeropuerto
 
  As 
 Begin
@@ -706,20 +662,20 @@ Begin
 End
 go
 
-Create Procedure ListadosCiudad
+Create Procedure ListarCiudad
 
  As 
 Begin
-	Select * 	From Ciudad	Where Activo = 1
+	Select * 	From Ciudades	Where Activo = 1
 End
 go
 
-Create Procedure ListadosClientes
+Create Procedure ListarCliente
 
 
  As 
 Begin
-	Select * 	From Cliente 	Where Activo = 1
+	Select * 	From Clientes 	Where Activo = 1
 End
 go
 
@@ -727,7 +683,7 @@ CREATE PROCEDURE ListadoVentasVuelo
   @IDVenta varchar 
 AS
    Begin
-	Select * From Ventas  WHERE IDVuelo = @IDVenta
+	Select * From Venta  WHERE IDVuelo = @IDVenta
 End
 go
 
@@ -744,19 +700,64 @@ go
 -----------------------------------
 
 
--- DATOS DE PRUEBA
+------- INGRESO USUARIOS
 
---Insert Empleados (UsuLog, Contrasena, NombreCompleto, Labor )values( 'PEDRO', 'ABC123', 'PEDRO RODRIGUEZ','VENDEDOR')
---Insert Empleados (UsuLog, Contrasena, NombreCompleto, Labor )values( 'JUAN', 'ZXC123', 'JUAN GONZALES','GERENTE')
---Insert Empleados (UsuLog, Contrasena, NombreCompleto, Labor )values( 'ROCIO', 'QWE123', 'ROCIO SOSA','ADMIN')
---go
+--INSERT INTO Empleados (UsuLog, Contrasena, NombreCompleto, Labor)
+--VALUES 
+--    ('Usuario1', 'Contra', 'Alejo Fernandez', 'gerente'),
+--    ('Usuario2', 'Contra', 'Pedro Martinez', 'admin'),
+--    ('Usuario3', 'Contra', 'Ramiro Gomez', 'admin');
+--GO
 
---Insert Clientes(IDPasaporte,Nombre,NTarjeta,Contasena) Values ('123456789101112131415','JUAN SOSA, 'ABCDE1234567891011, 'CCC123')
---Insert  Clientes(IDPasaporte,Nombre,NTarjeta,Contasena) Values ('123456789101112131415','SONIA GUITIERRES, 'ABCDE1234567891011, 'AAA123')
---Insert  Clientes(IDPasaporte,Nombre,NTarjeta,Contasena) Values ('123456789101112131415','ALFREDO ZUNNINO, 'ABCDE1234567891011, 'BBB123')
---go
 
---Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('123456' ,'BUENOSAIRES','ARGENTINA')
---Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('234567' ,'RIODEJANEIRO','BRASIL')
---Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('345678' ,'MONTEVIDEO','URUGUAY')
+-- ---- Creaci n del login y el usuario
+CREATE LOGIN Usuario1 WITH PASSWORD = 'Contrasena1';
+CREATE USER Usuario1 FOR LOGIN Usuario1;
 
+CREATE LOGIN Usuario2 WITH PASSWORD = 'Contrasena1';
+CREATE USER Usuario2 FOR LOGIN Usuario2;
+
+CREATE LOGIN Usuario3 WITH PASSWORD = 'Contrasena3';
+CREATE USER Usuario3 FOR LOGIN Usuario3;
+
+
+
+--- PERMISOS
+
+GRANT SELECT, INSERT ON Empleados TO Usuario1, Usuario2, Usuario3;
+GO
+
+---- INGRESO CLIENTES:
+
+INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
+VALUES ('123456789101112', 'JUAN SOSA', 'B2345678910111213', 'CCC123');
+
+INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
+VALUES ('183456789101112', 'SONIA GUITIERRES', 'A2345678910111213', 'AAA123');
+
+INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
+VALUES ('123976789101112', 'ALFREDO ZUNNINO', 'B2345628910111213', 'BBB123');
+GO
+
+
+	 
+
+-- ---- Creaci n del login y el usuario
+CREATE LOGIN Usuario1 WITH PASSWORD = 'Contrasena1';
+CREATE USER Usuario1 FOR LOGIN Usuario1;
+
+CREATE LOGIN Usuario2 WITH PASSWORD = 'Contrasena1';
+CREATE USER Usuario2 FOR LOGIN Usuario2;
+
+CREATE LOGIN Usuario3 WITH PASSWORD = 'Contrasena3';
+CREATE USER Usuario3 FOR LOGIN Usuario3;
+
+---- INGRESO CIUDADES
+
+
+Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('123456' ,'BUENOSAIRES','ARGENTINA')
+GO
+Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('234577' ,'RIODEJANEIRO','BRASIL')
+
+Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('345678' ,'MONTEVIDEO','URUGUAY')
+GO

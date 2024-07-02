@@ -1,48 +1,70 @@
-﻿@model  EntidadesCompartidas.Aeropuertos
+﻿@model EntidadesCompartidas.Aeropuertos
 
 @{
-    ViewBag.Title = "Agregar Aeropuerto";
+    ViewBag.Title = "Alta Aeropuertos";
 }
 
-<h2>Agregar Aeropuerto</h2>
+<h2>Alta Aeropuertos</h2>
 
-@if (ViewBag.Mensaje != null)
+@ViewBag.Mensaje
+
+@using (Html.BeginForm())
 {
-    <div style="color:red;">
-        @ViewBag.Mensaje
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IDAeropuerto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IDAeropuerto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IDAeropuerto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nomre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IDCiudad, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IDCiudad, (SelectList)ViewBag.ListaC)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImpuestoPartida, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImpuestoPartida, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImpP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImpuestoLlegada, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImpuestoLlegada, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImpuestoLlegada, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Añadir" class="btn btn-default" />
+            </div>
+        </div>
     </div>
 }
 
-@using (Html.BeginForm("FormAgregarAeropuerto", "AeropuertoController.cs", FormMethod.Post))
-{
-    <div>
-        <label for="Nombre">Nombre:</label>
-        @Html.TextBoxFor(model => model.Nombre)
-        @Html.ValidationMessageFor(model => model.Nombre)
-    </div>
-
-    <div>
-        <label for="Direccion">Direccion:</label>
-        @Html.TextBoxFor(model => model.Direccion)
-        @Html.ValidationMessageFor(model => model.Direccion)
-    </div>
-
-    <div>
-        <label for="Codigo">Código:</label>
-        @Html.TextBoxFor(model => model.IDAeropuerto)
-        @Html.ValidationMessageFor(model => model.IDAeropuerto)
-    </div>
-
-    <div>
-        <label for="Ciudad">Ciudad:</label>
-        @Html.DropDownListFor(model => model._Ciudad.IDCiudad, (SelectList)ViewBag.ListaC, "Seleccione una ciudad")
-        @Html.ValidationMessageFor(model => model._Ciudad.IDCiudad)
-    </div>
-
-
-
-    <div>
-        <input type="submit" value="Agregar" />
-    </div>
-}
 

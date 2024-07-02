@@ -6,44 +6,57 @@
 
 <h2>Consultar Aeropuerto</h2>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div style="color:red;">
-        @ViewBag.Mensaje
-    </div>
-}
-
-@if (Model != null && !string.IsNullOrEmpty(Model.IDAeropuerto))
-{
-    <div>
-        <label>Nombre:</label>
-        <span>@Html.DisplayFor(model => model.Nombre)</span>
-    </div>
-
-    <div>
-        <label>Ubicación:</label>
-        <span>@Html.DisplayFor(model => model.Direccion)</span>
-    </div>
-
-    <div>
-        <label>Código:</label>
-        <span>@Html.DisplayFor(model => model.IDAeropuerto)</span>
-    </div>
-
-    <div>
-        <label>Ciudad:</label>
-        <span>@Html.DisplayFor(model => model._Ciudad.NombreCiudad)</span>
-    </div>
-
-    
-}
-else
-{
-    <div>
-        <p>No se encontró información del aeropuerto.</p>
-    </div>
-}
+@ViewBag.Mensaje
 
 <div>
-    @Html.ActionLink("Volver al Menú", "MenuAeropuertos", "Aeropuertos")
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDAeropuerto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDAeropuerto)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._Ciudad.NombreCiudad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model._Ciudad.NombreCiudad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpuestoParitda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpuestoParitda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpuestoLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpuestoLlegada)
+        </dd>
+
+    </dl>
 </div>

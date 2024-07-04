@@ -1,28 +1,30 @@
-﻿@model  IEnumerable< EntidadesCompartidas.Clientes>
+﻿@model  IEnumerable<EntidadesCompartidas.Clientes>
 
 @{
-    ViewBag.Title = "Menú de Clientes";
+    ViewBag.Title = "Menu de Clientes";
 }
 
-<h2>Menú de Clientes</h2>
+<h2>Menu de Clientes</h2>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div style="color:red;">
-        @ViewBag.Mensaje
-    </div>
-}
+<p>
+    @Html.ActionLink("Añadir Cliente", "FormAltaCliente")
+</p>
+
+
 
 @using (Html.BeginForm())
 {
-    <div>
-        <label>Filtrar por nombre:</label>
-        <input type="text" name="Filtro" value="@ViewBag.CurrentFilter" />
-        <input type="submit" value="Filtrar" />
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <div>
+            @Html.TextBox("Filtro")
+            <input type="submit" value="Filtrar" class="btn btn-default" />
+
+        </div>
     </div>
+
 }
-
-
 <table class="table">
     <tr>
         <th>
@@ -31,13 +33,10 @@
         <th>
             @Html.DisplayNameFor(model => model.Nombre)
         </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.NTarjeta)
-        </th>
+        <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (EntidadesCompartidas.Clientes item in Model)
     {
         <tr>
             <td>
@@ -46,14 +45,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.NTarjeta)
+                @Html.ActionLink("Modificar", "FormModificarCliente", new { item.IDPasaporte}) |
+                @Html.ActionLink("Consultar", "FormConsultaCliente", new { item.IDPasaporte}) |
+                @Html.ActionLink("Eliminar", "FormBajaCliente", new { item.IDPasaporte})
             </td>
         </tr>
     }
 
 </table>
-
-{
-<p>No se encontraron clientes.</p>
-}

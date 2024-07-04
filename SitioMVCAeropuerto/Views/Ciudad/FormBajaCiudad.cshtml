@@ -1,50 +1,53 @@
 ﻿@model  EntidadesCompartidas.Ciudad
-
 @{
     ViewBag.Title = "Eliminar Ciudad";
 }
 
-<h2>Eliminar Ciudad</h2>
+<h2>Eliminar Aeropuerto</h2>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div style="color:red;">
-        @ViewBag.Mensaje
-    </div>
-}
+@ViewBag.Mensaje
 
-@if (Model != null && !string.IsNullOrEmpty(Model.IDCiudad))
-{
-    <div>
-        <label>Nombre:</label>
-        <span>@Html.DisplayFor(model => model.NombreCiudad)</span>
-    </div>
+<h3>¿Esta Seguro de eliminar esta Ciudad?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDCiudad)
+        </dt>
 
-    <div>
-        <label>País:</label>
-        <span>@Html.DisplayFor(model => model.NombrePais)</span>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.IDCiudad)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IDCiudad)
+        </dt>
 
-    <div>
-        <label>Código Postal:</label>
-        <span>@Html.DisplayFor(model => model.IDCiudad)</span>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.NombreCiudad)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreCiudad)
+        </dt>
 
-   
+        <dd>
+            @Html.DisplayFor(model => model.NombrePais)
+        </dd>
 
-    <div>
-        <p>¿Está seguro de que desea eliminar esta ciudad?</p>
-        @using (Html.BeginForm("FormBajaCiudad", "CiudadController.cs", FormMethod.Post))
-        {
-            @Html.HiddenFor(model => model.IDCiudad)
-            <input type="submit" value="Eliminar" />
-            @Html.ActionLink("Cancelar", "MenuCiudades", "Ciudad")
-        }
-    </div>
-}
-else
-{
-    <div>
-        <p>No se encontró información de la ciudad.</p>
-    </div>
-}
+        <dt>
+            @Html.DisplayNameFor(model => model.NombrePais)
+        </dt>
+
+        
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" />
+        </div>
+    }
+</div>
+

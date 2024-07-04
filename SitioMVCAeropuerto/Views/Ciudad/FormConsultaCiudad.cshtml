@@ -6,38 +6,35 @@
 
 <h2>Consultar Ciudad</h2>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div style="color:red;">
-        @ViewBag.Mensaje
-    </div>
-}
+@ViewBag.Mensaje
 
-@if (Model != null && !string.IsNullOrEmpty(Model.IDCiudad))
-{
-    <div>
-        <label>Ciudad:</label>
-        <span>@Html.DisplayFor(model => model.NombreCiudad)</span>
-    </div>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDCiudad)
+        </dt>
 
-    <div>
-        <label>País:</label>
-        <span>@Html.DisplayFor(model => model.NombrePais)</span>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.IDCiudad)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NombrePais)
+        </dt>
 
-    <div>
-        <label>IDCiudad:</label>
-        <span>@Html.DisplayFor(model => model.IDCiudad)</span>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.NombrePais)
+        </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreCiudad)
+        </dt>
 
-    <div>
-        @Html.ActionLink("Volver al Menú de Ciudades", "MenuCiudades", "Ciudad")
-    </div>
-}
-else
-{
-    <div>
-        <p>No se encontró información de la ciudad.</p>
-    </div>
-}
+        <dd>
+            @Html.DisplayFor(model => model.NombreCiudad)
+        </dd>
+
+        
+
+    </dl>
+</div>

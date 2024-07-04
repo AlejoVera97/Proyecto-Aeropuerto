@@ -21,36 +21,27 @@ namespace EntidadesCompartidas
             get { return _IDCiudad; }
             set { _IDCiudad = value; }
         }
-
-
-
-
         public string NombreCiudad
         {
             get { return _NombreCiudad; }
 
             set { _NombreCiudad = value; }
-            
-        }
 
+        }
         public string NombrePais
         {
             get { return _NombrePais; }
 
             set { _NombrePais = value; }
         }
-            
-
-        
-        public Ciudad (string pIDCiuad, string pNombreCiudad, string pNombrePais)
+        public Ciudad(string pIDCiuad, string pNombreCiudad, string pNombrePais)
         {
             IDCiudad = pIDCiuad;
             NombreCiudad = pNombreCiudad;
             NombrePais = pNombrePais;
 
         }
-
-        public Ciudad() 
+        public Ciudad()
         {
         }
         public void ValidarCiudad()

@@ -1,42 +1,70 @@
 ﻿@model  EntidadesCompartidas.Aeropuertos
-
 @{
     ViewBag.Title = "Eliminar Aeropuerto";
 }
 
 <h2>Eliminar Aeropuerto</h2>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div style="color:red;">
-        @ViewBag.Mensaje
-    </div>
-}
+@ViewBag.Mensaje
 
-@using (Html.BeginForm("FormBajaAeropuerto", "AeropuertoController.cs", FormMethod.Post))
-{
-    @Html.HiddenFor(model => model.IDAeropuerto)
+<h3>¿Esta Seguro de eliminar este Aeropuerto?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDAeropuerto)
+        </dt>
 
-    <div>
-        <label>Nombre:</label>
-        <span>@Html.DisplayFor(model => model.Nombre)</span>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.IDAeropuerto)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._Ciudad.NombreCiudad)
+        </dt>
 
-    <div>
-        <label>Ubicación:</label>
-        <span>@Html.DisplayFor(model => model.Direccion)</span>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model._Ciudad.NombreCiudad)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
 
-    <div>
-        <label>Código:</label>
-        <span>@Html.DisplayFor(model => model.IDAeropuerto)</span>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
 
-    
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
 
-    <div>
-        <p>¿Está seguro de que desea eliminar este aeropuerto?</p>
-        <input type="submit" value="Eliminar" />
-        @Html.ActionLink("Cancelar", "MenuAeropuerto", "Aeropuerto")
-    </div>
-}
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpuestoParitda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpuestoParitda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImpuestoLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImpuestoLlegada)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" />
+        </div>
+    }
+</div>

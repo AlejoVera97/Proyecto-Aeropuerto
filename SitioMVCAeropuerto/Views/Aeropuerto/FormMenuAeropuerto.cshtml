@@ -6,42 +6,52 @@
 
 <h2>Menu de Aeropuertos</h2>
 
-<form method="get" action="@Url.Action("MenuAeropuertos", "AeropuertoController.cs")">
-    <div>
-        <label for="Filtro">Filtrar por nombre:</label>
-        <input type="text" id="Filtro" name="Filtro" value="@Request.QueryString["Filtro"]" />
-        <input type="submit" value="Filtrar" />
-    </div>
-</form>
+<p>
+    @Html.ActionLink("Añadir Aeropuerto", "FormAltaAeropuerto")
+</p>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div style="color:red;">
-        @ViewBag.Mensaje
-    </div>
-}
 
-<table>
-    <thead>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <div>
+                @Html.TextBox("Filtro")
+                <input type="submit" value="Filtrar" class="btn btn-default" />
+
+            </div>
+        </div>
+
+    }
+    <table class="table">
         <tr>
-            <th>Nombre</th>
-            <th>Direccion</th>
-            <th>IDaeropuerto</th>
-        
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._Ciudad.NombreCiudad)
+            </th>
+            <th></th>
         </tr>
-    </thead>
-    <tbody>
-        @foreach (var aeropuerto in Model)
+
+        @foreach (EntidadesCompartidas.Aeropuertos item in Model)
         {
             <tr>
-                <td>@aeropuerto.Nombre</td>
-                <td>@aeropuerto.Direccion</td>
-                <td>@aeropuerto.IDAeropuerto</td>
-                <td>@aeropuerto.ImpuestoParitda</td>
-                <td>@aeropuerto.ImpuestoLlegada</td>
-                <td>@aeropuerto._Ciudad.IDCiudad</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._Ciudad.NombreCiudad)
+                </td>
 
+                <td>
+                    @Html.ActionLink("Modificar", "ModificarAeropuerto", new { item.IDAeropuerto }) |
+                    @Html.ActionLink("Consultar", "FormAeropuertoConsultar", new { item.IDAeropuerto }) |
+                    @Html.ActionLink("Eliminar", "FormAeropuertoEliminar", new { item.IDAeropuerto })
+                </td>
             </tr>
         }
-    </tbody>
-</table>
+
+    </table>

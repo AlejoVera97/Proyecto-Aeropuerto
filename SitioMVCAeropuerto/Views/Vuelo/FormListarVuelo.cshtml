@@ -1,49 +1,61 @@
-﻿@model  EntidadesCompartidas.Vuelo
+﻿@model  List<EntidadesCompartidas.Vuelo>
+
 @{
     ViewBag.Title = "Lista de Vuelos";
 }
 
 <h2>Lista de Vuelos</h2>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div class="alert alert-danger">
-        @Html.Raw(ViewBag.Mensaje)
-    </div>
-}
+@ViewBag.Mensaje
 
-@using (Html.BeginForm("FormListaVuelo", "VueloController", FormMethod.Get))
+@using (Html.BeginForm("FormListaVuelo", "Vuelos", FormMethod.Get))
 {
-    <div class="form-group">
-        <label for="pFecha">Fecha</label>
-        <input type="date" name="pFecha" id="pFecha" class="form-control" />
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("pFecha", "Fecha", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBox("pFecha", null, new { @class = "form-control", type = "date" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("pOpcion", "Opción", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("pOpcion", new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Seleccionar", Value = "" },
+                    new SelectListItem { Text = "Partidas", Value = "Partidas" },
+                    new SelectListItem { Text = "No Partidas", Value = "No_Partidas" }
+                }), htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("pAeropuerto", "Aeropuerto", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("pAeropuerto", (SelectList)ViewBag.ListaA, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" value="Filtrar" class="btn btn-default" />
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="pOpcion">Opción</label>
-        <select name="pOpcion" id="pOpcion" class="form-control">
-            <option value="">Seleccione una opción</option>
-            <option value="Partidas">Partidas</option>
-            <option value="No_Partidas">No Partidas</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="pAeropuerto">Aeropuerto de Salida</label>
-        @Html.DropDownList("pAeropuerto", (SelectList)ViewBag.ListaA, new { @class = "form-control" })
-    </div>
-    <button type="submit" class="btn btn-primary">Filtrar</button>
 }
 
 @if (Model != null && Model.Count > 0)
 {
-    <table class="table table-striped mt-3">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Código de Vuelo</th>
-                <th>Aeropuerto de Salida</th>
-                <th>Aeropuerto de Llegada</th>
-                <th>Fecha y Hora de Salida</th>
-                <th>Precio del Vuelo</th>
-                <th>Cantidad de Asientos</th>
+                <th>ID Vuelo</th>
+                <th>Fecha/Hora Salida</th>
+                <th>Fecha/Hora Llegada</th>
+                <th>Aeropuerto Salida</th>
+                <th>Aeropuerto Llegada</th>
+              
             </tr>
         </thead>
         <tbody>
@@ -51,11 +63,11 @@
             {
                 <tr>
                     <td>@vuelo.IDvuelo</td>
-                    <td>@vuelo.AeropuertoSalida.Nombre (@vuelo.AeropuertoSalida.Codigo)</td>
-                    <td>@vuelo.AeropuertoLlegada.Nombre (@vuelo.AeropuertoLlegada.Codigo)</td>
                     <td>@vuelo.FechaHoraSalida</td>
-                    <td>@vuelo.PrecioVuelo</td>
-                    <td>@vuelo.CantidadAsientos</td>
+                    <td>@vuelo.FechaHoraLlegada</td>
+                    <td>@vuelo.AeropuertoSalida.Nombre</td>
+                    <td>@vuelo.AeropuertoLlegada.Nombre</td>
+                    
                 </tr>
             }
         </tbody>
@@ -63,9 +75,5 @@
 }
 else
 {
-    <div class="alert alert-warning mt-3">
-        No hay vuelos disponibles.
-    </div>
+    <p>No hay vuelos registrados.</p>
 }
-
-<a href="@Url.Action("Index", "Home")" class="btn btn-secondary mt-3">Volver al inicio</a>

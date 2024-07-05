@@ -1,38 +1,72 @@
-﻿@model  EntidadesCompartidas.Vuelo
+﻿@model EntidadesCompartidas.Vuelo
+
 @{
     ViewBag.Title = "Consultar Vuelo";
 }
 
-<h2>Detalles del Vuelo</h2>
+<h2>Consultar Vuelo</h2>
 
-@if (ViewBag.Mensaje != null)
-{
-    <div class="alert alert-danger">
-        @Html.Raw(ViewBag.Mensaje)
-    </div>
-}
+@ViewBag.Mensaje
 
-@if (Model != null)
-{
-    <div class="card">
-        <div class="card-header">
-            Información del Vuelo
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Código de Vuelo: @Model.IDvuelo</h5>
-            <p class="card-text"><strong>Aeropuerto de Salida:</strong> @Model.AeropuertoSalida.Nombre (@Model.AeropuertoSalida.Codigo)</p>
-            <p class="card-text"><strong>Aeropuerto de Llegada:</strong> @Model.AeropuertoLlegada.Nombre (@Model.AeropuertoLlegada.Codigo)</p>
-            <p class="card-text"><strong>Fecha y Hora de Salida:</strong> @Model.FechaHoraSalida</p>
-            <p class="card-text"><strong>Precio del Vuelo:</strong> @Model.PrecioVuelo</p>
-            <p class="card-text"><strong>Cantidad de Asientos:</strong> @Model.CantidadAsientos</p>
-        </div>
-    </div>
-}
-else
-{
-    <div class="alert alert-warning">
-        No hay detalles del vuelo disponibles.
-    </div>
-}
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IDvuelo)
+        </dt>
 
-<a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Volver al inicio</a>
+        <dd>
+            @Html.DisplayFor(model => model.IDvuelo)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioVuelo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioVuelo)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaHoraSalida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaHoraSalida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaHoraLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaHoraLlegada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadAsientos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CantidadAsientos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AeropuertoSalida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AeropuertoSalida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AeropuertoLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AeropuertoLlegada)
+        </dd>
+    </dl>
+</div>

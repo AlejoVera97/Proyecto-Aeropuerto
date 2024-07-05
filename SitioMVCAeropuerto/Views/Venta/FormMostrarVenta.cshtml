@@ -16,9 +16,9 @@
 {
     <div class="alert alert-info">
         <h4>Información del Vuelo</h4>
-        <p><strong>Código de Vuelo:</strong> @Model.Vuelo.CodVuelo</p>
-        <p><strong>Aeropuerto de Salida:</strong> @Model.Vuelo.AeropuertoSalida.Nombre (@Model.Vuelo.AeropuertoSalida.Codigo)</p>
-        <p><strong>Aeropuerto de Llegada:</strong> @Model.Vuelo.AeropuertoLlegada.Nombre (@Model.Vuelo.AeropuertoLlegada.Codigo)</p>
+        <p><strong>Código de Vuelo:</strong> @Model.Vuelo.IDvuelo</p>
+        <p><strong>Aeropuerto de Salida:</strong> @Model.Vuelo.AeropuertoSalida.Nombre (@Model.Vuelo.AeropuertoSalida.IDAeropuerto)</p>
+        <p><strong>Aeropuerto de Llegada:</strong> @Model.Vuelo.AeropuertoLlegada.Nombre (@Model.Vuelo.AeropuertoLlegada.IDAeropuerto)</p>
         <p><strong>Fecha y Hora de Salida:</strong> @Model.Vuelo.FechaHoraSalida</p>
         <p><strong>Precio del Vuelo:</strong> @Model.Vuelo.PrecioVuelo</p>
 
@@ -43,8 +43,7 @@
             {
                 <tr>
                     <td>@pasaje.IDPasaporte</td>
-                    <td>@pasaje.Cliente.Nombre</td>
-                    <td>@pasaje.NAsiento</td>
+                                       <td>@pasaje.NAsiento</td>
                 </tr>
             }
         </tbody>

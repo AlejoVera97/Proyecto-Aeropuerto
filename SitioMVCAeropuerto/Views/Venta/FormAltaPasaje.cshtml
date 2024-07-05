@@ -1,34 +1,49 @@
 ﻿@model  EntidadesCompartidas.Pasaje
+
 @{
     ViewBag.Title = "Alta Pasaje";
 }
 
 <h2>Alta Pasaje</h2>
 
-@if (ViewBag.Mensaje != null)
+@ViewBag.Mensaje
+
+@using (Html.BeginForm())
 {
-    <div class="alert alert-danger">
-        @Html.Raw(ViewBag.Mensaje)
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.IDPasaporte, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IDPasaporte, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IDPasaporte, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NAsiento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.NAsiento, (SelectList)ViewBag.ListaC)
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Añadir" class="btn btn-default" />
+            </div>
+        </div>
     </div>
 }
 
-<div class="alert alert-info">
-    Asientos disponibles: @ViewBag.Disponibles
-</div>
 
-@using (Html.BeginForm("FormAltaPasaje", "Ventas", FormMethod.Post))
-{
-    <div class="form-group">
-        @Html.LabelFor(m => m.IDPasaporte, "Seleccione un Cliente:")
-        @Html.DropDownListFor(m => m.IDPasaporte, ViewBag.unaLisC as SelectList, "Seleccione un Cliente", new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.IDPasaporte, "", new { @class = "text-danger" })
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.NAsiento, "Número de Asiento:")
-        @Html.TextBoxFor(m => m.NAsiento, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.NAsiento, "", new { @class = "text-danger" })
-    </div>
 
-    <button type="submit" class="btn btn-primary">Agregar Pasaje</button>
-}
+

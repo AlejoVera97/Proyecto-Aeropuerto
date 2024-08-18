@@ -15,17 +15,17 @@ namespace Persistencia
     {
         // singleton 
         private static PersitenciaVenta _instancia = null;
+
         private PersitenciaVenta() { }
+
         public static PersitenciaVenta GetInstancia()
         {
             if (_instancia == null)
                 _instancia = new PersitenciaVenta();
             return _instancia;
         }
-
-
+        
         // operaciones 
-
         public void AltaVenta(Venta pVenta, Empleado E)
         {
             SqlConnection _Cnn = new SqlConnection(Conexion._cnn(E));
@@ -82,8 +82,6 @@ namespace Persistencia
                 _Cnn.Close();
             }
         }
-
-
 
         public List<Venta> ListarVentas(Vuelo V, Empleado E)
         {

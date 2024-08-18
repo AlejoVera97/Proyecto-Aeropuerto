@@ -24,7 +24,6 @@ namespace EntidadesCompartidas
             set { _IDPasaporte = value; }
         }
 
-
         public string Nombre
         {
             get { return _Nombre; }
@@ -46,9 +45,6 @@ namespace EntidadesCompartidas
         }
 
 
-
-
-        //Constructor completo
         public Clientes(string pIDPasaporte, string pNombre, string pContrasena, int pNTarjeta)
         {
             IDPasaporte = pIDPasaporte;
@@ -62,6 +58,7 @@ namespace EntidadesCompartidas
         {
 
         }
+
         public void ValidarClientes()
         {
             if (this.IDPasaporte.Trim().Length == 15)

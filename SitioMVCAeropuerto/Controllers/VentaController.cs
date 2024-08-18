@@ -95,6 +95,8 @@ namespace Sitio.Controllers
 
         }
 
+
+
         [HttpGet]
         public ActionResult FormAltaPasaje()
         {
@@ -186,6 +188,8 @@ namespace Sitio.Controllers
             }
         }
 
+
+
         public ActionResult GuardarVenta()
         {
             try
@@ -214,6 +218,8 @@ namespace Sitio.Controllers
             }
         }
 
+
+
         public ActionResult MostrarVenta()
         {
             try
@@ -232,6 +238,8 @@ namespace Sitio.Controllers
             }
 
         }
+
+
 
         public ActionResult AltaFallo()
         {

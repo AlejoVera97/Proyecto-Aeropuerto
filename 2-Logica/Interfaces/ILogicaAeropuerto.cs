@@ -13,9 +13,13 @@ namespace Logica
     public interface ILogicaAeropuerto
     {
         void AltaAeropuerto(Aeropuertos A,Empleado E);
+
         void BajaAeropuerto(Aeropuertos A, Empleado E);
+
         void ModificarAeropuerto(Aeropuertos A, Empleado E  );
+
         Aeropuertos BuscarAeropuerto(string pIDAeropuerto,Empleado E);
+
         List<Aeropuertos> ListarAeropuerto(Empleado E);
     }
 }

@@ -78,6 +78,8 @@ namespace Sitio.Controllers
         }
 
 
+
+
         public ActionResult FormVueloConsultar()
         {
             try
@@ -95,6 +97,8 @@ namespace Sitio.Controllers
                 return View(new Vuelo());
             }
         }
+
+
 
 
         public ActionResult FormListaVuelo(string pFecha, string pOpcion, string pAeropuerto)

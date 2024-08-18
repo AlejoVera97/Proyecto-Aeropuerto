@@ -16,14 +16,15 @@ namespace Persistencia
         //singleton 
 
         private static PersistenciaEmpleado _instancia = null;
+
         private PersistenciaEmpleado() { }
+
         public static PersistenciaEmpleado GetInstancia()
         {
             if (_instancia == null)
                 _instancia = new PersistenciaEmpleado();
             return _instancia;
         }
-
 
         //operaciones
         public Empleado LogueoEmpleado(string pUsuLog,string pContrasena)

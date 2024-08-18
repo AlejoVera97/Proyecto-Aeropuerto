@@ -58,6 +58,7 @@ namespace Sitio.Controllers
 
         }
       
+
         [HttpGet]
         public ActionResult FormAgregarCiudad()
         {
@@ -90,6 +91,8 @@ namespace Sitio.Controllers
                 return View();
             }
         }                
+
+
 
         [HttpGet]
         public ActionResult FormBajaCiudad(string IDCiudad)
@@ -129,6 +132,8 @@ namespace Sitio.Controllers
                 return View(new Ciudad());
             }
         }     
+
+
         
         [HttpGet]
         public ActionResult FormModificarCiudad(string IDCiudad)
@@ -175,6 +180,8 @@ namespace Sitio.Controllers
                 return View(new Ciudad());
             }
         }               
+
+
 
         [HttpGet]
         public ActionResult FormCiudadConsultar(string IDCiudad)

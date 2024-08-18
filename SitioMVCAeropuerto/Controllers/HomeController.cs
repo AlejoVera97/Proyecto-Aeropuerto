@@ -17,6 +17,8 @@ namespace SitioMVCAeropuerto.Controllers
             return View();
         }
 
+
+
         public ActionResult Menu()
         {
             if (Session["Logueo"] is Empleado)

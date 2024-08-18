@@ -30,23 +30,19 @@ namespace EntidadesCompartidas
             get { return _IDPasaporte; }
             set { _IDPasaporte = value; }
         }
-
-        
              
-
-
-
-
-        //constructores
+       //constructores
         public Pasaje(int pNAsiento, Clientes pIDPasaporte)
         {
             NAsiento = pNAsiento;
             IDPasaporte = pIDPasaporte;
         }
+
         public Pasaje()
         {
 
         }
+
         public void ValidarPasaje()
         {
             if(this.NAsiento <= 1 || NAsiento <= 300)

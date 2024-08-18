@@ -20,12 +20,14 @@ namespace EntidadesCompartidas
             get { return _UsuLog; }
             set { _UsuLog = value; }
         }
+
         public string NombreCompleto
         {
             get { return _NombreCompleto; }
             set { _NombreCompleto = value; }
 
         }
+
         public string Contrasena
         {
             get { return _Contrasena; }
@@ -54,6 +56,7 @@ namespace EntidadesCompartidas
         {
 
         }
+
         public void ValidarEmpleado()
         {
             if (this.UsuLog.Trim().Length != 8)
@@ -65,7 +68,6 @@ namespace EntidadesCompartidas
             if (this.Labor != "empleado" && this.Labor != "admin" && this.Labor != "gerente")
                 throw new Exception("La opción para el campo Labor solo puede ser 'empleado', 'admin' o 'gerente'.");
         }
-
 
     }
 }

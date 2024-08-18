@@ -25,18 +25,22 @@ namespace Logica
         {
             FabricaPersistencia.GetPersistenciaCliente().AltaCliente(unCliente, E   );
         }
+
         public void BajaCliente(Clientes unCliente, Empleado E)
         {
             FabricaPersistencia.GetPersistenciaCliente().BajaCliente(unCliente, E);
         }
+
         public void ModificarCliente(Clientes unCliente,Empleado E)
         {
             FabricaPersistencia.GetPersistenciaCliente().ModificarCliente(unCliente, E);
         }
+
         public Clientes BuscarCliente(string pIDPasaporte,Empleado E)
         {
             return FabricaPersistencia.GetPersistenciaCliente().BuscarCliente(pIDPasaporte, E   );
         }
+
         public List<Clientes> ListarCliente(Empleado E)
         {
             return FabricaPersistencia.GetPersistenciaCliente().ListarCliente(E);

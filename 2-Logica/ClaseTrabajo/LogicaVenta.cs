@@ -22,7 +22,6 @@ namespace Logica
         }
 
         //operaciones
-
         public void AltaVenta(Venta unaV, Empleado E)
         {
             FabricaPersistencia.GetPersistenciaVenta().AltaVenta(unaV, E );

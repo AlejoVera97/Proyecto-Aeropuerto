@@ -33,7 +33,7 @@ namespace EntidadesCompartidas
             set {  _Nombre = value; }
             
         }
-                public string Direccion
+        public string Direccion
         {
             get { return _Direccion; }
             set { _Direccion = value ; }
@@ -59,8 +59,6 @@ namespace EntidadesCompartidas
             get { return _ciudad; }
             set { _ciudad = value; }
         }
-
-
 
         public Aeropuertos(string pIDAeropuerto, string pNombre, string pDireccion, int pImpuestoPartida,
             int pImpuestoLlegada, Ciudad pCiudad)

@@ -24,9 +24,6 @@ namespace Persistencia
             return _instancia;
         }
 
-
-
-
         //operaciones
         public void AltaCiudad(Ciudad C, Empleado E)
         {

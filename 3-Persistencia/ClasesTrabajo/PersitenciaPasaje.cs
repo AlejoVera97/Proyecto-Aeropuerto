@@ -13,15 +13,16 @@ namespace Persistencia
     {
         // singleton
         private static PersitenciaPasaje _instancia = null;
+
         private PersitenciaPasaje() { }
+
         public static PersitenciaPasaje GetInstancia()
         {
             if (_instancia == null)
                 _instancia = new PersitenciaPasaje();
             return _instancia;
         }
-
-
+        
         //operaciones
         internal void AltaPasaje(int NVenta, Pasaje pPasaje, SqlTransaction trn)
 
@@ -110,10 +111,7 @@ namespace Persistencia
             return _Lista;
         }
 
-
     }
-
-
 }
 
         

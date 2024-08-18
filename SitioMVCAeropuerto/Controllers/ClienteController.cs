@@ -52,6 +52,8 @@ namespace Sitio.Controllers
             }
         }
 
+
+
         [HttpGet]
         public ActionResult FromAltaCliente()
         {
@@ -78,6 +80,8 @@ namespace Sitio.Controllers
                 return View();
             }
         }
+
+
 
         [HttpGet]
         public ActionResult FormModificarCliente(string IDPasaporte)
@@ -121,6 +125,8 @@ namespace Sitio.Controllers
             }
         }
 
+
+
         [HttpGet]
         public ActionResult FormBajaCliente(string IDPasaporte)
         {
@@ -159,6 +165,8 @@ namespace Sitio.Controllers
                 return View(new Clientes());
             }
         }
+
+
 
         public ActionResult FormConsultaCliente(string IDPasaporte)
         {

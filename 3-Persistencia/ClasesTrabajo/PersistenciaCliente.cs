@@ -15,15 +15,15 @@ namespace Persistencia
     {
         //singleton
         private static PersistenciaCliente _instancia = null;
+
         private PersistenciaCliente() { }
+
         public static PersistenciaCliente GetInstancia()
         {
             if (_instancia == null)
                 _instancia = new PersistenciaCliente();
             return _instancia;
         }
-
-
 
         //operaciones
         public void AltaCliente(Clientes C, Empleado E)

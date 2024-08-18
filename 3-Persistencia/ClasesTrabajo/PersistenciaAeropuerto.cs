@@ -24,10 +24,7 @@ namespace Persistencia
                 _instancia = new PersistenciaAeropuerto();
             return _instancia;
         }
-
-
-
-        //operaciones
+                //operaciones
         public void AltaAeropuerto(Aeropuertos A, Empleado E)
         {
             SqlConnection _cnn = new SqlConnection(Conexion._cnn(E));

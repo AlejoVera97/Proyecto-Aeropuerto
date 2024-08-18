@@ -24,10 +24,12 @@ namespace Sitio.Controllers
                 return View();
             }
 
+
             [HttpPost]
             public ActionResult FormLogueo(Empleado E)
             {
                 try
+                    
                 {
                     if (E.Contrasena == null || E.UsuLog == null)
                         throw new Exception("no puede dejar ningún campos vacios");

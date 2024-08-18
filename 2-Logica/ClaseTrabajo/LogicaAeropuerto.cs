@@ -30,20 +30,24 @@ namespace Logica
             FabricaPersistencia.GetPersistenciaAeropuerto().AltaAeropuerto(A, E);
 
         }
+
         public void BajaAeropuerto(Aeropuertos A,Empleado E)
         {
             FabricaPersistencia.GetPersistenciaAeropuerto().BajaAeropuerto(A,E);
 
         }
+
         public void ModificarAeropuerto(Aeropuertos A,Empleado E)
         {
             FabricaPersistencia.GetPersistenciaAeropuerto().ModificarAeropuerto(A, E );
         }
+
         public Aeropuertos BuscarAeropuerto(string pIDAeropuerto,Empleado E)
         {
             return (FabricaPersistencia.GetPersistenciaAeropuerto().BuscarAeropuerto(pIDAeropuerto, E));
         }
-                public List<Aeropuertos> ListarAeropuerto(Empleado E)
+
+        public List<Aeropuertos> ListarAeropuerto(Empleado E)
         {
             return (FabricaPersistencia.GetPersistenciaAeropuerto().ListarAeropuerto(E));
         }

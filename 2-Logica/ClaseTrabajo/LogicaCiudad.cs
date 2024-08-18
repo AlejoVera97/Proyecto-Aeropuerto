@@ -26,19 +26,23 @@ namespace Logica
 
             FabricaPersistencia.GetPersistenciaCiudad().AltaCiudad(unaCiudad, E);
         }
+
         public void BajaCiudad(Ciudad unaCiudad, Empleado E)
         {
             FabricaPersistencia.GetPersistenciaCiudad().BajaCiudad(unaCiudad, E );
 
         }
+
         public void ModificarCiudad(Ciudad unaCiudad,Empleado E)
         {
             FabricaPersistencia.GetPersistenciaCiudad().ModificarCiudad(unaCiudad, E);
         }
+
         public Ciudad BuscarCiudad(string pIDCiudad,Empleado E)
         {
             return (FabricaPersistencia.GetPersistenciaCiudad().BuscarCiudad(pIDCiudad, E ));
         }
+
         public List<Ciudad> ListarCiudad(Empleado E)
         {
             return (FabricaPersistencia.GetPersistenciaCiudad().ListarCiudad(E));

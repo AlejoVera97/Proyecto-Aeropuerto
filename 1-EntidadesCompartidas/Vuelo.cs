@@ -18,10 +18,6 @@ namespace EntidadesCompartidas
         private Aeropuertos _AeropuertoSalida;
         private Aeropuertos _AeropuertoLLegada;
 
-
-
-
-
         public string IDvuelo
         {
             get { return _IDvuelo; }
@@ -64,8 +60,6 @@ namespace EntidadesCompartidas
             get { return _AeropuertoLLegada; }
             set { _AeropuertoLLegada = value; }
         }
-
-
 
         public Vuelo(string pIDvuelo, DateTime pFechaHoraSalida, DateTime pFechaHoraLlegada, int pCantidadAsientos, double pPrecio,
                 Aeropuertos pAeropuertoLlegada, Aeropuertos pAeropuertoSalida)

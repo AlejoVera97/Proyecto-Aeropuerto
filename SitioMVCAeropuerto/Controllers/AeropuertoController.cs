@@ -49,6 +49,7 @@ namespace Sitio.Controllers
             }
         }
 
+
         [HttpGet]
         public ActionResult FormAgregarAeropuerto()
         {
@@ -97,6 +98,8 @@ namespace Sitio.Controllers
                 return View(new Aeropuertos());
             }
         }
+
+
 
         [HttpGet]
         public ActionResult FormModificarAeropuerto(string IDAeropuerto)
@@ -151,6 +154,8 @@ namespace Sitio.Controllers
             }
         }
 
+
+
         [HttpGet]
         public ActionResult FormBajaAeropuerto(string IDAeropuerto)
         {
@@ -189,6 +194,8 @@ namespace Sitio.Controllers
                 return View(new Aeropuertos());
             }
         }
+
+
 
         public ActionResult FormAeropuertoConsultar(string IDAeropuerto)
         {

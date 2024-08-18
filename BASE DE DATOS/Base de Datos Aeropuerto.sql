@@ -702,62 +702,52 @@ go
 
 ------- INGRESO USUARIOS
 
---INSERT INTO Empleados (UsuLog, Contrasena, NombreCompleto, Labor)
---VALUES 
---    ('Usuario1', 'Contra', 'Alejo Fernandez', 'gerente'),
---    ('Usuario2', 'Contra', 'Pedro Martinez', 'admin'),
---    ('Usuario3', 'Contra', 'Ramiro Gomez', 'admin');
+INSERT INTO Empleados (UsuLog, Contrasena, NombreCompleto, Labor)
+VALUES 
+    ('Usuario1', 'Contra', 'Alejo Fernandez', 'gerente'),
+    ('Usuario2', 'Contra', 'Pedro Martinez', 'admin'),
+    ('Usuario3', 'Contra', 'Ramiro Gomez', 'admin');
+GO
+
+
+-- ---- Creaci n del login y el usuario
+CREATE LOGIN Usuario1 WITH PASSWORD = 'Contra';
+CREATE USER Usuario1 FOR LOGIN Usuario1;
+
+CREATE LOGIN Usuario2 WITH PASSWORD = 'Contra';
+CREATE USER Usuario2 FOR LOGIN Usuario2;
+
+CREATE LOGIN Usuario3 WITH PASSWORD = 'Contra';
+CREATE USER Usuario3 FOR LOGIN Usuario3;
+
+
+
+----- PERMISOS
+
+--GRANT SELECT, INSERT ON Empleados TO Usuario1, Usuario2, Usuario3;
 --GO
 
+------ INGRESO CLIENTES:
 
--- ---- Creaci n del login y el usuario
-CREATE LOGIN Usuario1 WITH PASSWORD = 'Contrasena1';
-CREATE USER Usuario1 FOR LOGIN Usuario1;
+--INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
+--VALUES ('123456789101112', 'JUAN SOSA', 'B2345678910111213', 'CCC123');
 
-CREATE LOGIN Usuario2 WITH PASSWORD = 'Contrasena1';
-CREATE USER Usuario2 FOR LOGIN Usuario2;
+--INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
+--VALUES ('183456789101112', 'SONIA GUITIERRES', 'A2345678910111213', 'AAA123');
 
-CREATE LOGIN Usuario3 WITH PASSWORD = 'Contrasena3';
-CREATE USER Usuario3 FOR LOGIN Usuario3;
+--INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
+--VALUES ('123976789101112', 'ALFREDO ZUNNINO', 'B2345628910111213', 'BBB123');
+--GO
 
-
-
---- PERMISOS
-
-GRANT SELECT, INSERT ON Empleados TO Usuario1, Usuario2, Usuario3;
-GO
-
----- INGRESO CLIENTES:
-
-INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
-VALUES ('123456789101112', 'JUAN SOSA', 'B2345678910111213', 'CCC123');
-
-INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
-VALUES ('183456789101112', 'SONIA GUITIERRES', 'A2345678910111213', 'AAA123');
-
-INSERT INTO Clientes(IDPasaporte, Nombre, NTarjeta, Contasena)
-VALUES ('123976789101112', 'ALFREDO ZUNNINO', 'B2345628910111213', 'BBB123');
-GO
+ 
 
 
-	 
-
--- ---- Creaci n del login y el usuario
-CREATE LOGIN Usuario1 WITH PASSWORD = 'Contrasena1';
-CREATE USER Usuario1 FOR LOGIN Usuario1;
-
-CREATE LOGIN Usuario2 WITH PASSWORD = 'Contrasena1';
-CREATE USER Usuario2 FOR LOGIN Usuario2;
-
-CREATE LOGIN Usuario3 WITH PASSWORD = 'Contrasena3';
-CREATE USER Usuario3 FOR LOGIN Usuario3;
-
----- INGRESO CIUDADES
+------ INGRESO CIUDADES
 
 
-Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('123456' ,'BUENOSAIRES','ARGENTINA')
-GO
-Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('234577' ,'RIODEJANEIRO','BRASIL')
+--Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('123456' ,'BUENOSAIRES','ARGENTINA')
+--GO
+--Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('234577' ,'RIODEJANEIRO','BRASIL')
 
-Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('345678' ,'MONTEVIDEO','URUGUAY')
-GO
+--Insert Ciudades(IDCiudad,NombreCiudad,NombrePais) values ('345678' ,'MONTEVIDEO','URUGUAY')
+--GO

@@ -17,24 +17,29 @@ namespace Logica
             return (LogicaCiudad.GetInstancia());
 
         }
+
         public static ILogicaCliente GetLogicaCliente()
         {
             return (LogicaCliente.GetInstancia());
 
         }
+
         public static ILogicaEmpleado GetLogicaEmpleado()
         {
             return (LogicaEmpleado.GetInstancia());
 
         }
+
         public static ILogicaVuelo GetLogicaVuelo()
         {
             return (LogicaVuelo.GetInstancia());
         }
+
         public static ILogicaVenta GetLogicaVenta()
         {
             return (LogicaVenta.GetInstancia());
         }
+
         public static ILogicaAeropuerto GetLogicaAeropuerto()
         {
             return (LogicaAeropuerto.GetInstancia());

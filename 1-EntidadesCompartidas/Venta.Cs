@@ -36,10 +36,7 @@ namespace EntidadesCompartidas
             get { return _Precio; }
             set { _Precio = value; }
         }
-
-
-
-        
+                       
         public DateTime Fecha
         {
             get
@@ -54,6 +51,7 @@ namespace EntidadesCompartidas
         }
 
         [DisplayName("Clientes")]
+
         public Clientes Clientes
         {
             get { return _Cliente; }
@@ -68,6 +66,7 @@ namespace EntidadesCompartidas
             set { _Empleado = value; }
 
         }
+
         public Vuelo Vuelo
         { get { return _Vuelo; }
           set { _Vuelo = value; }   
@@ -78,10 +77,6 @@ namespace EntidadesCompartidas
             get { return _VentaListas; }
             set { _VentaListas= value; }
         }
-
-
-
-
 
         //constructor
         public Venta  ( int pIDVenta,DateTime pFecha,  double pPrecio, Clientes pCliente, Empleado pEmpleado, Vuelo pVuelo,List<Pasaje>VentasLista)
@@ -96,10 +91,12 @@ namespace EntidadesCompartidas
                  
             
         }
+
         public Venta()
     {
 
     }
+
         public void ValidarVenta()
         {
             
